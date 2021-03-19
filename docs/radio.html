@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+  <title>radio button editor examples</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsive viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap4 -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- fontawesome5 -->
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.12.1/css/all.css'>
+  
+  <!-- JSON-Editor -->
+  <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+
+  <style type="text/css">
+  body {
+    margin: 1em;
+  }
+
+  .radio {
+    position: relative;
+    display: inline-block;
+    min-width: 1.625rem;
+    min-height: 1.625rem;
+    max-width: 100%;
+  }
+
+  .radio:first-child {
+    margin-right: 20px;
+  }
+
+  .radio__field {
+    display: none;
+  }
+
+  .radio__icon {
+    position: absolute;
+    top: -0.125rem;
+    left: -0.125rem;
+    width: 1.875rem;
+    height: 1.875rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 0.125rem solid #626669;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .radio__icon::before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    visibility: hidden;
+  }
+
+  .radio__field:checked ~ .radio__icon::before {
+      background: #626669;
+      visibility: visible;
+  }
+
+  .radio__icon::after {
+    position: absolute;
+    content: '';
+    top: -0.4375rem;
+    right: -0.4375rem;
+    bottom: -0.4375rem;
+    left: -0.4375rem;
+  }
+
+  .radio__label {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    display: block;
+    min-height: 1.625rem;
+    padding: 0.0625rem 0 0 2.375rem;
+    color: #000;
+    cursor: pointer;
+  }
+
+  /* disabled state css */
+  .radio__field:disabled:checked ~ .radio__icon,
+  .radio__field:disabled:not(:checked) ~ .radio__icon {
+    cursor: default;
+    border-color: #959899;
+  }
+
+  .radio__field:disabled:checked ~ .radio__label,
+  .radio__field:disabled:not(:checked) ~ .radio__label {
+    cursor: default;
+    color: #959899;
+  }
+
+  .radio__field:disabled:checked ~ .radio__icon::before,
+  .radio__field:disabled:not(:checked) ~ .radio__icon::before {
+    background-color: #959899;
+  }
+
+  </style>
+</head>
+
+<body>
+  <h2>String based Radio buttons</h2>
+  <div id="form"></div>
+  <script type="text/javascript">
+
+  var options = {
+    "theme": "bootstrap4",
+    "template": "handlebars",
+    "iconlib": "fontawesome5",
+    "schema": {
+      "title": "radio buttons editor examples",
+      "type": "object",
+      "format": "grid",
+      "properties": {
+        "radio": {
+          "type": "string",
+          "format": "radio",
+          "title": "Radio Buttons",
+          "description": "Active Radio Buttons",
+          "enum": ["Home", "Work"]
+        },
+        "radio1": {
+          "type": "string",
+          "format": "radio",
+          "title": "Radio Buttons",
+          "readonly": true,
+          "description": "Disabled/Readonly Radio Buttons",
+          "enum": ["Home", "Work"]
+        }
+      }
+    }
+  };
+
+  var element = document.getElementById('form');
+  var editor = new JSONEditor(element, options);
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>JSON Editor Validation Example</title>
+  <script src="./../../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src='../../dist/jsoneditor.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.7.0/math.min.js'></script>
+</head>
+
+<body>
+  <div id='output'></div>
+  <script>
+    var validate = function (tests) {
+      // Custom validators must return an array of errors or an empty array if valid
+    JSONEditor.defaults.custom_validators.push(function(schema, value, path) {
+      var errors = [];
+      if(schema.format==="date") {
+        if(!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value)) {
+          // Errors must be an object with `path`, `property`, and `mesage`
+          errors.push({
+            path: path,
+            property: 'format',
+            message: 'Dates must be in the format "YYYY-MM-DD"'
+          });
+        }
+      }
+      return errors;
+    });
+
+    var num = 0;
+    var animel = $("<div></div>");
+    $.each(tests,function(i,test) {
+        animel.queue(function(next) {
+            console.log(i);
+
+            try {
+              var editor = new JSONEditor(document.createElement('div'),{
+                schema: test.schema,
+                ajax: true
+              });
+            }
+            catch(e) {
+              console.log(test.schema);
+              throw e;
+            }
+
+            editor.on('ready',function() {
+              $.each(test.valid,function(j,value) {
+                try {
+                  num++;
+                  var result = editor.validate(value);
+                  if(result.length) {
+                      console.error(num,'valid',j,JSON.stringify(result,null,2));
+                      $("#output").append("<div><strong>"+i+" [test valid "+j+"]</strong>: fail. Expected: [], Actual: "+JSON.stringify(result)+"</div>");
+                  }
+                  else {
+                      $("#output").append("<div><strong>"+i+" [test valid "+j+"]</strong>: success</div>");
+                      console.log(num,'valid',j);
+                  }
+                }
+                catch(e) {
+                  console.log(test.schema,value);
+                  throw e;
+                }
+              });
+              $.each(test.invalid,function(j,value) {
+                try {
+                  num++;
+                  var result = editor.validate(value);
+                  if(!result.length) {
+                      console.error(num,'invalid',j,JSON.stringify(result,null,2));
+                      $("#output").append("<div><strong>"+i+" [test invalid "+j+"]</strong>: fail. Expected: errors, Actual: []</div>");
+                  }
+                  else {
+                      var errors = [];
+                      $.each(result,function(k,error) {
+                          errors.push(error.path+": "+error.message);
+                      });
+                      if(errors.length === 1) errors = errors[0];
+                      $("#output").append("<div><strong>"+i+" [test invalid "+j+"]</strong>: success</div>");
+                      console.log(num,'invalid',j,JSON.stringify(errors,null,2));
+                  }
+                }
+                catch(e) {
+                  console.log(test.schema,value);
+                  throw e;
+                }
+              });
+              next();
+            });
+        });
+      });
+    }
+    $.getJSON('../fixtures/validation.json').done(validate)
+
+</script>
+</body>
+</html>

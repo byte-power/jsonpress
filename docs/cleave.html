@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+  <title>Cleave.js editor examples</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsive viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap4 -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- fontawesome5 -->
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.1/css/all.css'>
+
+  <!-- Cleave.js -->
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.5.8/dist/cleave.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cleave.js@1.5.8/dist/addons/cleave-phone.dk.js"></script>
+  <!-- JSON-Editor -->
+  <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+
+  <style type="text/css">
+  body {
+    margin: 1em;
+  }
+
+  </style>
+</head>
+
+<body>
+  <h2>Example showing how to use Cleave.js to format your &lt;input/&gt; content when you are typing.</h2>
+
+  <p>For documentation on the Cleave.js options, look at <a href="https://github.com/nosir/cleave.js" target="_blank" title="Cleave.js Github">Cleave.js</a> Github page. You can also find a lot of examples in this <a href="https://jsfiddle.net/nosir/aLnhdf3z/" target="_blank" title="Cleave.js JSFiddle">JSFiddle</a> page.</p>
+  <div id="form"></div>
+  <script type="text/javascript">
+
+  // Show the creditcard type in the field 'help-block' section
+  // Possible values: uatp, amex, diners, discover, mastercard, dankort, instapayment, jcb15, jcb, maestro, visa, mir, unionPay, general, generalStrict, unknown
+  var creditCardTypeChangedHandler = function(type) {
+    var el = this.element.nextSibling;
+    if (el && el.classList.contains('help-block')) {
+      el.innerHTML = 'Card type: <strong>' + type + '</strong>';
+    }
+  }
+
+  var options = {
+    "theme": "bootstrap4",
+    "template": "handlebars",
+    "iconlib": "fontawesome5",
+    "schema": {
+      "title": "Cleave.js editor examples",
+      "id": "test",
+      "type": "object",
+      "format": "grid",
+      "options": {
+        "disable_edit_json": false,
+        "disable_properties": false
+      },
+      "properties": {
+        "creditcard": {
+          "type": "string",
+          "title": "Credit Card",
+          "description": " ",
+          "options": {
+            "grid_columns": 6,
+            "inputAttributes": {
+              "placeholder": "enter credit card number"
+            },
+            "cleave": {
+              "creditCard": true,
+              "onCreditCardTypeChanged": creditCardTypeChangedHandler
+            }
+          }
+        },
+        "phone": {
+          "type": "string",
+          "title": "Phone number",
+          "description": "Phone number formatting (danish) + prefix",
+          "options": {
+            "grid_columns": 6,
+            "cleave": {
+              "phone": true,
+              "phoneRegionCode": "dk",
+              "prefix": "+45 ",
+              "noImmediatePrefix": false
+            }
+          }
+        },
+        "prefix": {
+          "type": "string",
+          "title": "Prefix",
+          "description": "Prefix",
+          "options": {
+            "grid_columns": 6,
+            "cleave": {
+              "prefix": "JE-"
+            }
+          }
+        },
+        "blocks": {
+          "type": "string",
+          "title": "Serial number",
+          "description": "Blocks, uppercase formatting",
+          "options": {
+            "grid_columns": 6,
+            "inputAttributes": {
+              "placeholder": "Enter serial number",
+            },
+            "cleave": {
+              "blocks": [3, 5, 5],
+              "uppercase": true,
+              "delimiter": "-",
+              "delimiterLazyShow": true
+            }
+          }
+        }
+      }
+    }
+  }
+
+  var element = document.getElementById('form');
+  var editor = new JSONEditor(element, options);
+
+  </script>
+</body>
+
+</html>

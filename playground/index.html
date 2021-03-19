@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Json-Editor Interactive Playground</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta
+            name="description"
+            content="The JSON-Editor Interactive Playground is a page where you can test various setups for the OpenSource JSON Schema parser JSON-Editor"
+        />
+        <meta name="keywords" content="json, schema, json editor, json schema, javascript, json-editor" />
+        <meta name="author" content="Peter Klein" />
+        <meta name="contact" content="pmk@io.dk" />
+        <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
+
+        <!-- ACE Editor -->
+        <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.2/src-min/ace.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.2/src-min/mode-javascript.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.2/src-min/mode-json.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.2/src-min/mode-css.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.2/src-min/ext-beautify.js"></script>
+
+        <!-- LZString compression library - Used to create direct link to the page - https://github.com/pieroxy/lz-string -->
+        <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
+
+        <!-- Split.js - https://github.com/nathancahill/split/ -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.5.10/split.min.js"></script>
+
+        <script>
+            // Here you can override the default external library mappings for testing etc. if needed.
+            window.mappingOverride = {
+                jsoneditor: {
+                    js: '../dist/jsoneditor.js'
+                }
+            };
+        </script>
+        <link rel="stylesheet" href="css/jsoneditor_demo.min.css" />
+        <style>
+            .inner-row {
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            nav.tabs {
+                float: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="row-container">
+            <div class="header-row">
+                <div class="inner-row">
+                    <h1>JSON-Editor Playground</h1>
+
+                    <nav class="links">
+                        <span id="download_example"></span>
+                        <span id="files-used"></span>
+                        <span id="show-load-examples"></span>
+                        <button id="show-config" title="Config option"><i class="icon-menu"></i>Options</button>
+                        <button id="execute-code" title="Generate Form"><i class="icon-cog"></i>Generate Form</button>
+                        <button id="direct_link_reset" title="Reset form and query parameters"><i class="icon-unlink"></i>Reset form</button>
+                        <!-- <button id="download_example" title="Download current setup"><i class="icon-download"></i>Download</button> -->
+                        <!-- <button id="files-used" title="List of external JavaScript and CSS files used in current example">
+                            <i class="icon-info-circled"></i>
+                        </button> -->
+                        <!-- <button id="show-load-examples" title="Load Example"><i class="icon-upload"></i>Load Example</button> -->
+                    </nav>
+
+                    <nav class="tabs">
+                        <button data-content="#content2" class="active"><i class="icon-keyboard"></i>Schema</button>
+                        <button data-content="#content1"><i class="icon-wpforms"></i>Form</button>
+                        <button data-content="#content5"><i class="icon-laptop"></i>Output<i id="validationstatus" class="icon-certificate"></i></button>
+                        <button data-content="#content3"><i class="icon-wrench"></i>JavaScript/CSS</button>
+                    </nav>
+                </div>
+            </div>
+
+            <iframe id="content1" class="content-row"></iframe>
+
+            <section id="content2" class="content-row active">
+                <div class="inner-row">
+                    <h2 draggable="false">JSON Schema</h2>
+
+                    <div class="split-parent">
+                        <div id="split-panel1">
+                            <div class="slidedown-menu">
+                                <div class="box">
+                                    <button data-action="search">Search</button>
+                                    <button data-action="replace">Replace</button>
+                                    <button data-action="beautify">Beautify Schema</button>
+                                    <button data-action="clear">Delete All</button>
+                                    <button data-action="wordwrap">Toggle WordWrap</button>
+                                </div>
+                            </div>
+                            <div id="schema"></div>
+                        </div>
+                        <div id="split-panel2">
+                            <div id="startval"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content3" class="content-row">
+                <div class="inner-row">
+                    <h2 draggable="false">JavaScript & CSS</h2>
+
+                    <div class="split-parent">
+                        <div id="split-panel3">
+                            <div class="slidedown-menu">
+                                <div class="box">
+                                    <button data-action="search">Search</button>
+                                    <button data-action="replace">Replace</button>
+                                    <button data-action="beautify">Beautify JavaScript</button>
+                                    <button data-action="clear">Delete All</button>
+                                    <button data-action="wordwrap">Toggle WordWrap</button>
+                                </div>
+                            </div>
+                            <div id="editor">
+// The following lines are mandatory and readonly. You can add custom code above and below.
+if (jseditor instanceof window.JSONEditor) {
+    jseditor.destroy();
+}
+jseditor = new window.JSONEditor(document.querySelector('#json-editor-form'), jedata);
+                            </div>
+                        </div>
+
+                        <div id="split-panel4">
+                            <div class="slidedown-menu">
+                                <div class="box">
+                                    <button data-action="search">Search</button>
+                                    <button data-action="replace">Replace</button>
+                                    <button data-action="beautify">Beautify CSS</button>
+                                    <button data-action="clear">Delete All</button>
+                                    <button data-action="wordwrap">Toggle WordWrap</button>
+                                </div>
+                            </div>
+                            <div id="csseditor"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content5" class="content-row">
+                <div class="inner-row">
+                    <h2>Output & Validation</h2>
+                    <div class="split-parent">
+                        <div id="split-panel5">
+                            <div class="slidedown-menu">
+                                <div class="box">
+                                    <button data-action="beautify">Beautify Output</button>
+                                    <button data-action="clear">Delete All</button>
+                                    <button data-action="wordwrap">Toggle WordWrap</button>
+                                </div>
+                            </div>
+                            <div id="output"></div>
+                        </div>
+                        <div id="split-panel6">
+                            <div class="slidedown-menu">
+                                <div class="box">
+                                    <button data-action="wordwrap">Toggle WordWrap</button>
+                                </div>
+                            </div>
+                            <div id="validate"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="slideleft-panel" class="panel panel-left">
+                <div class="panel-container">
+                    <div class="panel-contents" id="json-editor-config">
+                        <h2>JSON-Editor Options</h2>
+                        <div>
+                            <label for="theme">CSS Framework</label>
+                            <div class="select">
+                                <select id="theme">
+                                    <option value="barebones">Barebones</option>
+                                    <option value="html">HTML</option>
+                                    <option value="jqueryui">jQuery UI</option>
+                                    <option value="bootstrap2">Bootstrap 2</option>
+                                    <option value="bootstrap3" selected>Bootstrap 3</option>
+                                    <option value="bootstrap4">Bootstrap 4</option>
+                                    <option value="foundation3">Foundation 3</option>
+                                    <option value="foundation4">Foundation 4</option>
+                                    <option value="foundation5">Foundation 5</option>
+                                    <option value="foundation6">Foundation 6</option>
+                                    <option value="materialize">Materialize</option>
+                                    <option value="tailwind">Tailwind</option>
+                                    <option value="spectre">Spectre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="iconlib">Icon Library</label>
+                            <div class="select">
+                                <select id="iconlib">
+                                    <option value="">None</option>
+                                    <option value="jqueryui">jQuery UI</option>
+                                    <option value="bootstrap2">Bootstrap 2 Glyphicons</option>
+                                    <option value="bootstrap3" selected>Bootstrap 3 Glyphicons</option>
+                                    <option value="foundation2">Foundicons 2</option>
+                                    <option value="foundation3">Foundicons 3</option>
+                                    <option value="fontawesome3">FontAwesome 3</option>
+                                    <option value="fontawesome4">FontAwesome 4</option>
+                                    <option value="fontawesome5">FontAwesome 5</option>
+                                    <option value="materialicons">Material Icons</option>
+                                    <option value="spectre">Spectre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="object_layout">Object Layout</label>
+                            <div class="select">
+                                <select id="object_layout">
+                                    <option value="normal">normal</option>
+                                    <option value="grid">grid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="template">Template Engine</label>
+                            <div class="select">
+                                <select id="template">
+                                    <option value="default">Default</option>
+                                    <option value="ejs">Ejs</option>
+                                    <option value="handlebars">Handlebars</option>
+                                    <option value="hogan">Hogan</option>
+                                    <option value="lodash">Lodash</option>
+                                    <option value="markup">Markup</option>
+                                    <option value="mustache">Mustache</option>
+                                    <option value="swig">Swig</option>
+                                    <option value="underscore">Underscore</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="show_errors">Show Errors</label>
+                            <div class="select">
+                                <select id="show_errors">
+                                    <option value="interaction">On Interaction</option>
+                                    <option value="change">On Field Change</option>
+                                    <option value="always">Always</option>
+                                    <option value="never">Never</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <details open>
+                            <summary>Boolean options</summary>
+                            <div id="boolean_options">
+                                <label title="required_by_default">
+                                    <input type="checkbox" id="required_by_default" value="required_by_default" />
+                                    <span>Object properties required by default</span>
+                                </label>
+                                <label title="no_additional_properties">
+                                    <input type="checkbox" id="no_additional_properties" value="no_additional_properties" />
+                                    <span>No additional object properties</span>
+                                </label>
+                                <label title="display_required_only">
+                                    <input type="checkbox" id="display_required_only" value="display_required_only" />
+                                    <span>Display only required object properties</span>
+                                </label>
+                                <label title="remove_empty_properties">
+                                    <input type="checkbox" id="remove_empty_properties" value="remove_empty_properties" />
+                                    <span>Remove empty properties.</span>
+                                </label>
+                                <label title="keep_oneof_values">
+                                    <input type="checkbox" id="keep_oneof_values" value="keep_oneof_values" checked />
+                                    <span>Makes oneOf copy properties over when switching</span>
+                                </label>
+                                <label title="ajax">
+                                    <input type="checkbox" id="ajax" value="ajax" />
+                                    <span>Allow loading schemas via AJAX</span>
+                                </label>
+                                <label title="ajaxCredentials">
+                                    <input type="checkbox" id="ajaxCredentials" value="ajaxCredentials" />
+                                    <span>Make AJAX call with credentials.</span>
+                                </label>
+                                <label title="show_opt_in">
+                                    <input type="checkbox" id="show_opt_in" value="show_opt_in" />
+                                    <span>Show include checkbox for NON required properties.</span>
+                                </label>
+                                <label title="disable_edit_json">
+                                    <input type="checkbox" id="disable_edit_json" value="disable_edit_json" checked />
+                                    <span>Disable "Edit JSON" buttons</span>
+                                </label>
+                                <label title="disable_collapse">
+                                    <input type="checkbox" id="disable_collapse" value="disable_collapse" />
+                                    <span>Disable collapse buttons</span>
+                                </label>
+                                <label title="disable_properties">
+                                    <input type="checkbox" id="disable_properties" value="disable_properties" checked />
+                                    <span>Disable properties buttons</span>
+                                </label>
+                                <label title="disable_array_add">
+                                    <input type="checkbox" id="disable_array_add" value="disable_array_add" />
+                                    <span>Disable array add buttons</span>
+                                </label>
+                                <label title="disable_array_reorder">
+                                    <input type="checkbox" id="disable_array_reorder" value="disable_array_reorder" />
+                                    <span>Disable array move buttons</span>
+                                </label>
+                                <label title="disable_array_delete">
+                                    <input type="checkbox" id="disable_array_delete" value="disable_array_delete" />
+                                    <span>Disable array delete buttons</span>
+                                </label>
+                                <label title="enable_array_copy">
+                                    <input type="checkbox" id="enable_array_copy" value="enable_array_copy" />
+                                    <span>Add copy buttons to arrays</span>
+                                </label>
+                                <label title="array_controls_top">
+                                    <input type="checkbox" id="array_controls_top" value="array_controls_top" />
+                                    <span>Array controls will be displayed at top of list</span>
+                                </label>
+                                <label title="disable_array_delete_all_rows">
+                                    <input type="checkbox" id="disable_array_delete_all_rows" value="disable_array_delete_all_rows" checked />
+                                    <span>Disable array delete all rows buttons</span>
+                                </label>
+                                <label title="disable_array_delete_last_row">
+                                    <input type="checkbox" id="disable_array_delete_last_row" value="disable_array_delete_last_row" checked />
+                                    <span>Disable array delete last row buttons</span>
+                                </label>
+                                <label title="prompt_before_delete">
+                                    <input type="checkbox" id="prompt_before_delete" value="prompt_before_delete" checked />
+                                    <span>Display dialog box before node deletion.</span>
+                                </label>
+                            </div>
+                        </details>
+
+                        <details open>
+                            <summary>Include External Libraries</summary>
+                            <div id="ext_lib">
+                                <label>
+                                    <input type="checkbox" id="lib_aceeditor" value="lib_aceeditor" />
+                                    <span>Ace Editor</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_autocomplete" value="lib_autocomplete" />
+                                    <span>Autocomplete Editor</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_sceditor" value="lib_sceditor" />
+                                    <span>SCEditor</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_simplemde" value="lib_simplemde" />
+                                    <span>SimpleMDE</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_select2" value="lib_select2" />
+                                    <span>Select2</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_selectize" value="lib_selectize" />
+                                    <span>Selectize</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_choices" value="lib_choices" />
+                                    <span>Choices.js</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_flatpickr" value="lib_flatpickr" checked />
+                                    <span>Flatpickr</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_signaturepad" value="lib_signaturepad" />
+                                    <span>Signature Pad</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_mathjs" value="lib_mathjs" />
+                                    <span>Math.js</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_cleavejs" value="lib_cleavejs" />
+                                    <span>Cleave.js</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_jodit" value="lib_jodit" />
+                                    <span>Jodit</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_jquery" value="lib_jquery" />
+                                    <span>jQuery</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="lib_dompurify" value="lib_dompurify" />
+                                    <span>DOMPurify</span>
+                                </label>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="panel-close-button" title="Close panel">&times;</div>
+                </div>
+            </div>
+
+            <div id="slideright-panel" class="panel panel-right">
+                <div class="panel-container">
+                    <div class="panel-contents">
+                        <div id="external-schema"></div>
+                    </div>
+                    <div class="panel-close-button" title="Close panel">&times;</div>
+                </div>
+            </div>
+
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </main>
+
+        <div id="busy-overlay">
+            <div>
+                <div class="spinner"><i class="icon-spinner"></i></div>
+            </div>
+        </div>
+        <div id="dropzone">
+            <div>Drop Playground JSON example file here</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 40 40" preserveAspectRatio="none" class="ants"><rect width="40" height="40"></rect></svg>
+        </div>
+        <script src="js/jsoneditor_demo.js"></script>
+    </body>
+</html>

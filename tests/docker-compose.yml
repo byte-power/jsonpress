@@ -1,0 +1,33 @@
+version: '3'
+services:
+  node:
+    build: .
+    volumes:
+      - ../:/repo:delegated
+    working_dir: /repo/tests/codeceptjs
+    command: npm run serve-test
+    ports:
+      - '9100:9001'
+    expose:
+      - '9001'
+    depends_on:
+      - firefox
+      - chrome
+  firefox:
+    image: selenium/standalone-firefox-debug:3.141.59-20200525
+    environment:
+      - VNC_NO_PASSWORD=1
+    ports:
+      - '4444'
+      - '9059:5900'
+    # Mount shm also for firefox, see https://github.com/SeleniumHQ/docker-selenium#running-the-images
+    shm_size: '2gb' # for windows environment
+  chrome:
+    image: selenium/standalone-chrome-debug:3.141.59-20200525
+    environment:
+      - VNC_NO_PASSWORD=1
+    ports:
+      - '4444'
+      - '9060:5900'
+    # Mount shm also for firefox, see https://github.com/SeleniumHQ/docker-selenium#running-the-images
+    shm_size: '2gb' # for windows environment

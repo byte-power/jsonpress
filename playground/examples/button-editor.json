@@ -1,0 +1,299 @@
+{
+  "title": "Button Test Case",
+  "schema": {
+    "type": "object",
+    "title": "Button Test Case",
+    "options": {
+      "disable_collapse": true,
+      "disable_edit_json": true,
+      "disable_properties": true
+    },
+    "properties": {
+      "info": {
+        "format": "info",
+        "description": "This testcase shows the use of the <strong>Button editor</strong>. The <strong>Button editor</strong> is a special editor that leaves no footprint in the form results.<br><br>You can see the callback functions defined for the buttons on the Playground JavaScript/CSS Tab<ul><li>The <em>next</em> and <em>previous</em> buttons trigger the Tabs switching.</li><li>The <em>submit</em> button is disabled until all form entries are valid (Fill in a value in the Zip field).</li>"
+      },
+      "objectcasecategories": {
+        "type": "object",
+        "$ref": "#/definitions/objectcasecategories"
+      }
+    },
+    "definitions": {
+      "objectcasecategories": {
+        "options": {
+          "disable_collapse": true,
+          "disable_edit_json": true,
+          "disable_properties": true,
+          "compact": true
+        },
+        "properties": {
+          "objecttest": {
+            "type": "object",
+            "format": "categories",
+            "options": {
+              "disable_collapse": true,
+              "disable_edit_json": true,
+              "disable_properties": true,
+              "compact": true
+            },
+            "properties": {
+              "cat1": {
+                "type": "object",
+                "format": "grid",
+                "title": "Personal info",
+                "required": [
+                  "firstname",
+                  "lastname",
+                  "gender"
+                ],
+                "options": {
+                  "disable_collapse": true,
+                  "disable_edit_json": true,
+                  "disable_properties": true,
+                  "compact": false
+                },
+                "properties": {
+                  "firstname": {
+                    "type": "string",
+                    "title": "First name",
+                    "minLength": 2,
+                    "options": {
+                      "grid_columns": 6
+                    }
+                  },
+                  "lastname": {
+                    "type": "string",
+                    "title": "Last name",
+                    "minLength": 2,
+                    "options": {
+                      "grid_columns": 6
+                    }
+                  },
+                  "gender": {
+                    "type": "string",
+                    "format": "radio",
+                    "title": "Gender",
+                    "enum": [
+                      "Male",
+                      "Female"
+                    ],
+                    "options": {
+                      "grid_columns": 4,
+                      "layout": "horizontal"
+                    }
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Birthday",
+                    "options": {
+                      "grid_columns": 8,
+                      "flatpickr": {
+                        "wrap": true
+                      }
+                    }
+                  },
+                  "next": {
+                    "format": "button",
+                    "title": "Next",
+                    "options": {
+                      "grid_columns": 12,
+                      "button": {
+                        "align": "right",
+                        "action": "tab2"
+                      }
+                    }
+                  }
+                }
+              },
+              "cat2": {
+                "type": "object",
+                "title": "Contact info",
+                "options": {
+                  "disable_collapse": true,
+                  "disable_edit_json": true,
+                  "disable_properties": true
+                },
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "title": "Email address"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "format": "tel",
+                    "title": "Phone number",
+                    "options": {
+                      "cleave": {
+                        "phone": true,
+                        "phoneRegionCode": "US",
+                        "delimiter": "-"
+                      }
+                    }
+                  },
+                  "prev": {
+                    "format": "button",
+                    "title": "Previous",
+                    "options": {
+                      "grid_columns": 6,
+                      "button": {
+                        "align": "left",
+                        "action": "tab1"
+                      }
+                    }
+                  },
+                  "next": {
+                    "format": "button",
+                    "title": "Next",
+                    "options": {
+                      "grid_columns": 6,
+                      "button": {
+                        "align": "right",
+                        "action": "tab3"
+                      }
+                    }
+                  }
+                }
+              },
+              "cat3": {
+                "type": "object",
+                "title": "Address info",
+                "options": {
+                  "disable_collapse": true,
+                  "disable_edit_json": true,
+                  "disable_properties": true,
+                  "compact": false
+                },
+                "required": [
+                  "street",
+                  "zip",
+                  "city"
+                ],
+                "properties": {
+                  "street": {
+                    "type": "string",
+                    "title": "Street",
+                    "minLength": 2,
+                    "options": {
+                      "grid_columns": 12
+                    }
+                  },
+                  "zip": {
+                    "type": "string",
+                    "title": "Zipcode",
+                    "minLength": 2,
+                    "options": {
+                      "grid_columns": 4,
+                      "cleave": {
+                        "numeral": true,
+                        "numericOnly": true
+                      }
+                    }
+                  },
+                  "city": {
+                    "type": "string",
+                    "title": "City",
+                    "minLength": 2,
+                    "options": {
+                      "grid_columns": 8
+                    }
+                  },
+                  "prev": {
+                    "format": "button",
+                    "title": "Previous",
+                    "options": {
+                      "grid_columns": 6,
+                      "button": {
+                        "align": "left",
+                        "action": "tab2"
+                      }
+                    }
+                  },
+                  "submit": {
+                    "format": "button",
+                    "title": "Submit",
+                    "options": {
+                      "grid_columns": 6,
+                      "button": {
+                        "align": "right",
+                        "action": "submitform",
+                        "validated": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "startval": {
+    "objectcasecategories": {
+      "objecttest": {
+        "cat1": {
+          "firstname": "Homer",
+          "lastname": "Simpson",
+          "gender": "Male",
+          "birthday": "1956-05-12"
+        },
+        "cat2": {
+          "email": "homer@simpson.com",
+          "phone": ""
+        },
+        "cat3": {
+          "street": "742 Evergreen Terrace",
+          "city": "Springfield"
+        }
+      }
+    }
+  },
+  "config": {
+    "theme": "spectre",
+    "iconlib": "fontawesome5",
+    "object_layout": "grid",
+    "template": "default",
+    "show_errors": "interaction",
+    "required_by_default": 0,
+    "no_additional_properties": 0,
+    "display_required_only": 0,
+    "remove_empty_properties": 0,
+    "keep_oneof_values": 0,
+    "ajax": 0,
+    "ajaxCredentials": 0,
+    "show_opt_in": 0,
+    "disable_edit_json": 0,
+    "disable_collapse": 0,
+    "disable_properties": 0,
+    "disable_array_add": 0,
+    "disable_array_reorder": 0,
+    "disable_array_delete": 0,
+    "enable_array_copy": 0,
+    "array_controls_top": 0,
+    "disable_array_delete_all_rows": 0,
+    "disable_array_delete_last_row": 0,
+    "prompt_before_delete": 1,
+    "lib_aceeditor": 0,
+    "lib_autocomplete": 0,
+    "lib_sceditor": 0,
+    "lib_simplemde": 0,
+    "lib_select2": 0,
+    "lib_selectize": 0,
+    "lib_choices": 0,
+    "lib_flatpickr": 1,
+    "lib_signaturepad": 0,
+    "lib_mathjs": 0,
+    "lib_cleavejs": 1,
+    "lib_jodit": 0,
+    "lib_jquery": 0,
+    "lib_dompurify": 1
+  },
+  "code": "window.JSONEditor.defaults.callbacks.button = {\n  \"tab1\": function(jseditor,e) {\n    var idx = 0, obj = jseditor.parent.parent;\n    if (obj.format == 'categories') {\n      obj.active_tab = obj.rows[idx].tab;\n      obj.refreshTabs();\n    }\n  },\n  \"tab2\": function(jseditor,e) {\n    var idx = 1, obj = jseditor.parent.parent;\n    if (obj.format == 'categories') {\n      obj.active_tab = obj.rows[idx].tab;\n      obj.refreshTabs();\n    }\n  },\n  \"tab3\": function(jseditor,e) {\n    var idx = 2, obj = jseditor.parent.parent;\n    if (obj.format == 'categories') {\n      obj.active_tab = obj.rows[idx].tab;\n      obj.refreshTabs();\n    }\n  },\n  \"submitform\": function(jseditor,e) {\n    var res = jseditor.jsoneditor.getValue();\n    alert('The result of the form: \\n\\n' + JSON.stringify(res, null, 2));\n  }\n};\n\n\n// The following lines are mandatory and readonly. You can add custom code above and below.\nif (jseditor instanceof window.JSONEditor) jseditor.destroy();\njseditor = new window.JSONEditor(document.querySelector(\"#json-editor-form\"), jedata);",
+  "style": ".content {\n  border: .05rem solid #dadee4;\n}\n .content .je-panel>.container>div {\n  min-height: 12rem;\n  display: flex;\n  flex-direction: column;\n}\n.content .je-panel>.container>div .columns:last-child {\n  margin-top: auto;\n}",
+  "desc": "<p>This testcase shows the use of the <strong>Button editor</strong>. The <strong>Button editor</strong> is a special editor that leaves no footprint in the form results.</p>"
+}

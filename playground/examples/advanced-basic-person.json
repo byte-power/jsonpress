@@ -1,0 +1,37 @@
+{
+  "title": "Basic Person",
+  "schema": {
+    "title": "Person",
+    "type": "object",
+    "id": "person",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "First and Last name",
+        "minLength": 4
+      },
+      "age": {
+        "type": "integer",
+        "default": 21,
+        "minimum": 18,
+        "maximum": 99
+      },
+      "gender": {
+        "type": "string",
+        "enum": [
+          "male",
+          "female"
+        ]
+      }
+    }
+  },
+  "startval": {},
+  "config": {
+    "required_by_default": 1,
+    "no_additional_properties": 1,
+    "ajax": 1
+  },
+  "style": "",
+  "code": "// The following lines are mandatory and readonly. You can add custom code above and below.\nif (jseditor instanceof window.JSONEditor) jseditor.destroy();\njseditor = new window.JSONEditor(document.querySelector(\"#json-editor-form\"), jedata);",   
+  "desc": "<p>External schema for the Advanced example.</p>"
+}

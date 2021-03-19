@@ -1,0 +1,132 @@
+{
+  "title": "Choices",
+  "schema": {
+    "type": "object",
+    "title": "Text",
+    "required": [
+      "fontSize",
+      "color",
+      "font",
+      "weight",
+      "possibleFonts"
+    ],
+    "properties": {
+      "fontSize": {
+        "type": "integer",
+        "enum": [
+          10,
+          11,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          36,
+          48,
+          60,
+          72,
+          100
+        ],
+        "default": 24,
+        "options": {
+          "choices_options": {
+            "shouldSort": false
+          }
+        }
+      },
+      "color": {
+        "type": "string",
+        "enum": [
+          "black",
+          "red",
+          "green",
+          "blue",
+          "yellow",
+          "orange",
+          "purple",
+          "brown",
+          "white",
+          "cyan",
+          "magenta"
+        ]
+      },
+      "font": {
+        "type": "string",
+        "enumSource": "possible_fonts",
+        "watch": {
+          "possible_fonts": "root.possibleFonts"
+        }
+      },
+      "weight": {
+        "type": "string",
+        "enum": [
+          "normal",
+          "bold",
+          "bolder",
+          "lighter"
+        ],
+        "options": {
+          "enum_titles": [
+            "Normal (400)",
+            "Bold (700)",
+            "Bolder (900)",
+            "Lighter (200)"
+          ]
+        }
+      },
+      "possibleFonts": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        },
+        "default": [
+          "Arial",
+          "Times",
+          "Helvetica",
+          "Comic Sans"
+        ]
+      }
+    }
+  },
+  "startval": {
+    "color": "red"
+  },
+  "config": {
+    "required_by_default": 1,
+    "no_additional_properties": 0,
+    "display_required_only": 0,
+    "keep_oneof_values": 0,
+    "ajax": 0,
+    "ajaxCredentials": 0,
+    "show_opt_in": 0,
+    "disable_edit_json": 0,
+    "disable_collapse": 0,
+    "disable_properties": 0,
+    "disable_array_add": 0,
+    "disable_array_reorder": 0,
+    "disable_array_delete": 0,
+    "enable_array_copy": 0,
+    "array_controls_top": 0,
+    "disable_array_delete_all_rows": 0,
+    "disable_array_delete_last_row": 0,
+    "prompt_before_delete": 0,
+    "lib_aceeditor": 0,
+    "lib_sceditor": 0,
+    "lib_simplemde": 0,
+    "lib_select2": 0,
+    "lib_selectize": 0,
+    "lib_choices": 1,
+    "lib_flatpickr": 0,
+    "lib_signaturepad": 0,
+    "lib_mathjs": 0,
+    "lib_cleavejs": 0,
+    "lib_jquery": 0,
+    "lib_dompurify": 1
+  },
+  "code": "// The following lines are mandatory and readonly. You can add custom code above and below.\nif (jseditor instanceof window.JSONEditor) jseditor.destroy();\njseditor = new window.JSONEditor(document.querySelector(\"#json-editor-form\"), jedata);",
+  "style": ".choices > * {\n  box-sizing: border-box;\n}",
+  "desc": "Add optional description here. (HTML format)"
+}
