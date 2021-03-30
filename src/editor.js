@@ -16,11 +16,12 @@ export class AbstractEditor {
     this.active = true
     this.options = extend({}, (this.options || {}), (this.schema.options || {}), (options.schema.options || {}), options)
 
-    if (!options.path && !this.schema.id) this.schema.id = 'root'
-    this.path = options.path || 'root'
+    this.formname = this.jsoneditor.options.form_name_root || 'root'
+
+    if (!options.path && !this.schema.id) this.schema.id = this.formname
+    this.path = options.path || this.formname
     this.formname = options.formname || this.path.replace(/\.([^.]+)/g, '[$1]')
 
-    if (this.jsoneditor.options.form_name_root) this.formname = this.jsoneditor.options.form_name_root
     this.parent = options.parent
     this.key = this.parent !== undefined ? this.path.split('.').slice(this.parent.path.split('.').length).join('.') : this.path
 
@@ -252,7 +253,7 @@ export class AbstractEditor {
         }
         first = pathParts.shift()
 
-        if (first === '#') first = this.jsoneditor.schema.id || 'root'
+        if (first === '#') first = this.jsoneditor.schema.id || this.jsoneditor.root.formname
 
         /* Find the root node for this template variable */
         root = this.theme.closest(this.container, `[data-schemaid="${first}"]`)
@@ -292,10 +293,13 @@ export class AbstractEditor {
 
   onMove () {}
 
-  getButton (text, icon, title) {
+  getButton (text, icon, title, args = []) {
     const btnClass = `json-editor-btn-${icon}`
     if (!this.iconlib) icon = null
     else icon = this.iconlib.getIcon(icon)
+
+    text = this.translate(text, args)
+    title = this.translate(title, args)
 
     if (!icon && title) {
       text = title
@@ -307,9 +311,12 @@ export class AbstractEditor {
     return btn
   }
 
-  setButtonText (button, text, icon, title) {
+  setButtonText (button, text, icon, title, args = []) {
     if (!this.iconlib) icon = null
     else icon = this.iconlib.getIcon(icon)
+
+    text = this.translate(text, args)
+    title = this.translate(title, args)
 
     if (!icon && title) {
       text = title
