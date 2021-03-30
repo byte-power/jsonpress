@@ -8,7 +8,7 @@ module.exports = (env) => webpackMerge(commonConfig, {
   mode: 'development',
   devtool: '@source-map',
   output: {
-    path: env && env.travis === true ? helpers.root('dist') : helpers.root('dist/nonmin'),
+    path: env && env.travis === true ? helpers.root('dist') : helpers.root('dist'),
     publicPath: '/dist/',
     filename: '[name].js',
     libraryTarget: 'umd'
