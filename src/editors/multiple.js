@@ -111,7 +111,8 @@ export class MultipleEditor extends AbstractEditor {
     this.editors[i].build()
     this.editors[i].postBuild()
 
-    if (this.editors[i].header) this.editors[i].header.style.display = 'none'
+    // 移除 anyof 的 title 区(包含折叠按钮)
+    if (this.editors[i].title) this.editors[i].title.style.display = 'none'
 
     this.editors[i].option = this.switcher_options[i]
 
