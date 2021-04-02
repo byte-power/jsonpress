@@ -702,6 +702,7 @@ export class ArrayEditor extends AbstractEditor {
       this.jsoneditor.trigger('addRow', editor)
     })
     this.controls.appendChild(button)
+    this.controls.classList.add('plain-padding')
     return button
   }
 
