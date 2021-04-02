@@ -38,6 +38,7 @@ export class CheckboxEditor extends AbstractEditor {
     this.input = this.theme.getCheckbox()
     this.input.id = this.formname
     this.control = this.theme.getFormControl(this.label, this.input, this.description, this.infoButton)
+    this.control.classList.add('plain-padding')
 
     if (this.schema.readOnly || this.schema.readonly) {
       this.disable(true)

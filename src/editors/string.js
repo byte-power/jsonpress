@@ -201,6 +201,7 @@ export class StringEditor extends AbstractEditor {
     }
 
     this.control = this.theme.getFormControl(this.label, input, this.description, this.infoButton)
+    this.control.classList.add('plain-padding')
     this.container.appendChild(this.control)
 
     /* Any special formatting that needs to happen after the input is added to the dom */
