@@ -3,6 +3,17 @@ label.required::after {
     content: ' *';
     color: red;
 }
+.hi-array-item-wrap {
+    position: relative;
+}
+.hi-array-item-wrap > .btn-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.hi-array-item-wrap.well-sm > .btn-group {
+    top: 6px;
+}
 .hi-plain-padding {
     padding-left: 32px;
 }
