@@ -45,6 +45,9 @@ export class DatetimeEditor extends StringEditor {
       /* Attribute for flatpicker */
       this.input.setAttribute('data-input', '')
 
+      /* add icon */
+      this.control.classList.add('icon-date')
+
       let { input } = this
 
       if (this.options.flatpickr.wrap === true) {
