@@ -473,7 +473,7 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     // Add class to make it easier to locate when laying out buttons
-    this.rows[i].container.classList.add('array-item-wrap')
+    this.rows[i].container.classList.add('hi-array-item-wrap')
 
     const controlsHolder = this.rows[i].title_controls || this.rows[i].array_controls
 
@@ -705,7 +705,7 @@ export class ArrayEditor extends AbstractEditor {
       this.jsoneditor.trigger('addRow', editor)
     })
     this.controls.appendChild(button)
-    this.controls.classList.add('plain-padding')
+    this.controls.classList.add('hi-plain-padding')
     return button
   }
 

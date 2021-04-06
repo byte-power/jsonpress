@@ -183,7 +183,7 @@ export class SelectEditor extends AbstractEditor {
     })
 
     this.control = this.theme.getFormControl(this.label, this.input, this.description, this.infoButton)
-    this.control.classList.add('plain-padding')
+    this.control.classList.add('hi-plain-padding')
     this.container.appendChild(this.control)
 
     this.value = this.enum_values[0]

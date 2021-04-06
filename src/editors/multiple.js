@@ -172,7 +172,7 @@ export class MultipleEditor extends AbstractEditor {
     const { container } = this
 
     this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
-    this.header.classList.add('plain-padding', 'multiple-title')
+    this.header.classList.add('hi-plain-padding', 'hi-multiple-title')
     this.container.appendChild(this.header)
 
     this.switcher = this.theme.getSwitcher(this.display_text)

@@ -36,7 +36,7 @@ export class TableEditor extends ArrayEditor {
 
   build () {
     this.table = this.theme.getTable()
-    this.table.classList.add('plain-margin')
+    this.table.classList.add('hi-plain-margin')
     this.container.appendChild(this.table)
     this.thead = this.theme.getTableHead()
     this.table.appendChild(this.thead)
@@ -456,7 +456,7 @@ export class TableEditor extends ArrayEditor {
       this.jsoneditor.trigger('addRow', editor)
     })
     this.controls.appendChild(button)
-    this.controls.classList.add('plain-padding')
+    this.controls.classList.add('hi-plain-padding')
     return button
   }
 

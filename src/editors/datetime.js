@@ -46,7 +46,7 @@ export class DatetimeEditor extends StringEditor {
       this.input.setAttribute('data-input', '')
 
       /* add icon */
-      this.control.classList.add('icon-date')
+      this.control.classList.add('hi-icon-date')
 
       let { input } = this
 
