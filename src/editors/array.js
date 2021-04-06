@@ -472,6 +472,9 @@ export class ArrayEditor extends AbstractEditor {
       })
     }
 
+    // Add class to make it easier to locate when laying out buttons
+    this.rows[i].container.classList.add('array-item-wrap')
+
     const controlsHolder = this.rows[i].title_controls || this.rows[i].array_controls
 
     /* Buttons to delete row, move row up, and move row down */
