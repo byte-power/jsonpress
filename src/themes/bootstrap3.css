@@ -3,10 +3,19 @@ label.required::after {
     content: ' *';
     color: red;
 }
-.icon-date {
+.hi-plain-padding {
+    padding-left: 32px;
+}
+.hi-plain-margin {
+    margin-left: 32px;
+}
+.hi-multiple-title {
+    line-height: 30px;
+}
+.hi-icon-date {
     position: relative;
 }
-.icon-date::after {
+.hi-icon-date::after {
     position: absolute;
     right: 6px;
     bottom: 6px;
