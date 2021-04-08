@@ -3,19 +3,20 @@ const helpers = require('./helpers')
 const CssToJSON = require('../build/CssToJson')
 
 const bannerText = `/**
-* @name JSON Editor
+* @name JSON Press
 * @description JSON Schema Based Editor
 * This library is the continuation of jdorn's great work (see also https://github.com/jdorn/json-editor/issues/800)
 * @version {{ VERSION }}
-* @author Jeremy Dorn
+* @author Lizux
 * @see https://github.com/jdorn/json-editor/
 * @see https://github.com/json-editor/json-editor
+* @see https://github.com/byte-power/jsonpress
 * @license MIT
 * @example see README.md and docs/ for requirements, examples and usage info
 */`
 module.exports = {
   entry: {
-    jsoneditor: './src/core.js'
+    jsonpress: './src/core.js'
   },
   resolve: {
     extensions: ['.js']

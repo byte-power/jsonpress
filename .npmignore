@@ -1,0 +1,9 @@
+/build/
+/config/
+/docs/
+/playground/
+/src/
+/tests/
+.eslintrc
+codecept.conf.js
+jasmine.json

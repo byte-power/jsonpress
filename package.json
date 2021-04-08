@@ -1,20 +1,18 @@
 {
-  "name": "@byte-power/json-editor",
-  "title": "JSONEditor",
+  "name": "@byte-power/json-press",
+  "title": "JSONPress",
   "description": "JSON Schema based editor",
-  "version": "2.5.1",
-  "main": "dist/jsoneditor.js",
+  "version": "1.0.1",
+  "main": "dist/jsonpress.js",
   "author": {
-    "name": "Jeremy Dorn",
-    "email": "jeremy@jeremydorn.com",
-    "url": "http://jeremydorn.com"
+    "name": "lizux"
   },
   "bugs": {
-    "url": "https://github.com/json-editor/json-editor/issues"
+    "url": "https://github.com/byte-power/jsonpress/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/byte-power/json-editor.git"
+    "url": "https://github.com/byte-power/jsonpress.git"
   },
   "keywords": [
     "json",

@@ -19,15 +19,8 @@ Install
 
 Install package
 
-    npm install @json-editor/json-editor
+    npm install @byte-power/jsonpress
 
-Using a CDN
-
-    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
-
-You can also access older releases from CDN, using the landing page: https://www.jsdelivr.com/package/npm/@json-editor/json-editor
-
-For local usage download the [production version](https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.js) or the [development version](https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/nonmin/jsoneditor.js)
 
 Requirements
 -----------------
@@ -1613,7 +1606,7 @@ Override Editors Methods
 // override class method
 JSONEditor.defaults.editors.integer.prototype.sanitize = function(value) {
   return value
-}; 
+};
 ```
 
 or
