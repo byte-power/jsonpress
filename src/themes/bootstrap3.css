@@ -1,17 +1,19 @@
-.choices__list--dropdown .choices__item {
-    white-space: nowrap;
-}
-label.required::after {
-    position: absolute;
-    content: ' *';
-    color: red;
-}
 .well-sm,
 .well-small {
     padding: 5px;
 }
 .form-group {
     margin-bottom: 5px;
+}
+
+
+label.required::after {
+    position: absolute;
+    content: ' *';
+    color: red;
+}
+.choices__list--dropdown .choices__item {
+    white-space: nowrap;
 }
 .hi-array-item-wrap {
     position: relative;
