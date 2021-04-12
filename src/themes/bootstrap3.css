@@ -1,3 +1,6 @@
+.choices__list--dropdown .choices__item {
+    white-space: nowrap;
+}
 label.required::after {
     position: absolute;
     content: ' *';

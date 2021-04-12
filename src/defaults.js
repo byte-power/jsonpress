@@ -359,6 +359,9 @@ function translate (key, variables) {
 /* Default options when initializing JSON Editor */
 const options = {
   upload,
+  choices: {
+    itemSelectText: ''
+  },
   prompt_before_delete: true,
   use_default_values: true,
   max_depth: 0
