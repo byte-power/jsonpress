@@ -3,6 +3,13 @@ label.required::after {
     content: ' *';
     color: red;
 }
+.well-sm,
+.well-small {
+    padding: 5px;
+}
+.form-group {
+    margin-bottom: 5px;
+}
 .hi-array-item-wrap {
     position: relative;
 }
