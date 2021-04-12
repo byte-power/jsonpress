@@ -560,8 +560,10 @@ export class ObjectEditor extends AbstractEditor {
       this.controls = this.theme.getButtonHolder()
       this.controls.classList.add('je-object__controls')
 
-      this.container.appendChild(this.title)
-      this.container.appendChild(this.controls)
+      if (!this.options.compact) {
+        this.container.appendChild(this.title);
+        this.container.appendChild(this.controls);
+      }
       this.container.classList.add('je-object__container')
 
       /* Edit JSON modal */
@@ -651,6 +653,9 @@ export class ObjectEditor extends AbstractEditor {
 
       /* Container for child editor area */
       this.editor_holder = this.theme.getIndentedPanel()
+      if(this.options.compact){
+        this.editor_holder = this.theme.getChildEditorHolder()
+      }
       this.container.appendChild(this.editor_holder)
 
       /* Container for rows of child editors */
