@@ -62,7 +62,7 @@ module.exports = {
       )
     ),
     new CssToJSON({
-      pattern: './src/**/*.css'
+      pattern: './src/**/*.+(css|less)'
     })
   ],
   performance: {

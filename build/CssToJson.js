@@ -2,6 +2,7 @@ const glob = require('glob')
 const fs = require('fs')
 const path = require('path')
 const css2json = require('css2json')
+const less = require('less')
 
 class CssToJson {
   constructor (params) {
@@ -12,20 +13,30 @@ class CssToJson {
     compiler.hooks.entryOption.tap('CssToJson', (context, entry) => {
       glob(this.pattern, (err, files) => {
         if (err) throw err
-        files.forEach(this.convert)
+        files.forEach(this.convert.bind(this))
       })
     })
   }
 
-  convert (file) {
-    const target =
-      path.join(path.dirname(path.resolve(file)), path.basename(file, '.css')) + '.css.js'
+  getFullPath(file, type) {
+    let extend = '.css.js';
+    return path.join(path.dirname(path.resolve(file)), path.basename(file, type)) + extend;
+  }
+
+  async convert (file) {
+    let target = this.getFullPath(file, '.css');
 
     if (fs.existsSync(target) && (fs.statSync(file).mtime < fs.statSync(target).mtime)) {
       return
     }
 
-    const css = fs.readFileSync(file, { encoding: 'utf-8' })
+    let css = fs.readFileSync(file, { encoding: 'utf-8' })
+    let ext = path.extname(file);
+    if (ext === '.less') {
+        let result = await less.render(css);
+        target = this.getFullPath(file, '.less');
+        css = result.css;
+    }
     const rules = Object.entries(css2json(css))
       .map(
         ([selector, block]) =>
