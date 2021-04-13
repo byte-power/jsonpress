@@ -6,12 +6,6 @@
     margin-bottom: 5px;
 }
 
-
-label.required::after {
-    position: absolute;
-    content: ' *';
-    color: red;
-}
 .choices__list--dropdown .choices__item {
     white-space: nowrap;
 }
