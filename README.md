@@ -19,7 +19,7 @@ Install
 
 Install package
 
-    npm install @byte-power/jsonpress
+    npm install @byte-power/json-press
 
 
 Requirements
