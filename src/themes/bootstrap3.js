@@ -137,8 +137,8 @@ export class bootstrap3Theme extends AbstractTheme {
 
   getTable () {
     const el = document.createElement('table')
-    el.classList.add('table', 'table-bordered')
-    el.style.width = 'auto'
+    el.classList.add('table', 'table-bordered', 'auto-full')
+    // el.style.width = 'auto'
     el.style.maxWidth = 'none'
     return el
   }

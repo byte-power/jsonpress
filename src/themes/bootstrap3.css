@@ -20,11 +20,14 @@
 .hi-array-item-wrap.well-sm > .btn-group {
     top: 6px;
 }
-.un-hi-plain-padding {
+.hi-plain-padding {
     padding-left: 32px;
 }
-.un-hi-plain-margin {
+.hi-plain-margin {
     margin-left: 32px;
+}
+.hi-plain-margin.auto-full {
+    width: calc(100% - 32px);
 }
 .hi-multiple-title {
     line-height: 30px;
