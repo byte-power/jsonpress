@@ -7,7 +7,7 @@ module.exports = webpackMerge(commonConfig, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   output: {
-    path: helpers.root('dist/dev'),
+    path: helpers.root('dist'),
     publicPath: '/dist/',
     filename: '[name].js',
     libraryTarget: 'umd'
