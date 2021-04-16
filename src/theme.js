@@ -438,6 +438,7 @@ export class AbstractTheme {
 
   getTableCell () {
     const el = document.createElement('td')
+    el.classList.add('je-min-w')
     return el
   }
 
