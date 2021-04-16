@@ -26,7 +26,7 @@
     "clean.css.js": "find ./src -name *.css.js -type f -delete",
     "build": "webpack --config config/webpack.prod.js --progress --profile --bail",
     "build.dev": "webpack --config config/webpack.dev.js --progress --profile --bail",
-    "watch": "webpack --config config/webpack.nonmin.js --watch",
+    "watch": "webpack --config config/webpack.dev.js --watch",
     "watch.css": "nodemon --watch ./src/ --ext css,less --ignore dist --exec 'npm run build.dev'",
     "debug": "webpack-dev-server --config config/webpack.dev.js --progress",
     "test": "karma start config/karma.conf.js --browsers Chrome --log-level debug",
