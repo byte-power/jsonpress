@@ -124,7 +124,8 @@ export class StringEditor extends AbstractEditor {
 
     if (this.options.compact) {
       this.container.classList.add('compact')
-    } else if (this.options.input_width) this.input.style.width = this.options.input_width
+    }
+    if (this.options.input_width) this.input.style.width = this.options.input_width
 
     if (this.schema.readOnly || this.schema.readonly || this.schema.template) {
       this.disable(true)
