@@ -9,7 +9,6 @@ label {
     margin-bottom: 10px;
 }
 .help-block {
-    margin-top: 0;
     margin-bottom: 0;
 }
 
@@ -37,7 +36,7 @@ label {
     width: calc(100% - 32px);
 }
 .hi-multiple-title {
-    line-height: 30px;
+    line-height: 28px;
 }
 .hi-icon-date {
     position: relative;
