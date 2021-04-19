@@ -2,8 +2,8 @@
 .well-small {
     padding: 5px;
 }
-.form-group {
-    margin-bottom: 5px;
+label {
+    line-height: 34px;
 }
 
 .choices__list--dropdown .choices__item {
@@ -14,11 +14,11 @@
 }
 .hi-array-item-wrap > .btn-group {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0 !important;
+    right: 5px !important;
 }
 .hi-array-item-wrap.well-sm > .btn-group {
-    top: 6px;
+    top: 3px !important;
 }
 .hi-plain-padding {
     padding-left: 32px;
