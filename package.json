@@ -2,7 +2,7 @@
   "name": "@byte-power/json-press",
   "title": "JSONPress",
   "description": "JSON Schema based editor",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/jsonpress.js",
   "author": {
     "name": "lizux"
@@ -21,6 +21,7 @@
     "editor"
   ],
   "scripts": {
+    "pub": "npm version minor",
     "prepare": "npm run build",
     "clean": "npm run clean.css.js",
     "clean.css.js": "find ./src -name *.css.js -type f -delete",
