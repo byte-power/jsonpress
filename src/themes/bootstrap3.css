@@ -3,7 +3,14 @@
     padding: 5px;
 }
 label {
-    line-height: 34px;
+    line-height: 28px;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.help-block {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .choices__list--dropdown .choices__item {
