@@ -59,10 +59,13 @@ export class ArrayEditor extends AbstractEditor {
     this.setAvailability(this, true)
 
     if (this.rows) {
-      this.rows.forEach(row => {
-        row.disable(alwaysDisabled)
-        this.setAvailability(row, true)
-      })
+      // 延时执行，避免初期 rows 为空，未禁用子项
+      setTimeout(() => {
+        this.rows.forEach((row) => {
+            row.disable(alwaysDisabled);
+            this.setAvailability(row, true);
+        });
+      }, 500);
     }
     super.disable()
   }
