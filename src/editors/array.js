@@ -59,7 +59,7 @@ export class ArrayEditor extends AbstractEditor {
     this.setAvailability(this, true)
 
     if (this.rows) {
-      // 延时执行，避免初期 rows 为空，未禁用子项
+      // 延时执行，避免初次运行时 rows 为空，未正确禁用子项
       setTimeout(() => {
         this.rows.forEach((row) => {
             row.disable(alwaysDisabled);
