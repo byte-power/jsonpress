@@ -15,13 +15,19 @@ label {
 .choices__list--dropdown .choices__item {
     white-space: nowrap;
 }
-.toggle {
+.toggle-wrap {
+    position: relative;
+    div.toggle-label {
+        margin-bottom: 5px;
+        line-height: 28px;
+    }
     div.required::after {
         position: absolute;
         content: ' *';
         color: red;
     }
     input[type='checkbox'] {
+        position: absolute;
         width: 0;
         height: 0;
         visibility: hidden;
@@ -48,7 +54,7 @@ label {
         transition: 0.3s;
     }
     input:checked + label {
-        background: #bada55;
+        background: #2196f3;
     }
     input:checked + label:after {
         left: calc(100% - 1px);

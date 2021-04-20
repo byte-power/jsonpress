@@ -15,6 +15,7 @@ const boolean = schema => {
   if (schema.type === 'boolean') {
     /* If explicitly set to 'checkbox', use that */
     if (schema.format === 'checkbox' || (schema.options && schema.options.checkbox)) return 'checkbox'
+    if (schema.format === 'toggle') return 'checkbox'
     /* Otherwise, default to select menu */
     if (schema.format === 'select2') return 'select2'
     if (schema.format === 'selectize') return 'selectize'

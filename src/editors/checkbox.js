@@ -38,6 +38,12 @@ export class CheckboxEditor extends AbstractEditor {
     this.input = this.theme.getCheckbox()
     this.input.id = this.formname
     this.control = this.theme.getFormControl(this.label, this.input, this.description, this.infoButton)
+
+    if (this.schema.format && this.schema.format === 'toggle') {
+      const toggleLabel = this.theme.getToggleLabel(this.getTitle(), this.isRequired());
+      this.control = this.theme.getFormControl(this.label, this.input, this.description, toggleLabel, 'toggle');
+      this.control.classList.add('toggle-wrap');
+    }
     this.control.classList.add('hi-plain-padding')
 
     if (this.schema.readOnly || this.schema.readonly) {
