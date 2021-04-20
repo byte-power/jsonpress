@@ -50,10 +50,18 @@ export class bootstrap3Theme extends AbstractTheme {
     return el
   }
 
-  getFormControl (label, input, description) {
+  getFormControl (label, input, description, infoText, isSpec) {
     const group = document.createElement('div')
 
-    if (label && (input.type === 'checkbox' || input.type === 'radio')) {
+    if (isSpec && isSpec === 'toggle') {
+      group.classList.add('form-group');
+      input.style.width = 'auto';
+      if (label) {
+          group.appendChild(label);
+      }
+      group.insertBefore(input, label);
+      group.insertBefore(infoText, input);
+  } else if (label && (input.type === 'checkbox' || input.type === 'radio')) {
       group.classList.add(input.type)
       label.insertBefore(input, label.firstChild)
       group.appendChild(label)

@@ -117,6 +117,14 @@ export class AbstractTheme {
     return el
   }
 
+  getToggleLabel (text, req) {
+    const el = document.createElement('div')
+    el.appendChild(document.createTextNode(text))
+    if (req) el.classList.add('required')
+    el.classList.add('toggle-label')
+    return el
+  }
+
   getCheckbox () {
     const el = this.getFormInputField('checkbox')
     el.classList.add('je-checkbox')
