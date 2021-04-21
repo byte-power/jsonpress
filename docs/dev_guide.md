@@ -16,14 +16,14 @@
 │   ├── templates           引入第三方 html 模板（目前支持 default *、nunjucks）
 │   ├── themes              引入第三方主题库（目前支持 bootstrap3 *、html、tailwind）
 │   ├── validators          校验规则
-│   ├── core.js          入口文件（用于引入其他所有的基础设置、模块。并生成编辑器实例）
+│   ├── core.js            入口文件（用于引入其他所有的基础设置、模块。并生成编辑器实例）
 │   ├── defaults.js         编辑器默认配置
-│   ├── editor.js         所有数据类型 editor 的基础类
-│   ├── iconlib.js        图标库的基础类
-│   ├── resolvers.js      解析函数（分析 schema 的结构并调用相应的 editor 进行解析）
+│   ├── editor.js           所有数据类型 editor 的基础类
+│   ├── iconlib.js          图标库的基础类
+│   ├── resolvers.js        解析函数（分析 schema 的结构并调用相应的 editor 进行解析）
 │   ├── schemaloader.js     通过 ajax 加载外部 schema
 │   ├── style.less          基础样式
-│   ├── theme.js        主题库的基础类
+│   ├── theme.js            主题库的基础类
 │   ├── utilities.js        基础工具集
 │   └── validator.js        主入口
 └── package.json			仓库 npm 配置
