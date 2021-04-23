@@ -21,7 +21,7 @@
     "editor"
   ],
   "scripts": {
-    "pub": "npm version minor",
+    "pub": "npm version patch",
     "prepare": "npm run build",
     "clean": "npm run clean.css.js",
     "clean.css.js": "find ./src -name *.css.js -type f -delete",
@@ -34,7 +34,7 @@
     "test-headless": "karma start config/karma.conf.js --singleRun true --browsers ChromeHeadless",
     "serve-test": "http-server --p 9001",
     "docker-test": "docker-compose run --rm node npm install && docker-compose run --rm node npm run build && docker-compose up -d && docker-compose ps && docker-compose exec node codeceptjs -c /repo/tests/codeceptjs/codecept.json run-multiple basic:chrome --invert --grep '@optional'",
-    "preversion": "npm run test-headless && npm run docker-test",
+    "preversion": "npm run test-headless",
     "postversion": "git push && git push --tags && npm publish ./ --access public",
     "winserver": "cd tests && start cmd /c npm run serve-test .",
     "cp:test": "codeceptjs run --steps --invert --grep  @optional",
