@@ -55,6 +55,7 @@ const editor = new JSONEditor(element, {
 | 选项                          | 描述                                                          | 默认值 | 全局 |
 | ----------------------------- | ------------------------------------------------------------- | ------ | ---- |
 | ajax                          | Press 是否通过 ajax 加载 $ref 字段所设置的外部 Schema 文件    | false  | 是   |
+| refs                          | 一个包含 schema 定义的 url 地址，用于预加载外部 schema        | {}     | 是   |
 | compact                       | 是否显示当前项的 label                                        | false  | 否   |
 | disable_array_add             | 是否禁用 array 类型的 `add row` 按钮                          | false  | 是   |
 | disable_array_delete          | 是否禁用 array 类型的 `delete row` 按钮                       | false  | 是   |
@@ -64,6 +65,12 @@ const editor = new JSONEditor(element, {
 | enable_array_copy             | 是否显示 array 类型每个子项下的 `copy` 按钮                   | false  | 是   |
 | disable_collapse              | 是否禁用 object 和 array 类型的 `collapse` 按钮               | false  | 是   |
 | disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                       | false  | 是   |
+| disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                 | false  | 是   |
+| array_controls_top            | 是否把 array 类型的控制按钮（add/delete）显示在列表上方       | false  | 是   |
+| form_name_root                | 设置表单的根名称                                              | 'root' | 是   |
+| iconlib                       | 设置编辑器的图标库                                            | null   | 是   |
+| remove_button_labels          | 是否移除控制按钮内的文本，在 iconlib 设置时有效               | false  | 是   |
+| no_additional_properties      | object 是否能显示 properties 字段定义外的其他属性             | false  | 是   |
 
 > 注：非全局配置是通过当前项来添加，如下例：
 
