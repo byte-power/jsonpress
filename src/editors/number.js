@@ -43,7 +43,7 @@ export class NumberEditor extends StringEditor {
       return undefined
     }
     const value = isNumber(this.value) ? parseFloat(this.value) : this.value
-    if (!this.jsoneditor.options.use_default_values && value === '') {
+    if (value === '') {
       return undefined
     }
     return value
