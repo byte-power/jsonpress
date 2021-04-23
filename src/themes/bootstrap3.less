@@ -38,15 +38,17 @@ h3 {
 .well-small {
     padding: 5px;
 }
-div > .well-sm {
-    padding-left: 0;
-    padding-right: 0;
-}
-div > .je-object__title {
-    font-size: 18px;
-}
-div > .je-object__title > .json-editor-btn-collapse {
-    display: none;
+.json-schema-form {
+    & > div > .well-sm {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    & > div > .je-object__title {
+        font-size: 18px;
+    }
+    & > div > .je-object__title > .json-editor-btn-collapse {
+        display: none;
+    }
 }
 .help-block {
     margin-bottom: 0;
@@ -177,13 +179,13 @@ div > .je-object__title > .json-editor-btn-collapse {
 .hi-array-item-wrap.well-sm > .btn-group {
     top: 2px !important;
 }
-.hi-plain-padding {
+.xhi-plain-padding {
     padding-left: 32px;
 }
-.hi-plain-margin {
+.xhi-plain-margin {
     margin-left: 32px;
 }
-.hi-plain-margin.auto-full {
+.xhi-plain-margin.auto-full {
     width: calc(100% - 32px);
 }
 .hi-multiple-title {
