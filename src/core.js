@@ -87,14 +87,16 @@ export class JSONEditor {
       if (hasOwnProperty(this.options, 'startval')) this.root.setValue(this.options.startval)
 
       this.validation_results = this.validator.validate(this.root.getValue())
-      this.root.showValidationErrors(this.validation_results)
+      // 初始化时校验
+      // this.root.showValidationErrors(this.validation_results)
       this.ready = true
 
       /* Fire ready event asynchronously */
       window.requestAnimationFrame(() => {
         if (!this.ready) return
         this.validation_results = this.validator.validate(this.root.getValue())
-        this.root.showValidationErrors(this.validation_results)
+        // 初始化时校验
+        // this.root.showValidationErrors(this.validation_results)
         this.trigger('ready')
         this.trigger('change')
       })
@@ -114,16 +116,21 @@ export class JSONEditor {
     return this
   }
 
-  validate (value) {
+  validate (value, isAllSave) {
     if (!this.ready) throw new Error("JSON Editor not ready yet.  Listen for 'ready' event before validating")
 
+    let realResult;
     /* Custom value */
     if (arguments.length === 1) {
-      return this.validator.validate(value)
+      realResult = this.validator.validate(value)
       /* Current value (use cached result) */
     } else {
-      return this.validation_results
+      realResult = this.validation_results
     }
+    // 仅在全局保存时校验
+    console.log('128', isAllSave);
+    isAllSave && this.root.showValidationErrors(realResult)
+    return realResult;
   }
 
   destroy () {
@@ -238,6 +245,7 @@ export class JSONEditor {
       /* Validate and cache results */
       this.validation_results = this.validator.validate(this.root.getValue())
 
+      // 值改动时校验
       if (this.options.show_errors !== 'never') {
         this.root.showValidationErrors(this.validation_results)
       } else {
