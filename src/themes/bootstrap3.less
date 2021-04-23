@@ -1,20 +1,123 @@
-.well-sm,
-.well-small {
-    padding: 5px;
+/* 第三方样式重定义 */
+.choices__list--dropdown .choices__item {
+    white-space: nowrap;
 }
+
+/* 自有样式重定义 */
 label {
     line-height: 28px;
+}
+label.required::after {
+    position: absolute;
+    content: ' *';
+    color: red;
+}
+td {
+    vertical-align: top;
+}
+h3 {
+    margin-top: 0;
 }
 .form-group {
     margin-bottom: 10px;
 }
+.form-control {
+    line-height: normal !important;
+}
+.json-editor-btn-collapse {
+    width: 24px;
+    height: 30px;
+    margin-right: 8px;
+    padding-left: 0;
+    padding-right: 0;
+    border-color: transparent;
+    background-color: transparent;
+    vertical-align: 0;
+}
+.well-sm,
+.well-small {
+    padding: 5px;
+}
+div > .well-sm {
+    padding-left: 0;
+    padding-right: 0;
+}
+div > .je-object__title {
+    font-size: 18px;
+}
+div > .je-object__title > .json-editor-btn-collapse {
+    display: none;
+}
 .help-block {
     margin-bottom: 0;
 }
-
-.choices__list--dropdown .choices__item {
-    white-space: nowrap;
+.well-sm {
+    margin-bottom: 1px;
+    padding-left: 32px;
+    border: 0;
+    background-color: transparent;
+    .je-object__container {
+        & > .btn-group {
+            position: absolute;
+            top: -3px;
+            right: 0;
+        }
+    }
+    h3 {
+        font-size: 17px;
+    }
+    .well-sm {
+        & > label {
+            margin-right: 1em;
+            vertical-align: middle;
+        }
+        & > label + select {
+            width: auto;
+        }
+        label {
+            font-size: 16px;
+        }
+        .well-sm {
+            label {
+                font-size: 15px;
+            }
+            .well-sm {
+                label {
+                    font-size: 14px;
+                }
+                .well-sm label {
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+    .form-group {
+        display: table;
+        width: 100%;
+        label.form-label {
+            display: table-cell;
+            width: 1%;
+            padding-right: 1em;
+            white-space: nowrap;
+        }
+        select.form-select,
+        input.form-input {
+            display: table-cell;
+            border: 1px solid transparent;
+            &:not([readonly]):hover,
+            &:not([readonly]):focus {
+                border-color: #fe0;
+                box-shadow: none;
+                background-color: #ffffab;
+            }
+        }
+    }
+    .je-object__title + .je-object__controls {
+        display: none !important;
+    }
 }
+
+/* 定制样式 */
 .toggle-wrap {
     position: relative;
     div.toggle-label {
