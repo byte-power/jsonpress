@@ -128,7 +128,6 @@ export class JSONEditor {
       realResult = this.validation_results
     }
     // 仅在全局保存时校验
-    console.log('128', isAllSave);
     isAllSave && this.root.showValidationErrors(realResult)
     return realResult;
   }
