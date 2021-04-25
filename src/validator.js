@@ -345,7 +345,7 @@ export class Validator {
             /* Ignore required error if editor is of type "button" or "info" */
             if (editor && ['button', 'info'].includes(editor.schema.format || editor.schema.type)) return
             errors.push({
-              path,
+              path: path + '.' + e,
               property: 'required',
               message: this.translate('error_required', [e])
             })

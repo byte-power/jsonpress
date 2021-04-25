@@ -356,7 +356,10 @@ export class StringEditor extends AbstractEditor {
   }
 
   showValidationErrors (errors) {
-    if (this.jsoneditor.options.show_errors === 'always') { } else if (!this.is_dirty && this.previous_error_setting === this.jsoneditor.options.show_errors) return
+    if (this.jsoneditor.options.show_errors === 'always') {
+    } else if (!this.is_dirty && this.previous_error_setting === this.jsoneditor.options.show_errors) {
+      //禁用返回，副作用未知！！！
+    }
 
     this.previous_error_setting = this.jsoneditor.options.show_errors
 
