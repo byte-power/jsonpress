@@ -231,7 +231,7 @@ export class JSONEditor {
     return new editorClass(options, JSONEditor.defaults, depthCounter)
   }
 
-  onChange () {
+  onChange (param) {
     if (!this.ready) return
 
     if (this.firing_change) return
@@ -244,9 +244,17 @@ export class JSONEditor {
       /* Validate and cache results */
       this.validation_results = this.validator.validate(this.root.getValue())
 
+      // 仅校验当前改动项，而非全局
+      let selfResult = this.validation_results;
+      if (param) {
+          selfResult = this.validation_results.filter((item) => {
+              return item.path === param.path;
+          });
+      }
+
       // 值改动时校验
       if (this.options.show_errors !== 'never') {
-        this.root.showValidationErrors(this.validation_results)
+        this.root.showValidationErrors(selfResult)
       } else {
         this.root.showValidationErrors([])
       }

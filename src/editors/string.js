@@ -156,7 +156,12 @@ export class StringEditor extends AbstractEditor {
         this.is_dirty = true
 
         this.refreshValue()
-        this.onChange(true)
+        let param = {
+          schema: this.schema,
+          value: e.currentTarget.value,
+          path: this.path
+        };
+        this.onChange(true, param);
       })
 
     if (this.options.input_height) this.input.style.height = this.options.input_height
