@@ -156,7 +156,7 @@ export class StringEditor extends AbstractEditor {
         this.is_dirty = true
 
         this.refreshValue()
-        let param = {
+        const param = {
           schema: this.schema,
           value: e.currentTarget.value,
           path: this.path
@@ -363,7 +363,7 @@ export class StringEditor extends AbstractEditor {
   showValidationErrors (errors) {
     if (this.jsoneditor.options.show_errors === 'always') {
     } else if (!this.is_dirty && this.previous_error_setting === this.jsoneditor.options.show_errors) {
-      //禁用返回，副作用未知！！！
+      // 禁用返回，副作用未知！！！
     }
 
     this.previous_error_setting = this.jsoneditor.options.show_errors
