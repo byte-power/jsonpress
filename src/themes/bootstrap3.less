@@ -38,15 +38,15 @@ h3 {
 .well-small {
     padding: 5px;
 }
-.json-schema-form {
-    & > div > .well-sm {
+div[data-schemapath='root'] {
+    & > .well-sm {
         padding-left: 0;
         padding-right: 0;
     }
-    & > div > .je-object__title {
+    & > .je-header {
         font-size: 18px;
     }
-    & > div > .je-object__title > .json-editor-btn-collapse {
+    & > .je-header > .json-editor-btn-collapse {
         display: none;
     }
 }
@@ -114,7 +114,7 @@ h3 {
             }
         }
     }
-    .je-object__title + .je-object__controls {
+    .je-header + .je-object__controls {
         display: none !important;
     }
 }
