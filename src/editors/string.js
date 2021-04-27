@@ -47,7 +47,12 @@ export class StringEditor extends AbstractEditor {
     if (this.adjust_height) this.adjust_height(this.input)
 
     /* Bubble this setValue to parents if the value changed */
-    this.onChange(changed)
+    const param = {
+      schema: this.schema,
+      value: value,
+      path: this.path
+    };
+    this.onChange(changed, param)
 
     /* Return object with changed state and sanitized value for use in editors that extend this */
     return { changed, value: sanitized }
