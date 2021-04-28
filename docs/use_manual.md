@@ -84,7 +84,7 @@ const editor = new JSONEditor(element, {
 | show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |
 | keep_oneof_values             | 切换 oneOf 时是否保留其内部值                                                     | true          | √    |
 | prompt_before_delete          | 是否在删除节点之前显示确认提示                                                    | true          | √    |
-| enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值，时                                    | true          | √    |
+| enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值                                        | true          | √    |
 
 > 注：非全局配置是通过当前项来添加，如下例：
 
