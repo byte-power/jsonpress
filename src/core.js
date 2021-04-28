@@ -231,7 +231,7 @@ export class JSONEditor {
     return new editorClass(options, JSONEditor.defaults, depthCounter)
   }
 
-  onChange (param) {
+  onChange (currentTarget) {
     if (!this.ready) return
 
     if (this.firing_change) return
@@ -246,9 +246,9 @@ export class JSONEditor {
 
       // 仅校验当前改动项，而非全局
       let selfResult = this.validation_results;
-      if (param) {
+      if (currentTarget) {
           selfResult = this.validation_results.filter((item) => {
-              return item.path === param.path;
+              return item.path === currentTarget.path;
           });
       }
 
