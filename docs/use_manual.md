@@ -93,3 +93,77 @@ options: {
     compact: true;
 }
 ```
+
+## 传入、读取数据
+
+### 整体操作
+
+编辑器提供了 `setValue` 和 `getValue` 方法对整个实例进行存值（一般用于编辑器初始化时）和取值（一般用于保存最终输入结果）
+
+```javascript
+editor.setValue({name: 'John Smith'});
+
+const value = editor.getValue();
+console.log(value.name);
+```
+
+> 注：也可以使用编辑器的 startval 选项，在初始化时，进行默认值的设定。
+
+### 局部操作
+
+除了针对整个编辑器进行值的存取外，还能指定 schema 的单个节点进行相应操作。
+
+```javascript
+// 首先按路径获取编辑器的子节点
+const name = editor.getEditor('root.name');
+
+// 路径无效时，getEditor 会返回 null，避免报错
+if (name) {
+    name.setValue('John Smith');
+    console.log(name.getValue());
+}
+```
+
+## 校验数据
+
+编辑器会对用户输入进行校验和限制，避免输入无效内容。校验的方式包括：输入状态提示、控制按钮的启用和禁用等。
+
+在某些情况下，输入数据可能还是会和 schema 规则有冲突，但是没有得到显式提醒，这时候就可以使用编辑器提供的 `validate` 方法，进行自定义的校验和相应处理
+
+```javascript
+const errors = editor.validate();
+
+if (errors.length) {
+    // errors 是一个对象组成的数组，对象属性包括`path`、`property`、`message`
+    console.log(errors);
+}
+```
+
+validate 方法默认使用编辑器的当前值进行校验，可以传入自定义的值进行验证。
+
+```javascript
+const errors = editor.validate({...});
+```
+
+## 监听数据变动
+
+编辑器提供了 `change` 事件，可以在数据变动时触发。
+
+```javascript
+let handle = () => {
+    // 相应处理
+};
+editor.on('change', handle);
+
+editor.off('change', handle); // 第二参数不传的话，默认停止监听所有事件
+```
+
+除了监听整个编辑器，也可以通过指定路径，进行子节点的监听。
+
+```javascript
+editor.watch('root.name', () => {
+    // 相应处理
+});
+
+editor.unwatch('root.name', handle); // 第二参数不传的话，默认停止监听该节点上所有事件
+```
