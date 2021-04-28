@@ -167,3 +167,35 @@ editor.watch('root.name', () => {
 
 editor.unwatch('root.name', handle); // 第二参数不传的话，默认停止监听该节点上所有事件
 ```
+
+## 启用、禁止编辑器
+
+编辑器提供了一系列的方法来进行整体和单独节点的启用和禁止操作。
+
+```javascript
+// 禁止编辑整个表单
+editor.disable();
+
+// 禁止编辑指定路径的表单项
+editor.getEditor('root.name').disable();
+
+// 允许编辑整个表单
+editor.enable();
+
+// 允许编辑指定路径的表单项
+editor.getEditor('root.name').enable();
+
+// 检查整个表单的可编辑状态
+if (editor.isEnabled()) {
+    alert('ok');
+}
+
+// 停用指定路径的表单项(仅支持非 required 项，整体数据不再包含该字段值，相当于 show_opt_in 选项打开，并且未勾选当前项)
+editor.getEditor('root.name').deactivate();
+
+// 启用指定路径的表单项
+editor.getEditor('root.name').activate();
+
+// 从 DOM 树移除当前编辑器节点
+editor.destroy();
+```
