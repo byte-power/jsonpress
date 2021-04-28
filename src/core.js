@@ -254,7 +254,7 @@ export class JSONEditor {
 
       // 值改动时校验
       if (this.options.show_errors !== 'never') {
-        this.root.showValidationErrors(selfResult)
+        this.root.showValidationErrors(selfResult, currentChanged)
       } else {
         this.root.showValidationErrors([])
       }

@@ -1235,7 +1235,7 @@ export class ObjectEditor extends AbstractEditor {
     this.onChange()
   }
 
-  showValidationErrors (errors) {
+  showValidationErrors (errors, currentChanged) {
     /* Get all the errors that pertain to this editor */
     const myErrors = []
     const otherErrors = []
@@ -1273,7 +1273,9 @@ export class ObjectEditor extends AbstractEditor {
 
     /* Show errors for child editors */
     Object.values(this.editors).forEach(editor => {
-      editor.showValidationErrors(otherErrors)
+      if (!currentChanged || editor.path === currentChanged.path) {
+        editor.showValidationErrors(otherErrors);
+      }
     })
   }
 }
