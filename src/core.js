@@ -116,7 +116,7 @@ export class JSONEditor {
     return this
   }
 
-  validate (value, isAllSave) {
+  validate (value, isSaveAll) {
     if (!this.ready) throw new Error("JSON Editor not ready yet.  Listen for 'ready' event before validating")
 
     let realResult;
@@ -128,7 +128,7 @@ export class JSONEditor {
       realResult = this.validation_results
     }
     // 仅在全局保存时校验
-    isAllSave && this.root.showValidationErrors(realResult)
+    isSaveAll && this.root.showValidationErrors(realResult)
     return realResult;
   }
 
