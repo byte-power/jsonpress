@@ -156,12 +156,12 @@ export class StringEditor extends AbstractEditor {
         this.is_dirty = true
 
         this.refreshValue()
-        const currentTarget = {
+        const currentChanged = {
           schema: this.schema,
           value: e.currentTarget.value,
           path: this.path
         };
-        this.onChange(true, currentTarget);
+        this.onChange(true, currentChanged);
       })
 
     if (this.options.input_height) this.input.style.height = this.options.input_height

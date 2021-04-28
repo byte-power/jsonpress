@@ -32,23 +32,23 @@ export class AbstractEditor {
     this.registerDependencies()
   }
 
-  onChildEditorChange (editor, currentTarget) {
-    this.onChange(true, currentTarget)
+  onChildEditorChange (editor, currentChanged) {
+    this.onChange(true, currentChanged)
   }
 
   notify () {
     if (this.path) this.jsoneditor.notifyWatchers(this.path)
   }
 
-  change (currentTarget) {
-    if (this.parent) this.parent.onChildEditorChange(this, currentTarget)
-    else if (this.jsoneditor) this.jsoneditor.onChange(currentTarget)
+  change (currentChanged) {
+    if (this.parent) this.parent.onChildEditorChange(this, currentChanged)
+    else if (this.jsoneditor) this.jsoneditor.onChange(currentChanged)
   }
 
-  onChange(bubble, currentTarget) {
+  onChange(bubble, currentChanged) {
     this.notify();
     if (this.watch_listener) this.watch_listener();
-    if (bubble) this.change(currentTarget);
+    if (bubble) this.change(currentChanged);
 }
 
   register () {

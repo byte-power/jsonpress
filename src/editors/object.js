@@ -1054,9 +1054,9 @@ export class ObjectEditor extends AbstractEditor {
     }
   }
 
-  onChildEditorChange (editor, currentTarget) {
+  onChildEditorChange (editor, currentChanged) {
     this.refreshValue()
-    super.onChildEditorChange(editor, currentTarget)
+    super.onChildEditorChange(editor, currentChanged)
   }
 
   canHaveAdditionalProperties () {
