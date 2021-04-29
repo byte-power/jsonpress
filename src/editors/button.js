@@ -39,7 +39,6 @@ export class ButtonEditor extends AbstractEditor {
 
     if (this.schema.readOnly || this.schema.readonly || this.schema.template) {
       this.disable(true)
-      this.input.setAttribute('readonly', 'true')
     }
 
     /* Set custom attributes on input element. Parameter is array of protected keys. Empty array if none. */
@@ -62,6 +61,7 @@ export class ButtonEditor extends AbstractEditor {
   enable () {
     if (!this.always_disabled) {
       this.input.disabled = false
+      this.input.removeAttribute('readonly')
       super.enable()
     }
   }
@@ -69,6 +69,7 @@ export class ButtonEditor extends AbstractEditor {
   disable (alwaysDisabled) {
     if (alwaysDisabled) this.always_disabled = true
     this.input.disabled = true
+    this.input.setAttribute('readonly', 'true')
     super.disable()
   }
 

@@ -21,7 +21,6 @@ export class UuidEditor extends StringEditor {
     super.build()
     /* Set field to readonly */
     this.disable(true)
-    this.input.setAttribute('readonly', 'true')
   }
 
   sanitize (value) {
