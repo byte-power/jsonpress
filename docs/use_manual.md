@@ -74,6 +74,7 @@ const editor = new JSONEditor(element, {
 | disable_array_reorder         | 是否禁用 array 类型每个子项下的 `move up` 和 `move down` 按钮                     | false         | √    |
 | enable_array_copy             | 是否显示 array 类型每个子项下的 `copy` 按钮                                       | false         | √    |
 | array_controls_top            | 是否把 array 类型的控制按钮（add/delete）显示在列表上方                           | false         | √    |
+| prompt_before_delete          | 是否在删除 array 类型子项之前显示确认提示                                         | true          | √    |
 | disable_collapse              | 是否禁用 object 和 array 类型的 `collapse` 按钮                                   | false         | √    |
 | disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                                           | false         | √    |
 | disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                                     | false         | √    |
@@ -83,7 +84,6 @@ const editor = new JSONEditor(element, {
 | display_required_only         | 是否仅显示 required 的字段                                                        | false         | √    |
 | show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |
 | keep_oneof_values             | 切换 oneOf 时是否保留其内部值                                                     | true          | √    |
-| prompt_before_delete          | 是否在删除节点之前显示确认提示                                                    | true          | √    |
 | enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值                                        | true          | √    |
 
 > 注：非全局配置是通过当前项来添加，如下例：
@@ -168,9 +168,9 @@ editor.watch('root.name', () => {
 editor.unwatch('root.name', handle); // 第二参数不传的话，默认停止监听该节点上所有事件
 ```
 
-## 启用、禁止编辑器
+## 启用、停用编辑器
 
-编辑器提供了一系列的方法来进行整体和单独节点的启用和禁止操作。
+编辑器提供了一系列的方法来进行整体和单独节点的启用和停用操作。
 
 ```javascript
 // 禁止编辑整个表单
@@ -190,7 +190,8 @@ if (editor.isEnabled()) {
     alert('ok');
 }
 
-// 停用指定路径的表单项(仅支持非 required 项，整体数据不再包含该字段值，相当于 show_opt_in 选项打开，并且未勾选当前项)
+// 停用指定路径的表单项(即整体数据不再包含该字段值，相当于 show_opt_in 选项打开，并且未勾选当前项)
+// 仅支持非 required 项
 editor.getEditor('root.name').deactivate();
 
 // 启用指定路径的表单项
@@ -199,3 +200,15 @@ editor.getEditor('root.name').activate();
 // 从 DOM 树移除当前编辑器节点
 editor.destroy();
 ```
+
+## 各表单类型使用详解
+
+### button
+
+默认为 required
+
+### radio
+
+用于少量待选项（一般少于 5 个）的单选形式
+
+默认为 required
