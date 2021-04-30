@@ -201,7 +201,164 @@ editor.getEditor('root.name').activate();
 editor.destroy();
 ```
 
-## 各表单类型使用详解
+## 各数据类型及格式使用详解
+
+目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种属性的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
+
+### 基础类型：
+
+-   string
+-   number
+-   integer
+-   boolean
+-   object
+-   array
+-   null
+-   info
+-   signature
+
+### 扩展格式：
+
+-   textarea (基于 string 扩展)
+-   date (基于 string 扩展)
+-   time (基于 string 扩展)
+-   datetime-local (基于 string 扩展)
+-   color (基于 string 扩展)
+-   starrating (基于 string 扩展)
+-   hidden (基于 string 扩展)
+-   uuid (基于 string 扩展)
+-   range (基于 number 扩展)
+-   rating (基于 integer 扩展)
+-   checkbox (基于 boolean 扩展)
+-   grid (基于 object 扩展)
+-   table (基于 array 扩展)
+-   tabs (基于 array 扩展)
+-   radio (基于 string/number/integer + enum 扩展，即单选)
+-   checkbox (基于 array + enum 扩展，即多选)
+-   select2 (基于 enum 扩展，单选多选都支持)
+
+### 最终汇总：
+
+| type         | format                                   | enum | 备注                  |
+| ------------ | ---------------------------------------- | ---- | --------------------- |
+| string       | textarea<br>starrating<br>hidden<br>uuid | 无   |                       |
+| string       | date<br>time<br>datetime-local           | 无   | 通过 flatpickr 支持   |
+| string       | color                                    | 无   | 通过 colorpicker 支持 |
+| string       | radio                                    | 有   |                       |
+| array        | checkbox                                 | 有   |                       |
+| array        | table<br>tabs                            | 无   |                       |
+| object       | grid                                     |      |                       |
+| number       | range                                    |      |                       |
+| integer      | rating                                   |      |                       |
+| 任意类型均可 | select2                                  | 均可 | 通过 select2 支持     |
+| boolean      | checkbox                                 |      |                       |
+| null         |                                          |      |                       |
+| info         |                                          |      |                       |
+| signature    |                                          |      |                       |
+
+### string
+
+最基础的数据类型，通过指定 format 还能支持更多的交互和数据子类型。
+
+#### 基础用法
+
+```javascript
+let schema = {
+    name: {
+        type: 'string',
+        title: 'User Name', // 输入框对应的 label，不提供的话默认使用 key 值
+        description: 'input text for user name', // 该字段的描述，显示在输入框下方
+        default: 'bob', // 该字段的默认值
+        options: {
+            // 可以通过 options 字段传入一些定制化的设定
+            inputAttributes: {
+                placeholder: 'your name here...',
+                class: 'form-control'
+            }
+        }
+    }
+};
+```
+
+#### 结合 format
+
+```javascript
+// 文本域形式，支持输入大段文字
+let schema = {
+    type: 'string',
+    format: 'textarea'
+};
+```
+
+##### SCEditor
+
+SCEditor 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 xhtml 或 bbcode ，然后 options 中设置 wysiwyg 为 true 即可。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'xhtml',
+    options: {
+        wysiwyg: true
+    }
+};
+```
+
+##### SimpleMDE
+
+SimpleMDE 是一个提供动态预览的简单 Markdown 编辑器。format 设置为 markdown 即可启用。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'markdown'
+};
+```
+
+##### Ace Editor
+
+Ace Editor 是一个支持语法高亮的源代码编辑器，支持如下格式，format 设置为对应值即可启用相应语法高亮和检查。
+
+-   c
+-   cpp (alias for c++)
+-   csharp
+-   css
+-   less
+-   sass
+-   scss
+-   dart
+-   golang
+-   html
+-   ini
+-   java
+-   javascript
+-   json
+-   lua
+-   makefile
+-   php
+-   python
+-   ruby
+-   sql
+-   pgsql
+-   mysql
+-   xml
+-   yaml
+
+同时 还能通过 `options.ace` 传入 Ace Editor 的原生支持选项
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'sql',
+    options: {
+        ace: {
+            theme: 'ace/theme/vibrant_ink',
+            tabSize: 2,
+            wrap: true
+        }
+    }
+};
+```
 
 ### button
 
