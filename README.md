@@ -239,6 +239,117 @@ editor.destroy();
 
 ### 最终汇总
 
+<table>
+    <thead>
+        <tr>
+            <th>type</th>
+            <th>format</th>
+            <th>enum</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4">string</td>
+            <td>
+                textarea
+                <br />
+                starrating
+                <br />
+                hidden
+                <br />
+                uuid
+            </td>
+            <td>无</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                date
+                <br />
+                time
+                <br />
+                datetime-local
+            </td>
+            <td>无</td>
+            <td>通过 flatpickr 支持</td>
+        </tr>
+        <tr>
+            <td>color</td>
+            <td>无</td>
+            <td>通过 colorpicker 支持</td>
+        </tr>
+        <tr>
+            <td>radio</td>
+            <td>有</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td rowspan="2">array</td>
+            <td>checkbox</td>
+            <td>有</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                table
+                <br />
+                tabs
+            </td>
+            <td>无</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>object</td>
+            <td>grid</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>number</td>
+            <td>range</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>integer</td>
+            <td>rating</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>boolean</td>
+            <td>checkbox</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>任意类型均可</td>
+            <td>select2</td>
+            <td>有</td>
+            <td>通过 select2 支持</td>
+        </tr>
+        <tr>
+            <td>null</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>info</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>signature</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
 | type         | format                                   | enum | 备注                  |
 | ------------ | ---------------------------------------- | ---- | --------------------- |
 | string       | textarea<br>starrating<br>hidden<br>uuid | 无   |                       |
@@ -250,7 +361,7 @@ editor.destroy();
 | object       | grid                                     |      |                       |
 | number       | range                                    |      |                       |
 | integer      | rating                                   |      |                       |
-| 任意类型均可 | select2                                  | 均可 | 通过 select2 支持     |
+| 任意类型均可 | select2                                  | 有   | 通过 select2 支持     |
 | boolean      | checkbox                                 |      |                       |
 | null         |                                          |      |                       |
 | info         |                                          |      |                       |
@@ -373,6 +484,8 @@ let schema = {
 };
 ```
 
+> 注：当为 radio 时，该字段默认为 required
+
 另外 Press 也引入了 select2 第三方库用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
 
 ```javascript
@@ -411,12 +524,18 @@ array 作为 JSON 数据的重要组成类型，相应的，数组编辑器也�
 除了默认形式，另外还提供了 table 和 tabs 两种 format 形式来编辑数组。
 
 默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
-table: 用表格的形式展示数组元素，适合元素数量多且元素属性少的情况。
-tab: 用左边的页签来切换数据元素，永远只显示一个元素，适合元素属性多的情况。
+table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
+tab: 用左边的页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
 tab-top: 同上，只是页签的位置在上方。
 
 ```javascript
 let schema = {
+    type: 'array',
+    items: {
+        type: 'string'
+    }
+};
+let schema2 = {
     type: 'array',
     format: 'table',
     items: {
@@ -433,12 +552,56 @@ let schema = {
 };
 ```
 
+array 类型提供了一个 uniqueItems 属性，当为 true 时，可以避免添加重复项。我们针对该属性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: 'name',
+    items: {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string'
+            },
+            id: {
+                type: 'string'
+            }
+        }
+    }
+};
+```
+
+#### 结合 enum 属性
+
+同样的，通过 enum 属性提供了可选枚举值后，array 字段会被渲染为多选框。假如设置 format 为 _checkbox_，就可以切换为复选框形式（同时要设置 uniqueItems 属性，推荐在可选项少于 8 个时使用）。
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'checkbox',
+    uniqueItems: true,
+    items: {
+        type: 'string',
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+    }
+};
+```
+
+上文提及的 select2 也支持多选，设置 format 为 _select2_，就可以启用。
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'select2',
+    items: {
+        type: 'string',
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+    }
+};
+```
+
 ### button
-
-默认为 required
-
-### radio
-
-用于少量待选项（一般少于 5 个）的单选形式
 
 默认为 required
