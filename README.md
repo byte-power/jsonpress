@@ -94,7 +94,7 @@ options: {
 }
 ```
 
-## 传入、读取数据
+## 读写数据
 
 ### 整体操作
 
@@ -145,7 +145,7 @@ validate 方法默认使用编辑器的当前值进行校验，可以传入自�
 const errors = editor.validate({...});
 ```
 
-## 监听数据变动
+## 监听数据
 
 编辑器提供了 `change` 事件，可以在数据变动时触发。
 
@@ -201,11 +201,11 @@ editor.getEditor('root.name').activate();
 editor.destroy();
 ```
 
-## 各数据类型及格式使用详解
+## 数据类型使用详解
 
 目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种属性的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
 
-### 基础类型：
+### 基础类型
 
 -   string
 -   number
@@ -217,7 +217,7 @@ editor.destroy();
 -   info
 -   signature
 
-### 扩展格式：
+### 扩展格式
 
 -   textarea (基于 string 扩展)
 -   date (基于 string 扩展)
@@ -237,7 +237,7 @@ editor.destroy();
 -   checkbox (基于 array + enum 扩展，即多选)
 -   select2 (基于 enum 扩展，单选多选都支持)
 
-### 最终汇总：
+### 最终汇总
 
 | type         | format                                   | enum | 备注                  |
 | ------------ | ---------------------------------------- | ---- | --------------------- |
@@ -280,19 +280,20 @@ let schema = {
 };
 ```
 
-#### 结合 format
+#### textarea
+
+当 format 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字
 
 ```javascript
-// 文本域形式，支持输入大段文字
 let schema = {
     type: 'string',
     format: 'textarea'
 };
 ```
 
-##### SCEditor
+#### SCEditor
 
-SCEditor 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 xhtml 或 bbcode ，然后 options 中设置 wysiwyg 为 true 即可。
+**SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 _xhtml_ 或 _bbcode_ ，然后 options 中设置 _wysiwyg_ 为 true 即可。
 
 ```javascript
 let schema = {
@@ -304,9 +305,9 @@ let schema = {
 };
 ```
 
-##### SimpleMDE
+#### SimpleMDE
 
-SimpleMDE 是一个提供动态预览的简单 Markdown 编辑器。format 设置为 markdown 即可启用。
+**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。format 设置为 _markdown_ 即可启用。
 
 ```javascript
 let schema = {
@@ -315,9 +316,9 @@ let schema = {
 };
 ```
 
-##### Ace Editor
+#### Ace Editor
 
-Ace Editor 是一个支持语法高亮的源代码编辑器，支持如下格式，format 设置为对应值即可启用相应语法高亮和检查。
+**Ace Editor** 是一个支持语法高亮的源代码编辑器，支持如下格式，format 设置为对应值即可启用相应语法高亮和检查。
 
 -   c
 -   cpp (alias for c++)
@@ -355,6 +356,78 @@ let schema = {
             theme: 'ace/theme/vibrant_ink',
             tabSize: 2,
             wrap: true
+        }
+    }
+};
+```
+
+#### 结合 enum 属性
+
+当通过 enum 属性提供了可选枚举值后，string 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项少于 5 个时使用）。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'radio',
+    enum: ['get', 'post', 'put', 'delete']
+};
+```
+
+另外 Press 也引入了 select2 第三方库用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'select2',
+    enum: ['get', 'post', 'put', 'delete']
+};
+```
+
+### boolean
+
+boolean 类型默认是下拉选择框形式，内置选项 true 和 false。假如设置 format 为 _checkbox_，就可以切换为复选框形式。
+
+```javascript
+let schema = {
+    type: 'boolean',
+    format: 'checkbox',
+    title: '是否启用',
+    default: true
+};
+```
+
+另外我们还新增了一个开关切换形式用于布尔类型。
+
+```javascript
+let schema = {
+    type: 'boolean',
+    format: 'toggle'
+};
+```
+
+### array
+
+array 作为 JSON 数据的重要组成类型，相应的，数组编辑器也占据了 Press 编辑器的大量篇幅（包括界面、代码等等）。
+除了默认形式，另外还提供了 table 和 tabs 两种 format 形式来编辑数组。
+
+默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
+table: 用表格的形式展示数组元素，适合元素数量多且元素属性少的情况。
+tab: 用左边的页签来切换数据元素，永远只显示一个元素，适合元素属性多的情况。
+tab-top: 同上，只是页签的位置在上方。
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    items: {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string'
+            },
+            id: {
+                type: 'string'
+            }
         }
     }
 };
