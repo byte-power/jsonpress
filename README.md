@@ -2,11 +2,11 @@
 
 ## 简介
 
-JSON Press（以下简称 Press）是一款能将描述数据结构的 JSON Schema 转换为相应的 HTML 表单的前端工具库。
+JSON Press 是一款能将描述数据结构的 JSON Schema 转换为相应的 HTML 表单的前端工具库。
 
 它能快速生成以 JSON 文件作为产出物的可交互、有约束、易校验的 HTML 表单，可以对应用、游戏提供简洁快速的配置支持，避免使用原始表单组件进行大量重复的页面布局和功能开发，提高生产效率。
 
-它是 [json-editor/json-editor](https://github.com/json-editor/json-editor) 的 fork 版本，在其基础上进行了美化、增强和修正。
+它是 [json-editor/json-editor](https://github.com/json-editor/json-editor) 的 fork 版本，在其基础上进行了美化、增强和修正（下文用 Press 代指来注明修改之处）。
 
 ## 安装
 
@@ -33,7 +33,7 @@ let editor = new JSONEditor(element, options);
 
 ## 配置
 
-可以通过全局配置或者通过每个实例初始化时传入参数来对 Press 的默认配置进行设置和修改
+可以通过全局配置或者通过每个实例初始化时传入参数来对编辑器的默认配置进行设置和修改
 
 全局形式
 
@@ -71,10 +71,10 @@ const editor = new JSONEditor(element, {
 | disable_array_delete          | 是否禁用 array 类型的 `delete row` 按钮                                           | false         | √    |
 | disable_array_delete_all_rows | 是否禁用 array 类型的 `delete all rows` 按钮                                      | false         | √    |
 | disable_array_delete_last_row | 是否禁用 array 类型的 `delete last row` 按钮                                      | false         | √    |
-| disable_array_reorder         | 是否禁用 array 类型每个子项下的 `move up` 和 `move down` 按钮                     | false         | √    |
-| enable_array_copy             | 是否显示 array 类型每个子项下的 `copy` 按钮                                       | false         | √    |
+| disable_array_reorder         | 是否禁用 array 类型每个元素下的 `move up` 和 `move down` 按钮                     | false         | √    |
+| enable_array_copy             | 是否显示 array 类型每个元素下的 `copy` 按钮                                       | false         | √    |
 | array_controls_top            | 是否把 array 类型的控制按钮（add/delete）显示在列表上方                           | false         | √    |
-| prompt_before_delete          | 是否在删除 array 类型子项之前显示确认提示                                         | true          | √    |
+| prompt_before_delete          | 是否在删除 array 类型元素之前显示确认提示                                         | true          | √    |
 | disable_collapse              | 是否禁用 object 和 array 类型的 `collapse` 按钮                                   | false         | √    |
 | disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                                           | false         | √    |
 | disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                                     | false         | √    |
@@ -474,7 +474,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，string 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项少于 5 个时使用）。
+当通过 enum 属性提供了可选枚举值后，string 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
 
 ```javascript
 let schema = {
@@ -486,7 +486,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外 Press 也引入了 select2 第三方库用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+另外编辑器也引入了 select2 第三方库用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
 
 ```javascript
 let schema = {
@@ -509,7 +509,7 @@ let schema = {
 };
 ```
 
-另外我们还新增了一个开关切换形式用于布尔类型。
+另外 Press 还新增了一个切换开关形式用于布尔类型。
 
 ```javascript
 let schema = {
@@ -520,13 +520,13 @@ let schema = {
 
 ### array
 
-array 作为 JSON 数据的重要组成类型，相应的，数组编辑器也占据了 Press 编辑器的大量篇幅（包括界面、代码等等）。
-除了默认形式，另外还提供了 table 和 tabs 两种 format 形式来编辑数组。
+array 作为 JSON 数据的重要组成类型，相应的，数组编辑区也占据了编辑器的大量篇幅（包括界面、代码等等）。
+除了默认形式，另外还提供了 _table_ 和 _tabs_ 两种 format 形式来编辑数组。
 
-默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
-table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
-tab: 用左边的页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
-tab-top: 同上，只是页签的位置在上方。
+-   默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
+-   table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
+-   tab: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
+-   tab-top: 同上，只是改为顶页签。
 
 ```javascript
 let schema = {
@@ -552,7 +552,7 @@ let schema2 = {
 };
 ```
 
-array 类型提供了一个 uniqueItems 属性，当为 true 时，可以避免添加重复项。我们针对该属性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
+array 类型提供了一个 `uniqueItems` 属性，当为 true 时，可以避免添加重复项。Press 针对该属性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
 
 ```javascript
 let schema = {
@@ -575,7 +575,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-同样的，通过 enum 属性提供了可选枚举值后，array 字段会被渲染为多选框。假如设置 format 为 _checkbox_，就可以切换为复选框形式（同时要设置 uniqueItems 属性，推荐在可选项少于 8 个时使用）。
+同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 字段会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
 
 ```javascript
 let schema = {
@@ -595,9 +595,124 @@ let schema = {
 let schema = {
     type: 'array',
     format: 'select2',
+    uniqueItems: true,
     items: {
         type: 'string',
         enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+    }
+};
+```
+
+#### array 事件
+
+编辑器针对 array 的元素常见操作（增加、删除、移动）都提供了对应的钩子函数便于做相应的处理。
+
+```javascript
+editor.on('moveRow', (editor) => {
+    console.log('moveRow', editor);
+});
+editor.on('addRow', (editor) => {
+    console.log('addRow', editor);
+});
+editor.on('deleteRow', (editor) => {
+    console.log('deleteRow', editor);
+});
+editor.on('deleteAllRows', (editor) => {
+    console.log('deleteAllRows', editor);
+});
+```
+
+### object
+
+object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。
+
+-   默认: 每个子属性单独占据一行。
+-   grid: 多个子属性并排在一行显示，每个子属性可以通过 _grid_columns_ 选项来设置宽度，然后 每行会尽可能占满 12 格后换行，所以该布局不能保证子属性的显示顺序和代码一致。
+-   grid-strict: 同上，但是每个子属性会严格按照 _grid_columns_ 显示，不会自动扩展。同时支持通过 _grid_break_ 选项来设置手动换行。
+-   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 _basicCategoryTitle_ 属性进行自定义）。
+
+```javascript
+let schema = {
+    type: 'object',
+    properties: {
+        name: {type: 'string'}
+    }
+};
+```
+
+```javascript
+let schema = {
+    type: 'object',
+    format: 'grid-strict',
+    properties: {
+        a: {
+            title: 'a',
+            type: 'string',
+            options: {
+                grid_columns: 4
+            }
+        },
+        b: {
+            title: 'b',
+            type: 'string',
+            options: {
+                grid_columns: 4,
+                grid_break: true
+            }
+        },
+        c: {
+            title: 'c',
+            type: 'string',
+            options: {
+                grid_columns: 6
+            }
+        },
+        d: {
+            title: 'd',
+            type: 'string',
+            options: {
+                grid_columns: 6
+            }
+        }
+    }
+};
+```
+
+```javascript
+let schema = {
+    type: 'object',
+    format: 'categories',
+    basicCategoryTitle: 'ab',
+    properties: {
+        a: {
+            title: 'a',
+            type: 'string'
+        },
+        b: {
+            title: 'b',
+            type: 'string'
+        },
+        location: {
+            type: 'object',
+            title: 'Location',
+            properties: {
+                city: {
+                    type: 'string'
+                },
+                state: {
+                    type: 'string'
+                }
+            }
+        },
+        people: {
+            type: 'array',
+            format: 'table',
+            title: 'People',
+            uniqueItems: true,
+            items: {
+                type: 'string'
+            }
+        }
     }
 };
 ```
