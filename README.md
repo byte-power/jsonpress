@@ -33,13 +33,17 @@ let editor = new JSONEditor(element, options);
 
 ## 配置
 
-可以通过全局配置或者通过每个实例初始化时传入参数来对编辑器的默认配置进行设置和修改
+编辑器的配置分为全局配置和局部配置。
 
-全局形式
+### 全局配置
+
+全局配置可以通过默认值形式或者实例初始化时传入参数来对编辑器的默认配置进行设置和修改
+
+#### 默认值形式
 
 `JSONEditor.defaults.options.disable_edit_json = 1`
 
-实例化传参形式
+#### 实例化传参形式
 
 ```javascript
 const editor = new JSONEditor(element, {
@@ -48,50 +52,123 @@ const editor = new JSONEditor(element, {
 });
 ```
 
-> 推荐使用实例化传参方式进行配置：因为在传入多条配置的情况下，使用全局形式逐条设置会比较繁琐；而使用单个对象进行整体赋值又容易丢失 default 配置内的其他值
+> 推荐使用实例化传参方式进行配置：因为在需传入多条配置的情景下，使用默认值形式逐条设置会比较繁琐；而使用单个对象进行整体赋值又容易覆盖 default 配置，造成其他值丢失
 
-### 常见配置
+### 配置项列表
 
-| 选项                          | 描述                                                                              | 默认值        | 全局 |
-| ----------------------------- | --------------------------------------------------------------------------------- | ------------- | ---- |
-| schema                        | 设置编辑器的 schema 值，支持规范的 v3、v4 版本                                    | {}            | √    |
-| startval                      | 设置编辑器的初始值，该 JSON 值应该符合 schema 规则设定                            | null          | √    |
-| theme                         | 设置编辑器的 CSS 主题引擎                                                         | 'html'        | √    |
-| iconlib                       | 设置编辑器的图标库                                                                | null          | √    |
-| template                      | 设置编辑器的 JS 模板引擎                                                          | 'default'     | √    |
-| form_name_root                | 设置表单的根名称                                                                  | 'root'        | √    |
-| object_layout                 | 设置 object 类型的布局展示方式，有效值包括 'table'                                | 'normal'      | √    |
-| ajax                          | 是否允许编辑器通过 ajax 加载 schema 内 $ref 字段所设置的外部 schema 文件          | false         | √    |
-| refs                          | 一个包含 schema 定义的 url 地址，用于预加载外部 schema                            | {}            | √    |
-| max_depth                     | 设置 schema 的渲染层级，0 表示渲染所有                                            | 0             | √    |
-| use_default_values            | 是否按字段的 type 属性设置来预设其初始值，否则该字段为 undefined                  | true          | √    |
-| show_errors                   | 界面显示校验错误信息的时机，有效值包括 'interaction', 'change', 'always', 'never' | 'interaction' | √    |
-| compact                       | 是否显示当前项的 label                                                            | false         | ×    |
-| disable_array_add             | 是否禁用 array 类型的 `add row` 按钮                                              | false         | √    |
-| disable_array_delete          | 是否禁用 array 类型的 `delete row` 按钮                                           | false         | √    |
-| disable_array_delete_all_rows | 是否禁用 array 类型的 `delete all rows` 按钮                                      | false         | √    |
-| disable_array_delete_last_row | 是否禁用 array 类型的 `delete last row` 按钮                                      | false         | √    |
-| disable_array_reorder         | 是否禁用 array 类型每个元素下的 `move up` 和 `move down` 按钮                     | false         | √    |
-| enable_array_copy             | 是否显示 array 类型每个元素下的 `copy` 按钮                                       | false         | √    |
-| array_controls_top            | 是否把 array 类型的控制按钮（add/delete）显示在列表上方                           | false         | √    |
-| prompt_before_delete          | 是否在删除 array 类型元素之前显示确认提示                                         | true          | √    |
-| disable_collapse              | 是否禁用 object 和 array 类型的 `collapse` 按钮                                   | false         | √    |
-| disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                                           | false         | √    |
-| disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                                     | false         | √    |
-| remove_button_labels          | 是否移除控制按钮内的文本，在 iconlib 设置时有效                                   | false         | √    |
-| no_additional_properties      | object 是否能显示 properties 字段定义外的其他属性                                 | false         | √    |
-| required_by_default           | schema 字段是否默认为 required (不用显式设定 required 属性)                       | false         | √    |
-| display_required_only         | 是否仅显示 required 的字段                                                        | false         | √    |
-| show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |
-| keep_oneof_values             | 切换 oneOf 时是否保留其内部值                                                     | true          | √    |
-| enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值                                        | true          | √    |
+| 选项                          | 描述                                                                              | 默认值        | 全局 | 局部 |
+| ----------------------------- | --------------------------------------------------------------------------------- | ------------- | ---- | ---- |
+| schema                        | 设置编辑器的 schema 值，支持规范的 v3、v4 版本                                    | {}            | √    |      |
+| startval                      | 设置编辑器的初始值，该 JSON 值应该符合 schema 规则设定                            | null          | √    |      |
+| theme                         | 设置编辑器的 CSS 主题引擎                                                         | 'html'        | √    |      |
+| iconlib                       | 设置编辑器的图标库                                                                | null          | √    |      |
+| template                      | 设置编辑器的 JS 模板引擎                                                          | 'default'     | √    |      |
+| form_name_root                | 设置表单的根名称                                                                  | 'root'        | √    |      |
+| object_layout                 | 设置 object 类型的布局展示方式，有效值包括 'table'                                | 'normal'      | √    |      |
+| ajax                          | 是否允许编辑器通过 ajax 加载 schema 内 $ref 字段所设置的外部 schema 文件          | false         | √    |      |
+| refs                          | 一个包含 schema 定义的 url 地址，用于预加载外部 schema                            | {}            | √    |      |
+| max_depth                     | 设置 schema 的渲染层级，0 表示渲染所有                                            | 0             | √    |      |
+| use_default_values            | 是否按字段的 type 属性设置来预设其初始值，否则该字段为 undefined                  | true          | √    |      |
+| show_errors                   | 界面显示校验错误信息的时机，有效值包括 'interaction', 'change', 'always', 'never' | 'interaction' | √    |      |
+| disable_array_add             | 是否禁用 array 类型的 `add row` 按钮                                              | false         | √    | √    |
+| disable_array_delete          | 是否禁用 array 类型的 `delete row` 按钮                                           | false         | √    | √    |
+| disable_array_delete_all_rows | 是否禁用 array 类型的 `delete all rows` 按钮                                      | false         | √    | √    |
+| disable_array_delete_last_row | 是否禁用 array 类型的 `delete last row` 按钮                                      | false         | √    | √    |
+| disable_array_reorder         | 是否禁用 array 类型每个元素下的 `move up` 和 `move down` 按钮                     | false         | √    | √    |
+| enable_array_copy             | 是否显示 array 类型每个元素下的 `copy` 按钮                                       | false         | √    |      |
+| array_controls_top            | 是否把 array 类型的控制按钮（add/delete）显示在列表上方                           | false         | √    | √    |
+| prompt_before_delete          | 是否在删除 array 类型元素之前显示确认提示                                         | true          | √    |      |
+| disable_collapse              | 是否禁用 object 和 array 类型的 `collapse` 按钮                                   | false         | √    | √    |
+| disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                                           | false         | √    | √    |
+| disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                                     | false         | √    | √    |
+| remove_button_labels          | 是否移除控制按钮内的文本，在 iconlib 设置时有效                                   | false         | √    |      |
+| no_additional_properties      | object 是否能显示 properties 字段定义外的其他属性                                 | false         | √    |      |
+| required_by_default           | schema 字段是否默认为 required (不用显式设定 required 属性)                       | false         | √    |      |
+| display_required_only         | 是否仅显示 required 的字段                                                        | false         | √    |      |
+| show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |      |
+| keep_oneof_values             | 切换 oneOf 时是否保留其内部值                                                     | true          | √    |      |
+| enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值                                        | true          | √    |      |
+| compact                       | 是否显示当前项的 label                                                            | false         |      | √    |
+| collapsed                     | 是否默认折叠 object 和 array 类型的数据                                           | false         |      | √    |
+| enum_titles                   | 设置枚举类型的选项标题，用于定义 enum 属性列表中每项值的对应显示标题              | []            |      | √    |
+| hidden                        | 是否在界面隐藏当前项（getValue 获取值不受影响）                                   | false         |      | √    |
+| remove_empty_properties       | 是否移除空属性值，即 getValue 时不会获取为 falsy 值的相关属性，用于 object 类型   | false         |      | √    |
+| grid_columns                  | 设置当前项占据的栅格数（1 至 12），用于 object 类型的 grid 布局                   |               |      | √    |
+| expand_height                 | 是否自动扩展当前输入框的高度以适应内容，用于 textarea                             | false         |      | √    |
+| input_height                  | 设置当前输入框的高度，支持有效 css 值，用于 textarea                              |               |      | √    |
+| input_width                   | 设置当前输入框的宽度，支持有效 css 值，用于 string、number、integer               |               |      | √    |
 
-> 注：非全局配置是通过当前项来添加，如下例：
+### 局部配置
+
+局部配置是通过当前项 options 属性来添加。
 
 ```javascript
-options: {
-    compact: true;
-}
+let schema = {
+    compact: {
+        type: 'string',
+        options: {
+            compact: true
+        }
+    },
+    hidden: {
+        type: 'string',
+        options: {
+            hidden: true
+        }
+    },
+    multi: {
+        type: 'object',
+        format: 'grid',
+        properties: {
+            color: {
+                type: 'integer',
+                enum: [1, 2, 3, 4, 5],
+                options: {
+                    grid_columns: 6,
+                    enum_titles: ['Black', 'Red', 'Green', 'Blue', 'White']
+                }
+            },
+            intro: {
+                type: 'string',
+                format: 'textarea',
+                options: {
+                    grid_columns: 6,
+
+                    expand_height: true
+                }
+            },
+            empty: {
+                type: 'string'
+            }
+        },
+        options: {
+            collapsed: true,
+            remove_empty_properties: true
+        }
+    },
+    list: {
+        type: 'array',
+        format: 'table',
+        items: {
+            type: 'object',
+            properties: {
+                name: {
+                    type: 'string',
+                    options: {
+                        input_width: '150px'
+                    }
+                },
+                id: {
+                    type: 'string',
+                    format: 'textarea',
+                    options: {
+                        input_height: '60px'
+                    }
+                }
+            }
+        }
+    }
+};
 ```
 
 ## 读写数据
@@ -501,6 +578,32 @@ let schema = {
 };
 ```
 
+### number 和 integer
+
+number、integer 类型都是用于输入数字值，它们的唯一区别就是一个接受数字，一个接受整数，默认是输入框。
+另外可以通过 _maximum_ 和 _minimum_ 属性限定最大最小值。
+integer 类型可设置 format 为 _range_，切换为滑块形式；_rating_，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
+
+```javascript
+let schema = {
+    type: 'integer',
+    default: 1,
+    minimum: 1,
+    maximum: 1000
+};
+```
+
+#### 结合 enum 属性
+
+当通过 enum 属性提供了可选枚举值后，number 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+
+```javascript
+let schema = {
+    type: 'integer',
+    enum: [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
+};
+```
+
 ### array
 
 array 作为 JSON 数据的重要组成类型，相应的，数组编辑区也占据了编辑器的大量篇幅（包括界面、代码等等）。
@@ -525,7 +628,11 @@ let schema2 = {
         type: 'object',
         properties: {
             name: {
-                type: 'string'
+                type: 'string',
+                options: {
+                    // 允许通过 input_width 定义 td 的宽度
+                    input_width: '60px'
+                }
             },
             id: {
                 type: 'string'
