@@ -237,7 +237,7 @@ editor.destroy();
 -   checkbox (基于 array + enum 扩展，即多选)
 -   select2 (基于 enum 扩展，单选多选都支持)
 
-### 最终汇总
+### 汇总
 
 <table>
     <thead>
@@ -285,6 +285,24 @@ editor.destroy();
             <td></td>
         </tr>
         <tr>
+            <td>boolean</td>
+            <td>checkbox</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>number</td>
+            <td>range</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>integer</td>
+            <td>rating</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
             <td rowspan="2">array</td>
             <td>checkbox</td>
             <td>有</td>
@@ -302,24 +320,6 @@ editor.destroy();
         <tr>
             <td>object</td>
             <td>grid</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>number</td>
-            <td>range</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>integer</td>
-            <td>rating</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>boolean</td>
-            <td>checkbox</td>
             <td></td>
             <td></td>
         </tr>
@@ -349,23 +349,6 @@ editor.destroy();
         </tr>
     </tbody>
 </table>
-
-| type         | format                                   | enum | 备注                  |
-| ------------ | ---------------------------------------- | ---- | --------------------- |
-| string       | textarea<br>starrating<br>hidden<br>uuid | 无   |                       |
-| string       | date<br>time<br>datetime-local           | 无   | 通过 flatpickr 支持   |
-| string       | color                                    | 无   | 通过 colorpicker 支持 |
-| string       | radio                                    | 有   |                       |
-| array        | checkbox                                 | 有   |                       |
-| array        | table<br>tabs                            | 无   |                       |
-| object       | grid                                     |      |                       |
-| number       | range                                    |      |                       |
-| integer      | rating                                   |      |                       |
-| 任意类型均可 | select2                                  | 有   | 通过 select2 支持     |
-| boolean      | checkbox                                 |      |                       |
-| null         |                                          |      |                       |
-| info         |                                          |      |                       |
-| signature    |                                          |      |                       |
 
 ### string
 
@@ -525,8 +508,8 @@ array 作为 JSON 数据的重要组成类型，相应的，数组编辑区也�
 
 -   默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
 -   table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
--   tab: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
--   tab-top: 同上，只是改为顶页签。
+-   tabs: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
+-   tabs-top: 同上，只是改为顶页签。
 
 ```javascript
 let schema = {
