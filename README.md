@@ -107,12 +107,14 @@ let schema = {
     compact: {
         type: 'string',
         options: {
+            // option
             compact: true
         }
     },
     hidden: {
         type: 'string',
         options: {
+            // option
             hidden: true
         }
     },
@@ -124,7 +126,9 @@ let schema = {
                 type: 'integer',
                 enum: [1, 2, 3, 4, 5],
                 options: {
+                    // option
                     grid_columns: 6,
+                    // option
                     enum_titles: ['Black', 'Red', 'Green', 'Blue', 'White']
                 }
             },
@@ -132,8 +136,9 @@ let schema = {
                 type: 'string',
                 format: 'textarea',
                 options: {
+                    // option
                     grid_columns: 6,
-
+                    // option
                     expand_height: true
                 }
             },
@@ -142,7 +147,9 @@ let schema = {
             }
         },
         options: {
+            // option
             collapsed: true,
+            // option
             remove_empty_properties: true
         }
     },
@@ -155,6 +162,7 @@ let schema = {
                 name: {
                     type: 'string',
                     options: {
+                        // option
                         input_width: '150px'
                     }
                 },
@@ -162,6 +170,7 @@ let schema = {
                     type: 'string',
                     format: 'textarea',
                     options: {
+                        // option
                         input_height: '60px'
                     }
                 }
@@ -630,7 +639,7 @@ let schema2 = {
             name: {
                 type: 'string',
                 options: {
-                    // 允许通过 input_width 定义 td 的宽度
+                    // 通过 input_width 变相实现自定义 td 的宽度
                     input_width: '60px'
                 }
             },
