@@ -128,6 +128,10 @@ export class DatetimeEditor extends StringEditor {
       this.input.value = dateValue
       this.refreshValue()
       if (this.flatpickr) this.flatpickr.setDate(dateValue)
+    } else if (value === 0) {
+      this.input.value = null;
+      this.refreshValue();
+      if (this.flatpickr) this.flatpickr.setDate(null);
     }
   }
 
