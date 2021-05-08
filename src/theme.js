@@ -241,6 +241,13 @@ export class AbstractTheme {
     return el
   }
 
+  getDateInputWrap (input) {
+    const div = document.createElement('div')
+    input.parentNode.insertBefore(div, input.nextSibling)
+    div.appendChild(input)
+    return div
+  }
+
   getStepperButtons (input) {
     const div = document.createElement('div')
 
