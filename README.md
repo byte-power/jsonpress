@@ -460,14 +460,41 @@ let schema = {
 };
 ```
 
+string 提供了一个属性 `minLength` 用于限制字符串的最小长度。
+
+```javascript
+let schema = {
+    type: 'string',
+    // 相当于限制该字符串不能为空
+    minLength: 1
+};
+```
+
 #### textarea
 
-当 format 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字
+当 format 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字。
 
 ```javascript
 let schema = {
     type: 'string',
     format: 'textarea'
+};
+```
+
+#### colorpicker
+
+当 format 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。
+通过 options 中设置 _colorpicker_ 为一个对象值，可以定义颜色选择器的细节。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'color',
+    options: {
+        colorpicker: {
+            editorFormat: 'rgb'
+        }
+    }
 };
 ```
 
@@ -672,6 +699,21 @@ let schema = {
 };
 ```
 
+array 类型提供了两个属性用于限制数组的长度 `minItems` 和 `maxItems`
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: true,
+    minItems: 1,
+    maxItems: 10,
+    items: {
+        type: 'string'
+    }
+};
+```
+
 #### 结合 enum 属性
 
 同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 字段会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
@@ -819,3 +861,5 @@ let schema = {
 ### button
 
 默认为 required
+
+### upload + base64
