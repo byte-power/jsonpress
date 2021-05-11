@@ -498,6 +498,40 @@ let schema = {
 };
 ```
 
+#### datetime
+
+当需要输入日期或时间类的字符串值时，可以使用 format 来指定相应的格式。
+编辑器共提供了 3 种类型：
+
+-   date，渲染为日期选择框，返回值为 ‘YYYY-MM-DD’ 格式
+-   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
+-   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
+
+通过 options 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 flatpickr，并支持传入其原生配置。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'datetime-local',
+    options: {
+        flatpickr: {
+            inline: true, // 是否启用行内模式，即日期选择框直接显示，和 wrap 互斥
+            inlineHideInput: false, // 当启用 inline 模式时，是否隐藏原生的输入框
+            wrap: true, // 是否启用按钮群组模式，可以显示切换和清除按钮，和 inline 互斥
+            showToggleButton: false, // 当启用 wrap 模式时，是否显示切换按钮
+            showClearButton: false, // 当启用 wrap 模式时，是否显示清除按钮
+            defaultHour: 7, // 默认小时数
+            defaultMinute: 19, // 默认分钟数
+            hourIncrement: 2, // 每次点击按钮小时增量
+            minuteIncrement: 3, // 每次点击按钮分钟增量
+            enableSeconds: true, // 是否启用秒数
+            time_24hr: true, // 是否启用 24 小时制
+            allowInput: true // 是否允许手动输入
+        }
+    }
+};
+```
+
 #### SCEditor
 
 **SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 _xhtml_ 或 _bbcode_ ，然后 options 中设置 _wysiwyg_ 为 true 即可。
@@ -582,7 +616,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外编辑器也引入了 select2 第三方库用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+另外编辑器也引入了 select2 第三方控件用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
 
 ```javascript
 let schema = {
