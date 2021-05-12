@@ -438,7 +438,7 @@ editor.destroy();
 
 ### string
 
-最基础的数据类型，通过指定 format 还能支持更多的交互和数据子类型。
+最基础的数据类型，通过指定 `format` 还能支持更多的交互和数据子类型。
 
 #### 基础用法
 
@@ -472,7 +472,7 @@ let schema = {
 
 #### textarea
 
-当 format 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字。
+当 `format` 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字。
 
 ```javascript
 let schema = {
@@ -483,8 +483,8 @@ let schema = {
 
 #### colorpicker
 
-当 format 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。
-通过 options 中设置 _colorpicker_ 为一个对象值，可以定义颜色选择器的细节。
+当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。
+通过 `options` 中设置 _colorpicker_ 为一个对象值，可以定义颜色选择器的细节。
 
 ```javascript
 let schema = {
@@ -500,14 +500,14 @@ let schema = {
 
 #### datetime
 
-当需要输入日期或时间类的字符串值时，可以使用 format 来指定相应的格式。
+当需要输入日期或时间类的字符串值时，可以使用 `format` 来指定相应的格式。
 编辑器共提供了 3 种类型：
 
 -   date，渲染为日期选择框，返回值为 ‘YYYY-MM-DD’ 格式
 -   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
 -   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
-通过 options 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 flatpickr，并支持传入其原生配置。
+通过 `options` 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 flatpickr，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -547,18 +547,20 @@ let schema = {
 #### upload
 
 编辑器内置了一个上传控件，可以支持相关文件的上传。
+
 启用方法：
 
--   首先设置 format 为 _url_，同时通过 options 中设置 _upload_ 的相关属性，即可启用一个带文件预览的上传控件。
+-   首先设置 `format` 为 _url_，同时通过 `options` 中设置 _upload_ 的相关属性，即可启用一个带文件预览和上传进度的上传控件。
 -   在相关属性内，使用 `upload_handler` 字段可以指定一个上传的处理函数名。
 -   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
     -   jseditor：当前编辑器实例
     -   type：上传控件对应的路径字段
-    -   file：上传控件选择的文件
-    -   callback：回调对象（提供了 failure、updateProgress、success 方法）
+    -   file：上传控件选中的文件
+    -   callback：回调对象（提供了 success、failure、updateProgress 方法）
         -   success：成功的回调方法，用于给控件对应的字段赋值
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
+-   可以通过 `links` 字段设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel:view` 来仅显示 view 字样的链接
 
 ```javascript
 let schema = {
@@ -568,7 +570,13 @@ let schema = {
         upload: {
             upload_handler: 'uploadHandler'
         }
-    }
+    },
+    links: [
+        {
+            href: '{{self}}',
+            rel: 'view'
+        }
+    ]
 };
 
 JSONEditor.defaults.callbacks.upload = {
@@ -601,7 +609,7 @@ JSONEditor.defaults.callbacks.upload = {
 
 #### SCEditor
 
-**SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 _xhtml_ 或 _bbcode_ ，然后 options 中设置 _wysiwyg_ 为 true 即可。
+**SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
 
 ```javascript
 let schema = {
@@ -615,7 +623,7 @@ let schema = {
 
 #### SimpleMDE
 
-**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。format 设置为 _markdown_ 即可启用。
+**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。`format` 设置为 _markdown_ 即可启用。
 
 ```javascript
 let schema = {
@@ -626,7 +634,7 @@ let schema = {
 
 #### Ace Editor
 
-**Ace Editor** 是一个支持语法高亮的源代码编辑器，支持如下格式，format 设置为对应值即可启用相应语法高亮和检查。
+**Ace Editor** 是一个支持语法高亮的源代码编辑器，支持如下格式，`format` 设置为对应值即可启用相应语法高亮和检查。
 
 -   c
 -   cpp (alias for c++)
