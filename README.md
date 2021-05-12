@@ -532,6 +532,73 @@ let schema = {
 };
 ```
 
+#### uuid
+
+当 format 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'uuid',
+    description: 'uuid field with value'
+};
+```
+
+#### upload
+
+编辑器内置了一个上传控件，可以支持相关文件的上传。
+启用方法：
+
+-   首先设置 format 为 _url_，同时通过 options 中设置 _upload_ 的相关属性，即可启用一个带文件预览的上传控件。
+-   在相关属性内，使用 `upload_handler` 字段可以指定一个上传的处理函数名。
+-   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
+    -   jseditor：当前编辑器实例
+    -   type：上传控件对应的路径字段
+    -   file：上传控件选择的文件
+    -   callback：回调对象（提供了 failure、updateProgress、success 方法）
+        -   success：成功的回调方法，用于给控件对应的字段赋值
+        -   failure：失败的回调方法，用于控件显示错误提示信息
+        -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'url',
+    options: {
+        upload: {
+            upload_handler: 'uploadHandler'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.upload = {
+    uploadHandler: function (jseditor, type, file, callback) {
+        if (type === 'root.uploadfail') {
+            callback.failure('Upload failed');
+        } else {
+            var step = 0;
+
+            var tickFunction = function () {
+                step += 1;
+                console.log('progress: ' + step);
+
+                if (step < 100) {
+                    callback.updateProgress(step);
+                    window.setTimeout(tickFunction, 50);
+                } else if (step == 100) {
+                    callback.updateProgress();
+                    window.setTimeout(tickFunction, 500);
+                } else {
+                    callback.success('http://www.example.com/images/' + file.name);
+                }
+            };
+
+            window.setTimeout(tickFunction);
+        }
+    }
+};
+```
+
 #### SCEditor
 
 **SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：format 设置为 _xhtml_ 或 _bbcode_ ，然后 options 中设置 _wysiwyg_ 为 true 即可。
