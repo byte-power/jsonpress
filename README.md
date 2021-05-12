@@ -609,6 +609,45 @@ JSONEditor.defaults.callbacks.upload = {
 };
 ```
 
+#### base64
+
+针对小型文件的录入，可以不使用 upload 控件，而用 base64 的方式，直接将文件内容嵌入字段中。
+我们只需要设置 `media.binaryEncoding` 为 _base64_ 即可。这时字段会渲染为文件控件，但是不带上传功能，所选中的文件内容会编码为 base64 格式，并随着整体 JSON 数据一起提交。
+
+```javascript
+let schema = {
+    type: 'string',
+    media: {
+        binaryEncoding: 'base64',
+        type: 'img/png'
+    }
+};
+```
+
+#### hidden
+
+对于不需要在界面显示和编辑的隐藏值，可以使用 hidden 类型来解决。
+
+hidden 控件实现有两种方法：
+
+-   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不再显示，但是最终 JSON 值包含该字段值
+-   通过 `format` 设置为 _hidden_ 实现，输入控件不再显示，但是字段标题 label 还会渲染
+
+```javascript
+let schema = {
+    hidden: {
+        type: 'string',
+        options: {
+            hidden: true
+        }
+    },
+    hiddenAnother: {
+        type: 'string',
+        format: 'hidden'
+    }
+};
+```
+
 #### SCEditor
 
 **SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
@@ -737,6 +776,22 @@ let schema = {
     default: 1,
     minimum: 1,
     maximum: 1000
+};
+```
+
+#### datetime
+
+datetime 控件也支持数值类型，同 string 下 datetime 类似，只是返回值为对应的时间戳。
+
+```javascript
+let schema = {
+    type: 'number',
+    format: 'datetime-local',
+    options: {
+        flatpickr: {
+            ...
+        }
+    }
 };
 ```
 
@@ -972,5 +1027,3 @@ let schema = {
 ### button
 
 默认为 required
-
-### upload + base64
