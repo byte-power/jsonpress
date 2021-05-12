@@ -5,6 +5,10 @@ export class SimplemdeEditor extends StringEditor {
   setValue (value, initial, fromTemplate) {
     const res = super.setValue(value, initial, fromTemplate)
     if (res !== undefined && res.changed && this.simplemde_instance) this.simplemde_instance.value(res.value)
+
+    if (this.simplemde_instance && value === '') {
+      this.simplemde_instance.value('');
+    }
   }
 
   build () {

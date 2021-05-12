@@ -46,7 +46,8 @@ export class DatetimeEditor extends StringEditor {
       this.input.setAttribute('data-input', '')
 
       /* add icon */
-      this.control.classList.add('hi-icon-date')
+      this.wrap = this.theme.getDateInputWrap(this.input)
+      this.wrap.classList.add('hi-icon-date')
 
       let { input } = this
 
@@ -128,6 +129,10 @@ export class DatetimeEditor extends StringEditor {
       this.input.value = dateValue
       this.refreshValue()
       if (this.flatpickr) this.flatpickr.setDate(dateValue)
+    } else if (value === 0) {
+      this.input.value = null;
+      this.refreshValue();
+      if (this.flatpickr) this.flatpickr.setDate(null);
     }
   }
 
