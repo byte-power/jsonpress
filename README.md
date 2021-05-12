@@ -492,7 +492,9 @@ let schema = {
     format: 'color',
     options: {
         colorpicker: {
-            editorFormat: 'rgb'
+            popup: 'bottom', // 弹出位置，支持 top、left、right，默认是 bottom
+            editorFormat: 'hex', // 颜色格式，支持 rgb、hsl，默认是 hex
+            alpha: true // 是否支持透明度
         }
     }
 };
