@@ -106,7 +106,10 @@ export class DatetimeEditor extends StringEditor {
     const value = this.schema.format === 'time' ? `1970-01-01 ${this.value}` : this.value
 
     // for safari
-    let str = value.replace(/-/g, '/')
+    let str = value;
+    if (!value.includes('T')) {
+        str = value.replace(/-/g, '/');
+    }
 
     let timestamp = parseInt(new Date(str).getTime() / 1000)
     return timestamp
