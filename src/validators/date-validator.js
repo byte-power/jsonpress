@@ -2,18 +2,22 @@
 const validateRelation = (schema, value, path, editor) => {
     if (schema.relativeTo) {
         let relObj = schema.relativeTo;
-        let relative = editor.getEditor(`${relObj.path}`);
-        let target = relative.getValue();
+        let relEditor = editor.getEditor(`${relObj.path}`);
+        let target = relEditor.getValue();
+        let timestamp = value;
+        if (schema.type === 'string') {
+            if (schema.format.includes('date') || schema.format.includes('time')) {
+                timestamp = transDatestr2timestamp(value);
+                target = transDatestr2timestamp(target);
+            }
+        }
         if (target) {
-            if (relObj.limit === 'less' && target <= value) {
-                console.log('9', target, value);
+            if (relObj.limit === 'less' && target <= timestamp) {
                 return {
                     message: 'error_maximum_excl',
                     param: [relObj.path]
                 };
-            }
-            if (relObj.limit === 'greater' && target >= value) {
-                console.log('15', target, value);
+            } else if (relObj.limit === 'greater' && target >= timestamp) {
                 return {
                     message: 'error_minimum_excl',
                     param: [relObj.path]
@@ -21,6 +25,18 @@ const validateRelation = (schema, value, path, editor) => {
             }
         }
     }
+};
+
+const transDatestr2timestamp = function (value) {
+    if (typeof value !== 'string') {
+        return;
+    }
+    let str = value;
+    if (!value.includes('T')) {
+        str = value.replace(/-/g, '/');
+    }
+    let timestamp = new Date(str).getTime();
+    return timestamp;
 };
 
 export function dateValidator(schema, value, path, editor, translate) {
