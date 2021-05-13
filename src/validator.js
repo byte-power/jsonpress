@@ -1,4 +1,5 @@
 import { ipValidator } from './validators/ip-validator.js'
+import { dateValidator } from './validators/date-validator.js'
 import { extend, hasOwnProperty } from './utilities.js'
 
 export class Validator {
@@ -799,6 +800,7 @@ export class Validator {
     const errors = []
     /* Internal validators using the custom validator format */
     errors.push(...ipValidator.call(this, schema, value, path, this.translate))
+    errors.push(...dateValidator.call(this, schema, value, path, this.jsoneditor, this.translate))
 
     const validate = validator => {
       errors.push(...validator.call(this, schema, value, path))
