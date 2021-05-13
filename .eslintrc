@@ -8,6 +8,7 @@
     "browser": true
   },
   "rules": {
-    "no-empty": "off"
+    "no-empty": 0,
+    "prefer-const": 0
   }
 }
