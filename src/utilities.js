@@ -86,3 +86,18 @@ export function isInteger (value) {
   const v = parseInt(value)
   return match !== null && !isNaN(v) && isFinite(v)
 }
+
+// 将日期格式的字符串转为时间戳
+export function datestr2timestamp(value) {
+  if (typeof value !== 'string') {
+      return;
+  }
+  let str = value;
+  // 将 safari 不支持的日期格式转换（使用 T 检测来避免过度处理）
+  // safari 支持 '1970-01-01T00:00:00' 和 '1970/01/01 00:00:00'，不支持 '1970.01.01 00:00:00'
+  if (!value.includes('T')) {
+      str = value.replace(/-/g, '/');
+  }
+  let timestamp = new Date(str).getTime();
+  return timestamp;
+}

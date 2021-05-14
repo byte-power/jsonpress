@@ -18,6 +18,7 @@ ToDo:
 
 */
 import { StringEditor } from './string.js'
+import { datestr2timestamp } from '../utilities.js'
 
 export class DatetimeEditor extends StringEditor {
   build () {
@@ -106,13 +107,9 @@ export class DatetimeEditor extends StringEditor {
     const value = this.schema.format === 'time' ? `1970-01-01 ${this.value}` : this.value
 
     // for safari
-    let str = value;
-    if (!value.includes('T')) {
-        str = value.replace(/-/g, '/');
-    }
+    let timestamp = datestr2timestamp(value)
 
-    let timestamp = parseInt(new Date(str).getTime() / 1000)
-    return timestamp
+    return parseInt(timestamp / 1000)
   }
 
   setValue (value, initial, fromTemplate) {

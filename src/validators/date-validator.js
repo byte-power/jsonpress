@@ -1,3 +1,5 @@
+import {datestr2timestamp} from '../utilities.js';
+
 /* 实现 date 输入框联动校验的功能 */
 const validateRelation = (schema, value, path, editor) => {
     if (schema.relativeTo) {
@@ -7,8 +9,8 @@ const validateRelation = (schema, value, path, editor) => {
         let timestamp = value;
         if (schema.type === 'string') {
             if (schema.format.includes('date') || schema.format.includes('time')) {
-                timestamp = transDatestr2timestamp(value);
-                target = transDatestr2timestamp(target);
+                timestamp = datestr2timestamp(value);
+                target = datestr2timestamp(target);
             }
         }
         if (target) {
@@ -25,18 +27,6 @@ const validateRelation = (schema, value, path, editor) => {
             }
         }
     }
-};
-
-const transDatestr2timestamp = function (value) {
-    if (typeof value !== 'string') {
-        return;
-    }
-    let str = value;
-    if (!value.includes('T')) {
-        str = value.replace(/-/g, '/');
-    }
-    let timestamp = new Date(str).getTime();
-    return timestamp;
 };
 
 export function dateValidator(schema, value, path, editor, translate) {
