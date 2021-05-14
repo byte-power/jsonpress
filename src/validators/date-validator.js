@@ -1,4 +1,4 @@
-import {datestr2timestamp} from '../utilities.js';
+import {dateStr2timestamp} from '../utilities.js';
 
 /* 实现 date 输入框联动校验的功能 */
 const validateRelation = (schema, value, path, editor) => {
@@ -9,8 +9,8 @@ const validateRelation = (schema, value, path, editor) => {
         let timestamp = value;
         if (schema.type === 'string') {
             if (schema.format.includes('date') || schema.format.includes('time')) {
-                timestamp = datestr2timestamp(value);
-                target = datestr2timestamp(target);
+                timestamp = dateStr2timestamp(value);
+                target = dateStr2timestamp(target);
             }
         }
         if (target) {

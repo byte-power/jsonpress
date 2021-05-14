@@ -88,7 +88,7 @@ export function isInteger (value) {
 }
 
 // 将日期格式的字符串转为时间戳
-export function datestr2timestamp(value) {
+export function dateStr2timestamp(value) {
   if (typeof value !== 'string') {
       return;
   }
