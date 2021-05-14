@@ -611,7 +611,7 @@ JSONEditor.defaults.callbacks.upload = {
 
 #### base64
 
-针对小型文件的录入，可以不使用 upload 控件，而用 base64 的方式，直接将文件内容嵌入字段中。
+针对小型文件的内容录入，可以不使用 upload 控件上传并返回路径，而用 base64 的方式，直接将文件嵌入字段中。
 我们只需要设置 `media.binaryEncoding` 为 _base64_ 即可。这时字段会渲染为文件控件，但是不带上传功能，所选中的文件内容会编码为 base64 格式，并随着整体 JSON 数据一起提交。
 
 ```javascript
