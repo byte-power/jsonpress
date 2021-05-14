@@ -2,6 +2,12 @@
 .choices__list--dropdown .choices__item {
     white-space: nowrap;
 }
+.select2-container--default .select2-selection--multiple {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+}
 
 /* 自有样式重定义 */
 label {
@@ -22,7 +28,16 @@ h3 {
     margin-bottom: 10px;
 }
 .form-control {
-    line-height: normal !important;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    line-height: normal;
+}
+.form-control:focus {
+    box-shadow: 0 6px 8px -4px rgba(102, 175, 233, 0.6);
 }
 .json-editor-btn-collapse {
     width: 24px;
@@ -118,6 +133,11 @@ div[data-schemapath='root'] {
         display: none !important;
     }
 }
+.table-bordered,
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > td {
+    border: 0;
+}
 
 /* 定制样式 */
 .toggle-wrap {
@@ -204,4 +224,27 @@ div[data-schemapath='root'] {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-calendar3' viewBox='0 0 16 16'><path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/><path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/></svg>");
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.hi-select-wrap {
+    position: relative;
+    &::after {
+        position: absolute;
+        top: 18px;
+        right: 11px;
+        padding: 0 0 2px;
+        border-bottom: 1px solid #999;
+        transform: rotate(90deg);
+        content: '<>';
+        font: 17px 'Consolas', monospace;
+        color: #333;
+        pointer-events: none;
+    }
+    select {
+        appearance: none;
+    }
+    /*To remove button from IE11 */
+    // select::-ms-expand {
+    //     display: none;
+    // }
 }
