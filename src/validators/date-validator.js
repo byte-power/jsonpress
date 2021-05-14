@@ -15,12 +15,12 @@ const validateRelation = (schema, value, path, editor) => {
             if (relObj.limit === 'less' && target <= timestamp) {
                 return {
                     message: 'error_maximum_excl',
-                    param: [relObj.path]
+                    param: [relEditor.key]
                 };
             } else if (relObj.limit === 'greater' && target >= timestamp) {
                 return {
                     message: 'error_minimum_excl',
-                    param: [relObj.path]
+                    param: [relEditor.key]
                 };
             }
         }
