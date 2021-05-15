@@ -37,6 +37,7 @@ h3 {
     border-radius: 0;
     box-shadow: none;
     background-color: transparent;
+    font-size: 16px;
     line-height: normal;
 }
 .form-control:focus {
@@ -71,9 +72,6 @@ div[data-schemapath='root'] {
         display: none;
     }
 }
-.help-block {
-    margin-bottom: 0;
-}
 .well-sm {
     margin-bottom: 1px;
     padding-left: 32px;
@@ -86,8 +84,9 @@ div[data-schemapath='root'] {
             right: 0;
         }
     }
-    h3 {
-        font-size: 17px;
+    h3,
+    label {
+        font-size: 14px;
     }
     .well-sm {
         & > label {
@@ -96,22 +95,6 @@ div[data-schemapath='root'] {
         }
         & > label + select {
             width: auto;
-        }
-        label {
-            font-size: 16px;
-        }
-        .well-sm {
-            label {
-                font-size: 15px;
-            }
-            .well-sm {
-                label {
-                    font-size: 14px;
-                }
-                .well-sm label {
-                    font-size: 13px;
-                }
-            }
         }
     }
     .form-group {
@@ -139,7 +122,10 @@ div[data-schemapath='root'] {
         display: none !important;
     }
 }
-
+.help-block {
+    margin-bottom: 0;
+    font-size: 13px;
+}
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > td {
     border: 0;
