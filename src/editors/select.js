@@ -186,6 +186,10 @@ export class SelectEditor extends AbstractEditor {
     this.control.classList.add('hi-plain-padding')
     this.container.appendChild(this.control)
 
+    /* change select arrow */
+    this.wrap = this.theme.getDateInputWrap(this.input)
+    this.wrap.classList.add('hi-select-wrap')
+
     this.value = this.enum_values[0]
 
     /* Any special formatting that needs to happen after the input is added to the dom */

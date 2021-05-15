@@ -8,6 +8,9 @@
     border-right: 0;
     border-radius: 0;
 }
+.select2-container .select2-selection--single {
+    height: 32px;
+}
 
 /* 自有样式重定义 */
 label {
@@ -38,6 +41,9 @@ h3 {
 }
 .form-control:focus {
     box-shadow: 0 6px 8px -4px rgba(102, 175, 233, 0.6);
+}
+.btn {
+    line-height: 1;
 }
 .json-editor-btn-collapse {
     width: 24px;
@@ -133,10 +139,22 @@ div[data-schemapath='root'] {
         display: none !important;
     }
 }
-.table-bordered,
+
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > td {
     border: 0;
+}
+.table-bordered {
+    border: 0;
+    tbody tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #fff;
+    }
+    table tbody tr {
+        background-color: transparent;
+    }
 }
 
 /* 定制样式 */
@@ -230,8 +248,8 @@ div[data-schemapath='root'] {
     position: relative;
     &::after {
         position: absolute;
-        top: 18px;
-        right: 11px;
+        top: 5px;
+        right: 7px;
         padding: 0 0 2px;
         border-bottom: 1px solid #999;
         transform: rotate(90deg);
@@ -247,4 +265,7 @@ div[data-schemapath='root'] {
     // select::-ms-expand {
     //     display: none;
     // }
+    .select2-selection__arrow {
+        display: none;
+    }
 }
