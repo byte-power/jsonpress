@@ -187,7 +187,7 @@ export class SelectEditor extends AbstractEditor {
     this.container.appendChild(this.control)
 
     /* change select arrow */
-    this.wrap = this.theme.getDateInputWrap(this.input)
+    this.wrap = this.theme.getInputWrap(this.input)
     this.wrap.classList.add('hi-select-wrap')
 
     this.value = this.enum_values[0]
