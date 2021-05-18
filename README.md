@@ -287,7 +287,92 @@ editor.getEditor('root.name').activate();
 editor.destroy();
 ```
 
-## 数据类型使用详解
+## 原生 JSON Schema 支持
+
+编辑器支持原生的 JSON Schema 规范（v4 版），包括核心定义和校验规则。
+
+### $ref 和 definitions
+
+编辑器支持使用 $ref 关键字来索引外部 URL 或本地自定义类型。
+
+```javascript
+let schema = {
+    type: 'object',
+    properties: {
+        name: {
+            title: 'Full Name',
+            $ref: '#/definitions/name'
+        },
+        location: {
+            $ref: 'http://mydomain.com/geo.json'
+        }
+    },
+    definitions: {
+        name: {
+            type: 'string',
+            minLength: 5
+        }
+    }
+};
+```
+
+本地自定义类型主要是通过定义在根节点的 definitions 字段来生成。
+
+### hyper-schema
+
+编辑器支持使用 links 关键字来支持 schema 的扩展集合 hyper-schema，它通常用于链接外部文档或媒体资源。
+links 内的 mediaType 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
+
+简单文本链接
+
+```javascript
+let schema = {
+    title: 'Blog Post Id',
+    type: 'integer',
+    links: [
+        {
+            rel: 'comments',
+            href: '/posts/{{self}}/comments/',
+            // 定义链接的样式
+            class: 'comment-link open-in-modal primary-text'
+        }
+    ]
+};
+```
+
+创建可下载的链接
+
+```javascript
+let schema = {
+    title: 'Document filename',
+    type: 'string',
+    links: [
+        {
+            rel: 'Download File',
+            href: '/documents/{{self}}',
+            // 次属性也可以设置为字符串形式
+            download: true
+        }
+    ]
+};
+```
+
+显示媒体预览（HTML5 方式）
+
+```javascript
+let schema = {
+    title: 'Video filename',
+    type: 'string',
+    links: [
+        {
+            href: '/videos/{{self}}.mp4',
+            mediaType: 'video/mp4'
+        }
+    ]
+};
+```
+
+## 数据类型
 
 目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种属性的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
 
@@ -1023,6 +1108,8 @@ let schema = {
     }
 };
 ```
+
+### multiple
 
 ### button
 
