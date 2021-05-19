@@ -447,7 +447,6 @@ let schema = {
 -   object
 -   info
 -   null
--   signature
 
 ### 扩展格式
 
@@ -459,6 +458,7 @@ let schema = {
 -   starrating (基于 string 扩展)
 -   hidden (基于 string 扩展)
 -   uuid (基于 string 扩展)
+-   signature (基于 string 扩展)
 -   range (基于 number 扩展)
 -   rating (基于 integer 扩展)
 -   checkbox (基于 boolean 扩展)
@@ -482,7 +482,7 @@ let schema = {
     </thead>
     <tbody>
         <tr>
-            <td rowspan="4">string</td>
+            <td rowspan="5">string</td>
             <td>
                 textarea
                 <br />
@@ -509,7 +509,12 @@ let schema = {
         <tr>
             <td>color</td>
             <td>无</td>
-            <td>通过 colorpicker 支持</td>
+            <td>通过 vanilla-picker 支持</td>
+        </tr>
+         <tr>
+            <td>signature</td>
+            <td>无</td>
+            <td>通过 signature_pad 支持</td>
         </tr>
         <tr>
             <td>radio</td>
@@ -629,8 +634,7 @@ let schema = {
 
 #### colorpicker
 
-当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。
-通过 `options` 中设置 _colorpicker_ 为一个对象值，可以定义颜色选择器的细节。
+当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。编辑器引入了 [vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件优化颜色输入体验。通过 `options` 中设置 _colorpicker_ 即可启用，通过该属性可以定义该控件的细节。
 
 ```javascript
 let schema = {
@@ -655,7 +659,7 @@ let schema = {
 -   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
 -   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
-通过 `options` 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 flatpickr，并支持传入其原生配置。
+通过 `options` 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -692,9 +696,23 @@ let schema = {
 };
 ```
 
+#### signature
+
+编辑器引入了 [signature pad](https://github.com/szimek/signature_pad) 第三方控件来支持签名输入。当 format 为 _signature_ 时，渲染为一个手写板，可以进行签名，最后图片保存为 base64 格式。通过 `options.canvas_height` 属性可以定义手写板的高度.
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'signature',
+    options: {
+        canvas_height: 200
+    }
+};
+```
+
 #### ip
 
-可以使用 format 关键字指定该字段为 ip 格式（包括 ipv4、ipv6、hostname 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
+可以使用 format 关键字指定该字段为 ip 格式（包括 _ipv4、ipv6、hostname_ 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
 
 ```javascript
 let schema = {
@@ -820,7 +838,7 @@ let schema = {
 
 #### autocomplete
 
-编辑器引入了 autocomplete 第三方控件用于实现输入时自动完成效果，优化交互和体验。设置 format 为 _select2_，就可以启用。
+编辑器引入了 [autocomplete](https://github.com/trevoreyre/autocomplete) 第三方控件用于实现输入时自动完成效果，优化交互和体验。设置 format 为 _autocomplete_，就可以启用。
 
 启用方法：
 
@@ -877,7 +895,7 @@ JSONEditor.defaults.callbacks.autocomplete = {
 
 #### SCEditor
 
-**SCEditor** 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
+[**SCEditor**](https://github.com/samclarke/SCEditor) 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
 
 ```javascript
 let schema = {
@@ -891,7 +909,7 @@ let schema = {
 
 #### SimpleMDE
 
-**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。它作为第三方控件被引入，`format` 设置为 _markdown_ 即可启用。
+[**SimpleMDE**](https://github.com/sparksuite/simplemde-markdown-editor) 是一个提供动态预览的简单 Markdown 编辑器。它作为第三方控件被引入，`format` 设置为 _markdown_ 即可启用。
 
 ```javascript
 let schema = {
@@ -902,7 +920,7 @@ let schema = {
 
 #### Ace Editor
 
-**Ace Editor** 是一个支持语法高亮的源代码编辑器，它作为第三方控件被引入，`format` 设置为对应值即可启用相应语法高亮和检查。
+[**Ace Editor**](https://github.com/ajaxorg/ace) 是一个支持语法高亮的源代码编辑器，它作为第三方控件被引入，`format` 设置为对应值即可启用相应语法高亮和检查。
 
 支持格式如下：
 
@@ -961,7 +979,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外编辑器也引入了 select2 第三方控件用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+另外编辑器也引入了 [select2](https://github.com/select2/select2) 第三方控件用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
 
 ```javascript
 let schema = {
