@@ -692,6 +692,30 @@ let schema = {
 };
 ```
 
+#### ip
+
+可以使用 format 关键字指定该字段为 ip 格式（包括 ipv4、ipv6、hostname 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
+
+```javascript
+let schema = {
+    ipAddress: {
+        title: 'IPv4 Address',
+        type: 'string',
+        format: 'ipv4'
+    },
+    ipv6Address: {
+        title: 'IPv6 Address',
+        type: 'string',
+        format: 'ipv6'
+    },
+    hostname: {
+        title: 'hostname',
+        type: 'string',
+        format: 'hostname'
+    }
+};
+```
+
 #### upload
 
 编辑器内置了一个上传控件，可以支持相关文件的上传。
