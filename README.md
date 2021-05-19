@@ -65,7 +65,7 @@ const editor = new JSONEditor(element, {
 | template                      | 设置编辑器的 JS 模板引擎                                                          | 'default'     | √    |      |
 | form_name_root                | 设置表单的根名称                                                                  | 'root'        | √    |      |
 | object_layout                 | 设置 object 类型的布局展示方式，有效值包括 'table'                                | 'normal'      | √    |      |
-| ajax                          | 是否允许编辑器通过 ajax 加载 schema 内 $ref 字段所设置的外部 schema 文件          | false         | √    |      |
+| ajax                          | 是否允许编辑器通过 ajax 加载 schema 内 $ref 关键字所设置的外部 schema 文件        | false         | √    |      |
 | refs                          | 一个包含 schema 定义的 url 地址，用于预加载外部 schema                            | {}            | √    |      |
 | max_depth                     | 设置 schema 的渲染层级，0 表示渲染所有                                            | 0             | √    |      |
 | use_default_values            | 是否按字段的 type 属性设置来预设其初始值，否则该字段为 undefined                  | true          | √    |      |
@@ -82,7 +82,7 @@ const editor = new JSONEditor(element, {
 | disable_edit_json             | 是否禁用 object 类型的 `Edit JSON` 按钮                                           | false         | √    | √    |
 | disable_properties            | 是否禁用 object 类型的 `Edit Properties` 按钮                                     | false         | √    | √    |
 | remove_button_labels          | 是否移除控制按钮内的文本，在 iconlib 设置时有效                                   | false         | √    |      |
-| no_additional_properties      | object 是否能显示 properties 字段定义外的其他属性                                 | false         | √    |      |
+| no_additional_properties      | object 是否能显示 properties 关键字定义外的其他属性                               | false         | √    |      |
 | required_by_default           | schema 字段是否默认为 required (不用显式设定 required 属性)                       | false         | √    |      |
 | display_required_only         | 是否仅显示 required 的字段                                                        | false         | √    |      |
 | show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |      |
@@ -316,11 +316,11 @@ let schema = {
 };
 ```
 
-本地自定义类型主要是通过定义在根节点的 definitions 字段来生成。
+本地自定义类型主要是通过定义在根节点的 definitions 关键字来生成。
 
 ### hyper-schema
 
-编辑器支持使用 links 关键字来支持 schema 的扩展集合 hyper-schema，它通常用于链接外部文档或媒体资源。
+编辑器支持使用 links 关键字来支持 schema 的扩展集合（hyper-schema），它通常用于链接外部文档或媒体资源。
 
 links 内的 mediaType 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
 
@@ -375,9 +375,53 @@ let schema = {
 
 > self 表示当前字段的值
 
+### 属性排序
+
+原生的 schema 规范是不支持对属性进行排序的。编辑器提供了一个关键字 propertyOrder 用于实现这个目的。默认值为 1000，假如遇到相同的值，按标准 JSON 键值进行排序。
+
+```javascript
+let schema = {
+    type: 'object',
+    properties: {
+        prop1: {
+            type: 'string'
+        },
+        prop2: {
+            type: 'string',
+            propertyOrder: 10
+        },
+        prop3: {
+            type: 'string',
+            propertyOrder: 1001
+        },
+        prop4: {
+            type: 'string',
+            propertyOrder: 1
+        }
+    }
+};
+```
+
+最终排序结果为： prop4、prop2、prop1、prop3
+
+### 默认属性
+
+编辑器默认行为是对象所有定义在 properties 关键字的属性都会包括在内，可以使用 defaultProperties 关键字来指定若干属性来覆盖默认行为。
+
+```javascript
+let schema = {
+    type: 'object',
+    properties: {
+        name: {type: 'string'},
+        age: {type: 'integer'}
+    },
+    defaultProperties: ['name']
+};
+```
+
 ## 数据类型
 
-目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种属性的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
+目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种关键字的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
 
 ### 基础类型
 
@@ -538,7 +582,7 @@ let schema = {
         description: 'input text for user name', // 该字段的描述，显示在输入框下方
         default: 'bob', // 该字段的默认值
         options: {
-            // 可以通过 options 字段传入一些定制化的设定
+            // 可以通过 options 关键字传入一些定制化的设定
             inputAttributes: {
                 placeholder: 'your name here...',
                 class: 'form-control'
@@ -548,7 +592,7 @@ let schema = {
 };
 ```
 
-string 提供了一个属性 `minLength` 用于限制字符串的最小长度。
+string 提供了一个关键字 `minLength` 用于限制字符串的最小长度。
 
 ```javascript
 let schema = {
@@ -641,7 +685,7 @@ let schema = {
 启用方法：
 
 -   首先设置 `format` 为 _url_，同时通过 `options` 中设置 _upload_ 的相关属性，即可启用一个带文件预览和上传进度的上传控件。
--   在相关属性内，使用 `upload_handler` 字段可以指定一个上传的处理函数名。
+-   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数名。
 -   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
     -   jseditor：当前编辑器实例
     -   type：上传控件对应的路径字段
@@ -650,7 +694,7 @@ let schema = {
         -   success：成功的回调方法，用于给控件对应的字段赋值
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
--   可以通过 `links` 字段设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel:view` 来仅显示 view 字样的链接
+-   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel:view` 来仅显示 view 字样的链接
 
 ```javascript
 let schema = {
@@ -719,7 +763,7 @@ let schema = {
 hidden 控件实现有两种方法：
 
 -   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不再显示，但是最终 JSON 值包含该字段值
--   通过 `format` 设置为 _hidden_ 实现，输入控件不再显示，但是字段标题 label 还会渲染
+-   通过 `format` 关键字设置为 _hidden_ 实现，输入控件不再显示，但是字段标题 label 还会渲染
 
 ```javascript
 let schema = {
@@ -808,7 +852,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，string 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
 
 ```javascript
 let schema = {
@@ -854,9 +898,11 @@ let schema = {
 
 ### number 和 integer
 
-number、integer 类型都是用于输入数字值，它们的唯一区别就是一个接受数字，一个接受整数，默认是输入框。
-另外可以通过 _maximum_ 和 _minimum_ 属性限定最大最小值。
-integer 类型可设置 format 为 _range_，切换为滑块形式；_rating_，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
+number、integer 类型都是用于输入数字值，它们的唯一区别就是一个接受数字，一个接受整数，默认控件是输入框。
+
+另外可以通过 _maximum_ 和 _minimum_ 关键字限定最大最小值。
+
+其中，integer 类型可设置 format 为 _range_，切换为滑块形式；_rating_，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
 
 ```javascript
 let schema = {
@@ -885,7 +931,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，number 字段会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+当通过 enum 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
 
 ```javascript
 let schema = {
@@ -932,7 +978,7 @@ let schema2 = {
 };
 ```
 
-array 类型提供了一个 `uniqueItems` 属性，当为 true 时，可以避免添加重复项。Press 针对该属性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
+array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
 
 ```javascript
 let schema = {
@@ -953,7 +999,7 @@ let schema = {
 };
 ```
 
-array 类型提供了两个属性用于限制数组的长度 `minItems` 和 `maxItems`
+array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
 
 ```javascript
 let schema = {
@@ -970,7 +1016,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 字段会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
+同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
 
 ```javascript
 let schema = {
