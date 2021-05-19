@@ -732,9 +732,9 @@ JSONEditor.defaults.callbacks.upload = {
         if (type === 'root.uploadfail') {
             callback.failure('Upload failed');
         } else {
-            var step = 0;
+            let step = 0;
 
-            var tickFunction = function () {
+            let tickFunction = function () {
                 step += 1;
                 console.log('progress: ' + step);
 
@@ -794,9 +794,66 @@ let schema = {
 };
 ```
 
+#### autocomplete
+
+编辑器引入了 autocomplete 第三方控件用于实现输入时自动完成效果，优化交互和体验。设置 format 为 _select2_，就可以启用。
+
+启用方法：
+
+-   首先设置 `format` 为 _autocomplete_，同时通过 `options` 中设置 _autocomplete_ 的相关属性，即可启用一个带自动完成的输入控件。
+-   在相关属性内，使用 `search` 关键字指定一个搜索函数并异步返回结果；使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到输入框；使用 `getResultValue` 关键字指定一个函数返回选中项对应文本；使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
+-   同时要通过 `JSONEditor.defaults.callbacks.autocomplete` 属性实现上述各个函数。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'autocomplete',
+    options: {
+        autocomplete: {
+            search: 'search_wikipedia',
+            renderResult: 'renderResult_wikipedia',
+            getResultValue: 'getResultValue_wikipedia',
+            autoSelect: true
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.autocomplete = {
+    // Setup for Wikipedia lookup
+    search_wikipedia: function search(jseditor, input) {
+        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+
+        return new Promise(function (resolve) {
+            if (input.length < 3) {
+                return resolve([]);
+            }
+
+            fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    resolve(data.query.search);
+                });
+        });
+    },
+    renderResult_wikipedia: function (jseditor, result, props) {
+        return [
+            '<li ' + props + '>',
+            '<div class="wiki-title">' + result.title + '</div>',
+            '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
+            '</li>'
+        ].join('');
+    },
+    getResultValue_wikipedia: function getResultValue(jseditor, result) {
+        return result.title;
+    }
+};
+```
+
 #### SCEditor
 
-**SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
+**SCEditor** 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
 
 ```javascript
 let schema = {
@@ -810,7 +867,7 @@ let schema = {
 
 #### SimpleMDE
 
-**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。`format` 设置为 _markdown_ 即可启用。
+**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。它作为第三方控件被引入，`format` 设置为 _markdown_ 即可启用。
 
 ```javascript
 let schema = {
@@ -821,7 +878,9 @@ let schema = {
 
 #### Ace Editor
 
-**Ace Editor** 是一个支持语法高亮的源代码编辑器，支持如下格式，`format` 设置为对应值即可启用相应语法高亮和检查。
+**Ace Editor** 是一个支持语法高亮的源代码编辑器，它作为第三方控件被引入，`format` 设置为对应值即可启用相应语法高亮和检查。
+
+支持格式如下：
 
 -   c
 -   cpp (alias for c++)
