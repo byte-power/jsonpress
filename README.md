@@ -321,9 +321,10 @@ let schema = {
 ### hyper-schema
 
 编辑器支持使用 links 关键字来支持 schema 的扩展集合 hyper-schema，它通常用于链接外部文档或媒体资源。
+
 links 内的 mediaType 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
 
-简单文本链接
+#### 简单文本链接
 
 ```javascript
 let schema = {
@@ -334,13 +335,13 @@ let schema = {
             rel: 'comments',
             href: '/posts/{{self}}/comments/',
             // 定义链接的样式
-            class: 'comment-link open-in-modal primary-text'
+            class: 'comment-link'
         }
     ]
 };
 ```
 
-创建可下载的链接
+#### 创建可下载的链接
 
 ```javascript
 let schema = {
@@ -350,14 +351,14 @@ let schema = {
         {
             rel: 'Download File',
             href: '/documents/{{self}}',
-            // 次属性也可以设置为字符串形式
+            // 下列属性也可以设置为字符串形式
             download: true
         }
     ]
 };
 ```
 
-显示媒体预览（HTML5 方式）
+#### 显示媒体预览（按 HTML5 方式）
 
 ```javascript
 let schema = {
@@ -371,6 +372,8 @@ let schema = {
     ]
 };
 ```
+
+> self 表示当前字段的值
 
 ## 数据类型
 
