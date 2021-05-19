@@ -406,7 +406,7 @@ let schema = {
 
 ### 默认属性
 
-编辑器默认行为是对象所有定义在 properties 关键字的属性都会包括在内，可以使用 defaultProperties 关键字来指定若干属性来覆盖默认行为。
+编辑器默认行为是对象所有定义在 properties 关键字的属性都会包括在内，可以使用 defaultProperties 关键字来指定若干属性来覆盖默认行为，此时除了指定属性，其他属性都不会在界面显示和包含在最终 JSON 值内。
 
 ```javascript
 let schema = {
@@ -416,6 +416,20 @@ let schema = {
         age: {type: 'integer'}
     },
     defaultProperties: ['name']
+};
+```
+
+### 字段提示
+
+通过 `option.infoText` 属性，可以在字段标题旁边显示一个带 hover 效果的提示图标。
+
+```javascript
+let schema = {
+    type: 'string',
+    title: 'Name',
+    options: {
+        infoText: 'Your full name'
+    }
 };
 ```
 
@@ -762,8 +776,8 @@ let schema = {
 
 hidden 控件实现有两种方法：
 
--   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不再显示，但是最终 JSON 值包含该字段值
--   通过 `format` 关键字设置为 _hidden_ 实现，输入控件不再显示，但是字段标题 label 还会渲染
+-   通过 `format` 关键字设置为 _hidden_ 实现，字段输入控件不在界面显示，但是字段标题 label 还会渲染
+-   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不在界面显示，但是最终 JSON 值包含该字段值
 
 ```javascript
 let schema = {
