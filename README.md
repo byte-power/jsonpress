@@ -578,12 +578,6 @@ let schema = {
             <td></td>
             <td></td>
         </tr>
-        <tr>
-            <td>signature</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
     </tbody>
 </table>
 
@@ -634,7 +628,7 @@ let schema = {
 
 #### colorpicker
 
-当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。编辑器引入了 [vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件优化颜色输入体验。通过 `options` 中设置 _colorpicker_ 即可启用，通过该属性可以定义该控件的细节。
+当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。通过 `options` 中设置 _colorpicker_ 即可启用[vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -659,7 +653,7 @@ let schema = {
 -   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
 -   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
-通过 `options` 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
+通过 `options` 中设置 _flatpickr_ 为一个对象值，可以启用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -979,7 +973,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外编辑器也引入了 [select2](https://github.com/select2/select2) 第三方控件用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+另外设置 format 为 _select2_，就可以启用第三方控件[select2](https://github.com/select2/select2)，可以提升选择交互体验。
 
 ```javascript
 let schema = {
