@@ -440,13 +440,13 @@ let schema = {
 ### 基础类型
 
 -   string
+-   boolean
 -   number
 -   integer
--   boolean
--   object
 -   array
--   null
+-   object
 -   info
+-   null
 -   signature
 
 ### 扩展格式
@@ -562,13 +562,13 @@ let schema = {
             <td>通过 select2 支持</td>
         </tr>
         <tr>
-            <td>null</td>
+            <td>info</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td>info</td>
+            <td>null</td>
             <td></td>
             <td></td>
             <td></td>
@@ -1231,7 +1231,17 @@ let schema = {
 };
 ```
 
-### multiple
+### info
+
+info 类型提供了静态文本的展示方式，一般用于信息提示和说明。
+
+```javascript
+let schema = {
+    type: 'info',
+    title: 'Tips',
+    description: 'It shows the available standard elements with all displayable options enabled, such as description and infoText.'
+};
+```
 
 ### button
 
