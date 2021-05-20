@@ -66,7 +66,7 @@ export class SignatureEditor extends StringEditor {
         e.stopPropagation()
         this.signaturePad.clear()
         /* trigger stroke end to let signaturePad update the dataURL */
-        this.signaturePad.strokeEnd()
+        this.signaturePad.onEnd()
       })
 
       this.control = this.theme.getFormControl(this.label, signatureContainer, this.description)
