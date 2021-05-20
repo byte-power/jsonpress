@@ -146,6 +146,7 @@ export class AbstractEditor {
     if (!editor || !editor.dependenciesFulfilled) {
       this.dependenciesFulfilled = false
     } else if (Array.isArray(choices)) {
+      this.dependenciesFulfilled = false
       choices.some(choice => {
         if (value === choice) {
           this.dependenciesFulfilled = true
