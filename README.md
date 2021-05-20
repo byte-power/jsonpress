@@ -628,7 +628,7 @@ let schema = {
 
 #### colorpicker
 
-当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。通过 `options` 中设置 _colorpicker_ 即可启用[vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件，并支持传入其原生配置。
+当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。通过 `options.colorpicker` 设置相关属性即可启用[vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -653,7 +653,7 @@ let schema = {
 -   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
 -   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
-通过 `options` 中设置 _flatpickr_ 为一个对象值，可以启用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
+通过 `options.flatpickr` 中设置相关属性，可以启用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -734,7 +734,7 @@ let schema = {
 
 启用方法：
 
--   首先设置 `format` 为 _url_，同时通过 `options` 中设置 _upload_ 的相关属性，即可启用一个带文件预览和上传进度的上传控件。
+-   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
 -   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数名。
 -   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
     -   jseditor：当前编辑器实例
@@ -836,7 +836,7 @@ let schema = {
 
 启用方法：
 
--   首先设置 `format` 为 _autocomplete_，同时通过 `options` 中设置 _autocomplete_ 的相关属性，即可启用一个带自动完成的输入控件。
+-   首先设置 `format` 为 _autocomplete_，同时通过 `options.autocomplete` 设置相关属性，即可启用一个带自动完成的输入控件。
 -   在相关属性内，使用 `search` 关键字指定一个搜索函数并异步返回结果；使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到输入框；使用 `getResultValue` 关键字指定一个函数返回选中项对应文本；使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
 -   同时要通过 `JSONEditor.defaults.callbacks.autocomplete` 属性实现上述各个函数。
 
@@ -962,6 +962,8 @@ let schema = {
 #### 结合 enum 属性
 
 当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+
+假如当前字段为非必填项的话，下拉选择框会在顶部增加一个空项，如果不想显示此项，可以将该字段加入 required 属性列表内。
 
 ```javascript
 let schema = {
@@ -1281,4 +1283,31 @@ let schema = {
 
 ### button
 
-默认为 required
+button 类型提供了按钮控件形式，一般用于额外操作。
+
+启用方法：
+
+-   首先设置 `type` 为 _button_，同时通过 `options.button` 中设置相关属性，即可启用一个按钮控件。
+-   在相关属性内，使用 `action` 关键字指定一个函数用于按钮点击调用；使用 `validated` 关键字设置是否校验数据有效后才让按钮生效。
+-   同时要通过 `JSONEditor.defaults.callbacks.button` 属性实现上述函数。
+
+> 注：当为 button 时，该字段默认为 required
+
+```javascript
+let schema = {
+    type: 'button',
+    title: 'Click this',
+    options: {
+        button: {
+            validated: true,
+            action: 'show'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.button = {
+    show: function (jseditor, evt) {
+        console.log('value = ', jseditor.jsoneditor.getValue());
+    }
+};
+```
