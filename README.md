@@ -889,7 +889,7 @@ JSONEditor.defaults.callbacks.autocomplete = {
 
 #### SCEditor
 
-[**SCEditor**](https://github.com/samclarke/SCEditor) 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
+[**SCEditor**](https://github.com/samclarke/SCEditor) 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后设置 `options.wysiwyg` 为 true 即可。
 
 ```javascript
 let schema = {
@@ -1283,7 +1283,7 @@ let schema = {
 
 ### button
 
-button 类型提供了按钮控件形式，一般用于额外操作。
+button 类型提供了按钮控件形式，一般用于获取当前编辑器的值及额外操作。
 
 启用方法：
 
