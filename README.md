@@ -293,7 +293,7 @@ editor.destroy();
 
 ### $ref 和 definitions
 
-编辑器支持使用 $ref 关键字来索引外部 URL 或本地自定义类型。
+编辑器支持使用 `$ref` 关键字来索引外部 URL 或本地自定义类型。
 
 ```javascript
 let schema = {
@@ -316,13 +316,13 @@ let schema = {
 };
 ```
 
-本地自定义类型主要是通过定义在根节点的 definitions 关键字来生成。
+本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。
 
 ### hyper-schema
 
-编辑器支持使用 links 关键字来支持 schema 的扩展集合（hyper-schema），它通常用于链接外部文档或媒体资源。
+编辑器支持使用 `links` 关键字来支持 schema 的扩展集合（hyper-schema），它通常用于链接外部文档或媒体资源。
 
-links 内的 mediaType 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
+`links.mediaType` 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
 
 #### 简单文本链接
 
@@ -377,7 +377,7 @@ let schema = {
 
 ### 属性排序
 
-原生的 schema 规范是不支持对属性进行排序的。编辑器提供了一个关键字 propertyOrder 用于实现这个目的。默认值为 1000，假如遇到相同的值，按标准 JSON 键值进行排序。
+原生的 schema 规范是不支持对属性进行排序的。编辑器提供了一个关键字 `propertyOrder` 用于实现这个目的。默认值为 _1000_，假如遇到相同的值，按标准 JSON 键值进行排序。
 
 ```javascript
 let schema = {
@@ -406,7 +406,7 @@ let schema = {
 
 ### 默认属性
 
-编辑器默认行为是对象所有定义在 properties 关键字的属性都会包括在内，可以使用 defaultProperties 关键字来指定若干属性来覆盖默认行为，此时除了指定属性，其他属性都不会在界面显示和包含在最终 JSON 值内。
+编辑器默认行为是对象所有定义在 `properties` 关键字的属性都会包括在内，可以使用 `defaultProperties` 关键字来指定若干属性来覆盖默认行为，此时除了指定属性，其他属性都不会在界面显示和包含在最终 JSON 值内。
 
 ```javascript
 let schema = {
@@ -680,7 +680,7 @@ let schema = {
 
 #### uuid
 
-当 format 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
+当 `format` 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
 
 ```javascript
 let schema = {
@@ -692,7 +692,7 @@ let schema = {
 
 #### signature
 
-编辑器引入了 [signature pad](https://github.com/szimek/signature_pad) 第三方控件来支持签名输入。当 format 为 _signature_ 时，渲染为一个手写板，可以进行签名，最后图片保存为 base64 格式。通过 `options.canvas_height` 属性可以定义手写板的高度.
+编辑器引入了 [signature pad](https://github.com/szimek/signature_pad) 第三方控件来支持签名输入。当 `format` 为 _signature_ 时，渲染为一个手写板，可以进行签名，最后图片保存为 base64 格式。通过 `options.canvas_height` 属性可以定义手写板的高度.
 
 ```javascript
 let schema = {
@@ -706,7 +706,7 @@ let schema = {
 
 #### ip
 
-可以使用 format 关键字指定该字段为 ip 格式（包括 _ipv4、ipv6、hostname_ 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
+可以使用 `format` 关键字指定该字段为 ip 格式（包括 _ipv4、ipv6、hostname_ 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
 
 ```javascript
 let schema = {
@@ -736,7 +736,7 @@ let schema = {
 
 -   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
 -   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数名。
--   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
+-   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 _jseditor, type, file, callback_。
     -   jseditor：当前编辑器实例
     -   type：上传控件对应的路径字段
     -   file：上传控件选中的文件
@@ -744,7 +744,7 @@ let schema = {
         -   success：成功的回调方法，用于给控件对应的字段赋值
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
--   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel:view` 来仅显示 view 字样的链接
+-   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
 
 ```javascript
 let schema = {
@@ -961,9 +961,9 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 `format` 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
 
-假如当前字段为非必填项的话，下拉选择框会在顶部增加一个空项，如果不想显示此项，可以将该字段加入 required 属性列表内。
+假如当前字段为非必填项的话，下拉选择框会在顶部增加一个空项，如果不想显示此项，可以将该字段加入 `required` 属性列表内。
 
 ```javascript
 let schema = {
@@ -975,7 +975,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外设置 format 为 _select2_，就可以启用第三方控件[select2](https://github.com/select2/select2)，可以提升选择交互体验。
+另外设置 `format` 为 _select2_，就可以启用第三方控件[select2](https://github.com/select2/select2)，可以提升选择交互体验。
 
 ```javascript
 let schema = {
@@ -987,7 +987,7 @@ let schema = {
 
 ### boolean
 
-boolean 类型默认是下拉选择框形式，内置选项 true 和 false。假如设置 format 为 _checkbox_，就可以切换为复选框形式。
+boolean 类型默认是下拉选择框形式，内置选项 _true_ 和 _false_。假如设置 `format` 为 _checkbox_，就可以切换为复选框形式。
 
 ```javascript
 let schema = {
@@ -998,7 +998,7 @@ let schema = {
 };
 ```
 
-另外 Press 还新增了一个切换开关形式用于布尔类型。
+另外 Press 还新增了一个切换开关形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
 
 ```javascript
 let schema = {
@@ -1011,9 +1011,9 @@ let schema = {
 
 number、integer 类型都是用于输入数字值，它们的唯一区别就是一个接受数字，一个接受整数，默认控件是输入框。
 
-另外可以通过 _maximum_ 和 _minimum_ 关键字限定最大最小值。
+另外可以通过 `maximum` 和 `minimum` 关键字限定最大最小值。
 
-其中，integer 类型可设置 format 为 _range_，切换为滑块形式；_rating_，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
+其中，integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_rating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
 
 ```javascript
 let schema = {
@@ -1026,7 +1026,7 @@ let schema = {
 
 #### datetime
 
-datetime 控件也支持数值类型，同 string 下 datetime 类似，只是返回值为对应的时间戳。
+datetime 控件也支持数值类型，同 string 下同类控件相似，只是返回值为对应的时间戳。
 
 ```javascript
 let schema = {
@@ -1042,7 +1042,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+当通过 `enum` 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 `format` 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
 
 ```javascript
 let schema = {
@@ -1127,7 +1127,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
+同样的，通过 `enum` 属性提供了可选枚举值并同时设置 `uniqueItems` 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 `format` 为 _select_ 或 _checkbox_，进行显式定义。
 
 ```javascript
 let schema = {
@@ -1141,7 +1141,7 @@ let schema = {
 };
 ```
 
-上文提及的 select2 也支持多选，设置 format 为 _select2_，就可以启用。
+上文提及的 select2 也支持多选，设置 `format` 为 _select2_，就可以启用。
 
 ```javascript
 let schema = {
@@ -1176,12 +1176,12 @@ editor.on('deleteAllRows', (editor) => {
 
 ### object
 
-object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。
+object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。它通过 `format` 关键字来设定。
 
 -   默认: 每个子属性单独占据一行。
 -   grid: 多个子属性并排在一行显示，每个子属性可以通过 _grid_columns_ 选项来设置宽度，然后 每行会尽可能占满 12 格后换行，所以该布局不能保证子属性的显示顺序和代码一致。
 -   grid-strict: 同上，但是每个子属性会严格按照 _grid_columns_ 显示，不会自动扩展。同时支持通过 _grid_break_ 选项来设置手动换行。
--   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 _basicCategoryTitle_ 属性进行自定义）。
+-   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 `basicCategoryTitle` 属性进行自定义）。
 
 ```javascript
 let schema = {
@@ -1311,3 +1311,82 @@ JSONEditor.defaults.callbacks.button = {
     }
 };
 ```
+
+## 依赖项
+
+在编辑 JSON 时，一个字段依赖于另外一个字段的值是很常见的情况。编辑器提供了 `dependencies` 关键字来满足这方面的需求。
+
+`dependencies` 的值是 map 形式的键值对，用来描述要监控的字段和期望值。它的值支持三种形式：
+
+-   单个键值对：表明依赖项的值为期望值即生效。
+-   单个键值对，但是值为数组：表明依赖项的值为数组元素之一即生效。
+-   多个键值对，但是值只能为基础类型，不能为数组：表明当多个依赖项都分别满足期望值时才生效。
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'string',
+        enum: ['foo', 'bar', 'cool'],
+        default: 'foo'
+    },
+    fieldTwo: {
+        type: 'string',
+        enum: ['a', 'b', 'c'],
+        default: 'a'
+    },
+    depender1: {
+        type: 'string',
+        description: 'show when fieldOne is bar',
+        options: {
+            dependencies: {
+                fieldOne: 'bar'
+            }
+        }
+    },
+    depender2: {
+        type: 'string',
+        description: 'show when fieldOne is bar or cool',
+        options: {
+            dependencies: {
+                fieldOne: ['bar', 'cool']
+            }
+        }
+    },
+    depender3: {
+        type: 'string',
+        description: 'show when fieldOne is bar and fieldTwo is b',
+        options: {
+            dependencies: {
+                fieldTwo: 'b',
+                fieldOne: 'bar'
+            }
+        }
+    }
+};
+```
+
+### 自定义依赖监测
+
+上述规则可以满足大部分常见场景的需求，但是还不够灵活。所以编辑器还提供了一系列关键字的组合来提供更多可能。
+
+首先，使用 `watch` 关键字来定义需要观察的字段路径
+
+```javascript
+let schema = {
+    first_name: {
+        type: 'string'
+    },
+    last_name: {
+        type: 'string'
+    },
+    full_name: {
+        type: 'string',
+        watch: {
+            fname: 'first_name',
+            lname: 'last_name'
+        }
+    }
+};
+```
+
+上述例子中的 `fname` 是待观察字段的化名，`first_name` 是字段的路径，使用 `.` 号分割嵌套属性，默认从根路径算起。可以使用 `id` 关键字指定相对节点，然后就可以使用相对路径了。这个在数组内描述路径时十分有用。
