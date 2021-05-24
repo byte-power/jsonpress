@@ -1491,7 +1491,11 @@ JSONEditor.defaults.callbacks.template = {
 
 ### enum 依赖
 
-另外一个常见的依赖场景就是下拉选择框的枚举值依赖于其他字段。这种需求也需要 `watch` 关键字并配合 `enumSource` 关键字来实现。
+另外一个常见的依赖场景就是下拉选择框的枚举值依赖于其他字段。这种需求也需要 `watch` 关键字并配合 `enumSource` 关键字来实现。它支持定义为字符串值或数组。
+
+#### 基础用法
+
+定义为字符串时，表明为枚举数据的来源，该值来自于 `watch` 中的监听字段的化名。
 
 ```javascript
 let schema = {
@@ -1511,7 +1515,9 @@ let schema = {
 };
 ```
 
-上述 `enumSource` 仅仅简单定义了枚举数据的来源，是最基础的用法。它也支持定义为更加复杂的形式以支持筛选、多个来源、内置常量等等需求。
+#### 复杂用法
+
+`enumSource` 关键字也支持定义为更加复杂的数组形式以支持筛选、多个来源、内置常量等等需求。下面为示例，它使用了 `nunjucks` 作为模板引擎以支持高级语法表达式。
 
 ```javascript
 let schema = {
@@ -1548,4 +1554,66 @@ let schema = {
 };
 ```
 
-上述是个更复杂的例子，它使用了 `nunjucks` 作为模板引擎以支持高级语法表达式。
+`enumSource.source` 也可以定义为静态列表，使用的语法稍有不同。
+
+```javascript
+let schema = {
+    enumSource: [
+        {
+            source: [
+                {
+                    value: 1,
+                    title: 'One'
+                },
+                {
+                    value: 2,
+                    title: 'Two'
+                }
+            ],
+            title: '{{item.title}}',
+            value: '{{item.value}}'
+        }
+    ]
+};
+```
+
+除了监听简单的字符串数组外，也可以监听对象数组，只是解析值的时候表达式有所不同。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                id: {
+                    type: 'string'
+                },
+                text: {
+                    type: 'string'
+                }
+            }
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: [
+            {
+                source: 'colors',
+                title: '{{item.text}}',
+                value: '{{item.id}}'
+            }
+        ]
+    }
+};
+```
+
+所有支持使用自定义表达式的地方，都会包括两个属性 `item` 和 `i`，表示数组的元素和它们的索引（以 0 开始）。
+
+
+#### 回调函数
+
+对应
