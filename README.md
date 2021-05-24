@@ -1314,6 +1314,53 @@ JSONEditor.defaults.callbacks.button = {
 };
 ```
 
+## anyOf、oneOf 和 allOf
+
+编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
+
+-   anyOf: 满足任意一个子 schema
+-   oneOf: 满足其中的一个，不能同时满足多个子 schema
+-   allOf: 满足所有子 schema
+
+```javascript
+let schema = {
+    any: {
+        anyOf: [
+            {
+                type: 'string',
+                maxLength: 5
+            },
+            {
+                type: 'number',
+                minimum: 10
+            }
+        ]
+    },
+    all: {
+        allOf: [
+            {
+                type: 'string'
+            },
+            {
+                maxLength: 5
+            }
+        ]
+    },
+    one: {
+        oneOf: [
+            {
+                type: 'number',
+                multipleOf: 5
+            },
+            {
+                type: 'number',
+                multipleOf: 3
+            }
+        ]
+    }
+};
+```
+
 ## 依赖项
 
 在编辑 JSON 时，一个字段依赖于另外一个字段的值是很常见的情况。编辑器提供了 `dependencies` 关键字来满足这方面的需求。
