@@ -1613,7 +1613,51 @@ let schema = {
 
 所有支持使用自定义表达式的地方，都会包括两个属性 `item` 和 `i`，表示数组的元素和它们的索引（以 0 开始）。
 
-
 #### 回调函数
 
-对应
+对于 `enumSource` 的 _title、value、filter_ 等属性，也支持使用回调函数来处理渲染数据，以代替模板表达式。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                text: {
+                    type: 'string'
+                }
+            }
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: [
+            {
+                source: 'colors',
+                title: 'enumTitleCB',
+                value: 'enumValueCB',
+                filter: 'enumFilterCB'
+            }
+        ]
+    }
+};
+
+JSONEditor.defaults.callbacks.template = {
+    enumTitleCB: (jseditor, evt) => evt.item.text.toUpperCase(),
+    enumValueCB: (jseditor, evt) => evt.item.text.toLowerCase(),
+    enumFilterCB: (jseditor, evt) => {
+        if (evt.item.text.toLowerCase() == 'red') {
+            return '';
+        }
+        return evt.item.text;
+    }
+};
+```
+
+#### 排序
+
+候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
