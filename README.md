@@ -318,7 +318,7 @@ let schema = {
 };
 ```
 
-本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。
+本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。其定义的内容除了被 `$ref` 索引，也可以被后文提到的 `anyOf`、`oneOf` 和 `allOf` 来使用。
 
 ### hyper-schema
 
