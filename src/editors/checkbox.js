@@ -43,7 +43,7 @@ export class CheckboxEditor extends AbstractEditor {
     if (this.schema.format && this.schema.format === 'toggle') {
       const toggleLabel = this.theme.getToggleLabel(this.getTitle(), this.isRequired());
       this.control = this.theme.getFormControl(this.label, this.input, this.description, toggleLabel, 'toggle');
-      this.control.classList.add('toggle-wrap');
+      this.control.classList.add('hi-toggle-wrap');
     }
     this.control.classList.add('hi-plain-padding')
 

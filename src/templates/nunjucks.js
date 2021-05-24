@@ -3,7 +3,8 @@ export const nunjucksTemplate = () => {
 
     return {
         compile(template) {
-            return (view) => window.nunjucks.render(template, view);
+            let instance = window.nunjucks.compile(template);
+            return (view) => instance.render(view);
         }
     };
 };

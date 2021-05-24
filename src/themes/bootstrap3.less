@@ -46,7 +46,7 @@ h3 {
 .btn {
     line-height: 1;
 }
-.json-editor-btn-collapse {
+.json-editor-btntype-toggle {
     width: 24px;
     height: 30px;
     margin-right: 8px;
@@ -56,10 +56,6 @@ h3 {
     background-color: transparent;
     vertical-align: 0;
 }
-.well-sm,
-.well-small {
-    padding: 5px;
-}
 div[data-schemapath='root'] {
     & > .well-sm {
         padding-left: 0;
@@ -68,9 +64,13 @@ div[data-schemapath='root'] {
     & > .je-header {
         font-size: 14px;
     }
-    & > .je-header > .json-editor-btn-collapse {
+    & > .je-header > .json-editor-btntype-toggle {
         display: none;
     }
+}
+.well-sm,
+.well-small {
+    padding: 5px;
 }
 .well-sm {
     margin-bottom: 1px;
@@ -144,7 +144,7 @@ div[data-schemapath='root'] {
 }
 
 /* 定制样式 */
-.toggle-wrap {
+.hi-toggle-wrap {
     position: relative;
     div.toggle-label {
         margin-bottom: 5px;

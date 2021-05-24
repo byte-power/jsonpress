@@ -39,11 +39,13 @@ let editor = new JSONEditor(element, options);
 
 全局配置可以通过默认值形式或者实例初始化时传入参数来对编辑器的默认配置进行设置和修改
 
-#### 默认值形式
+#### 全局默认值形式
 
 `JSONEditor.defaults.options.disable_edit_json = 1`
 
 #### 实例化传参形式
+
+实例化编辑器对象时，支持以参数的方式传入配置。
 
 ```javascript
 const editor = new JSONEditor(element, {
@@ -220,7 +222,7 @@ if (name) {
 const errors = editor.validate();
 
 if (errors.length) {
-    // errors 是一个对象组成的数组，对象属性包括`path`、`property`、`message`
+    // errors 是一个对象组成的数组，对象包含 path、property、message 三种属性
     console.log(errors);
 }
 ```
@@ -283,7 +285,7 @@ editor.getEditor('root.name').deactivate();
 // 启用指定路径的表单项
 editor.getEditor('root.name').activate();
 
-// 从 DOM 树移除当前编辑器节点
+// 从 DOM 树移除当前编辑器
 editor.destroy();
 ```
 
@@ -293,7 +295,7 @@ editor.destroy();
 
 ### $ref 和 definitions
 
-编辑器支持使用 $ref 关键字来索引外部 URL 或本地自定义类型。
+编辑器支持使用 `$ref` 关键字来索引外部 URL 或本地自定义类型。
 
 ```javascript
 let schema = {
@@ -316,13 +318,13 @@ let schema = {
 };
 ```
 
-本地自定义类型主要是通过定义在根节点的 definitions 关键字来生成。
+本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。其定义的内容除了被 `$ref` 索引，也可以被后文提到的 `anyOf`、`oneOf` 和 `allOf` 来使用。
 
 ### hyper-schema
 
-编辑器支持使用 links 关键字来支持 schema 的扩展集合（hyper-schema），它通常用于链接外部文档或媒体资源。
+编辑器支持使用 `links` 关键字来支持 schema 的扩展集合（hyper-schema），它通常用于链接外部文档或媒体资源。
 
-links 内的 mediaType 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
+`links.mediaType` 属性可以让编辑器以恰当的方式显示媒体文件，而不是仅是文本方式。
 
 #### 简单文本链接
 
@@ -377,7 +379,7 @@ let schema = {
 
 ### 属性排序
 
-原生的 schema 规范是不支持对属性进行排序的。编辑器提供了一个关键字 propertyOrder 用于实现这个目的。默认值为 1000，假如遇到相同的值，按标准 JSON 键值进行排序。
+原生的 schema 规范是不支持对属性进行排序的。编辑器提供了一个关键字 `propertyOrder` 用于实现这个目的。默认值为 _1000_，假如遇到相同的值，按标准 JSON 键值进行排序。
 
 ```javascript
 let schema = {
@@ -406,7 +408,7 @@ let schema = {
 
 ### 默认属性
 
-编辑器默认行为是对象所有定义在 properties 关键字的属性都会包括在内，可以使用 defaultProperties 关键字来指定若干属性来覆盖默认行为，此时除了指定属性，其他属性都不会在界面显示和包含在最终 JSON 值内。
+编辑器默认行为是对象所有定义在 `properties` 关键字的属性都会包括在内，可以使用 `defaultProperties` 关键字来指定若干属性来覆盖默认行为，此时除了指定属性，其他属性都不会在界面显示和包含在最终 JSON 值内。
 
 ```javascript
 let schema = {
@@ -440,14 +442,13 @@ let schema = {
 ### 基础类型
 
 -   string
+-   boolean
 -   number
 -   integer
--   boolean
--   object
 -   array
--   null
+-   object
 -   info
--   signature
+-   null
 
 ### 扩展格式
 
@@ -459,6 +460,7 @@ let schema = {
 -   starrating (基于 string 扩展)
 -   hidden (基于 string 扩展)
 -   uuid (基于 string 扩展)
+-   signature (基于 string 扩展)
 -   range (基于 number 扩展)
 -   rating (基于 integer 扩展)
 -   checkbox (基于 boolean 扩展)
@@ -482,7 +484,7 @@ let schema = {
     </thead>
     <tbody>
         <tr>
-            <td rowspan="4">string</td>
+            <td rowspan="5">string</td>
             <td>
                 textarea
                 <br />
@@ -509,7 +511,12 @@ let schema = {
         <tr>
             <td>color</td>
             <td>无</td>
-            <td>通过 colorpicker 支持</td>
+            <td>通过 vanilla-picker 支持</td>
+        </tr>
+         <tr>
+            <td>signature</td>
+            <td>无</td>
+            <td>通过 signature_pad 支持</td>
         </tr>
         <tr>
             <td>radio</td>
@@ -562,19 +569,13 @@ let schema = {
             <td>通过 select2 支持</td>
         </tr>
         <tr>
-            <td>null</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
             <td>info</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
-            <td>signature</td>
+            <td>null</td>
             <td></td>
             <td></td>
             <td></td>
@@ -629,8 +630,7 @@ let schema = {
 
 #### colorpicker
 
-当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。
-通过 `options` 中设置 _colorpicker_ 为一个对象值，可以定义颜色选择器的细节。
+当 `format` 为 _color_ 时，渲染为颜色选择器形式，可以支持输入色值。通过 `options.colorpicker` 设置相关属性即可启用[vanilla-picker](https://github.com/Sphinxxxx/vanilla-picker) 第三方控件，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -655,7 +655,7 @@ let schema = {
 -   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
 -   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
-通过 `options` 中设置 _flatpickr_ 为一个对象值，可以使用第三方控件 flatpickr，并支持传入其原生配置。
+通过 `options.flatpickr` 中设置相关属性，可以启用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
 
 ```javascript
 let schema = {
@@ -682,7 +682,7 @@ let schema = {
 
 #### uuid
 
-当 format 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
+当 `format` 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
 
 ```javascript
 let schema = {
@@ -692,15 +692,53 @@ let schema = {
 };
 ```
 
+#### signature
+
+编辑器引入了 [signature pad](https://github.com/szimek/signature_pad) 第三方控件来支持签名输入。当 `format` 为 _signature_ 时，渲染为一个手写板，可以进行签名，最后图片保存为 base64 格式。通过 `options.canvas_height` 属性可以定义手写板的高度.
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'signature',
+    options: {
+        canvas_height: 200
+    }
+};
+```
+
+#### ip
+
+可以使用 `format` 关键字指定该字段为 ip 格式（包括 _ipv4、ipv6、hostname_ 三个有效值），这时编辑器会调用相关的格式校验，以避免用户输入非法 ip 格式。
+
+```javascript
+let schema = {
+    ipAddress: {
+        title: 'IPv4 Address',
+        type: 'string',
+        format: 'ipv4'
+    },
+    ipv6Address: {
+        title: 'IPv6 Address',
+        type: 'string',
+        format: 'ipv6'
+    },
+    hostname: {
+        title: 'hostname',
+        type: 'string',
+        format: 'hostname'
+    }
+};
+```
+
 #### upload
 
 编辑器内置了一个上传控件，可以支持相关文件的上传。
 
 启用方法：
 
--   首先设置 `format` 为 _url_，同时通过 `options` 中设置 _upload_ 的相关属性，即可启用一个带文件预览和上传进度的上传控件。
+-   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
 -   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数名。
--   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性实现该上传处理函数。该函数有四个回调参数 jseditor, type, file, callback。
+-   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性定义该上传处理函数。该函数有四个回调参数 _jseditor, type, file, callback_。
     -   jseditor：当前编辑器实例
     -   type：上传控件对应的路径字段
     -   file：上传控件选中的文件
@@ -708,7 +746,7 @@ let schema = {
         -   success：成功的回调方法，用于给控件对应的字段赋值
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
--   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel:view` 来仅显示 view 字样的链接
+-   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
 
 ```javascript
 let schema = {
@@ -732,9 +770,9 @@ JSONEditor.defaults.callbacks.upload = {
         if (type === 'root.uploadfail') {
             callback.failure('Upload failed');
         } else {
-            var step = 0;
+            let step = 0;
 
-            var tickFunction = function () {
+            let tickFunction = function () {
                 step += 1;
                 console.log('progress: ' + step);
 
@@ -794,9 +832,66 @@ let schema = {
 };
 ```
 
+#### autocomplete
+
+编辑器引入了 [autocomplete](https://github.com/trevoreyre/autocomplete) 第三方控件用于实现输入时自动完成效果，优化交互和体验。设置 format 为 _autocomplete_，就可以启用。
+
+启用方法：
+
+-   首先设置 `format` 为 _autocomplete_，同时通过 `options.autocomplete` 设置相关属性，即可启用一个带自动完成的输入控件。
+-   在相关属性内，使用 `search` 关键字指定一个搜索函数并异步返回结果；使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到输入框；使用 `getResultValue` 关键字指定一个函数返回选中项对应文本；使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
+-   同时要通过 `JSONEditor.defaults.callbacks.autocomplete` 属性定义上述各个函数。
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'autocomplete',
+    options: {
+        autocomplete: {
+            search: 'search_wikipedia',
+            renderResult: 'renderResult_wikipedia',
+            getResultValue: 'getResultValue_wikipedia',
+            autoSelect: true
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.autocomplete = {
+    // Setup for Wikipedia lookup
+    search_wikipedia: function search(jseditor, input) {
+        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+
+        return new Promise(function (resolve) {
+            if (input.length < 3) {
+                return resolve([]);
+            }
+
+            fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    resolve(data.query.search);
+                });
+        });
+    },
+    renderResult_wikipedia: function (jseditor, result, props) {
+        return [
+            '<li ' + props + '>',
+            '<div class="wiki-title">' + result.title + '</div>',
+            '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
+            '</li>'
+        ].join('');
+    },
+    getResultValue_wikipedia: function getResultValue(jseditor, result) {
+        return result.title;
+    }
+};
+```
+
 #### SCEditor
 
-**SCEditor** 提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）的编辑体验。启用它也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后 `options` 中设置 _wysiwyg_ 为 true 即可。
+[**SCEditor**](https://github.com/samclarke/SCEditor) 是一个提供基于 HTML 和 BBCode 格式的所见即所得（WYSIWYG）编辑器。它作为第三方控件被引入，启用也很简单：`format` 设置为 _xhtml_ 或 _bbcode_ ，然后设置 `options.wysiwyg` 为 true 即可。
 
 ```javascript
 let schema = {
@@ -810,7 +905,7 @@ let schema = {
 
 #### SimpleMDE
 
-**SimpleMDE** 是一个提供动态预览的简单 Markdown 编辑器。`format` 设置为 _markdown_ 即可启用。
+[**SimpleMDE**](https://github.com/sparksuite/simplemde-markdown-editor) 是一个提供动态预览的简单 Markdown 编辑器。它作为第三方控件被引入，`format` 设置为 _markdown_ 即可启用。
 
 ```javascript
 let schema = {
@@ -821,7 +916,9 @@ let schema = {
 
 #### Ace Editor
 
-**Ace Editor** 是一个支持语法高亮的源代码编辑器，支持如下格式，`format` 设置为对应值即可启用相应语法高亮和检查。
+[**Ace Editor**](https://github.com/ajaxorg/ace) 是一个支持语法高亮的源代码编辑器，它作为第三方控件被引入，`format` 设置为对应值即可启用相应语法高亮和检查。
+
+支持格式如下：
 
 -   c
 -   cpp (alias for c++)
@@ -866,7 +963,9 @@ let schema = {
 
 #### 结合 enum 属性
 
-当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+当通过 enum 属性提供了可选枚举值后，string 类型会被渲染为下拉选择框。假如设置 `format` 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+
+假如当前字段为非必填项的话，下拉选择框会在顶部增加一个空项，如果不想显示此项，可以将该字段加入 `required` 属性列表内。
 
 ```javascript
 let schema = {
@@ -878,7 +977,7 @@ let schema = {
 
 > 注：当为 radio 时，该字段默认为 required
 
-另外编辑器也引入了 select2 第三方控件用于优化选择效果，同样的，设置 format 为 _select2_，就可以启用。
+另外设置 `format` 为 _select2_，就可以启用第三方控件[select2](https://github.com/select2/select2)，可以提升选择交互体验。
 
 ```javascript
 let schema = {
@@ -890,7 +989,7 @@ let schema = {
 
 ### boolean
 
-boolean 类型默认是下拉选择框形式，内置选项 true 和 false。假如设置 format 为 _checkbox_，就可以切换为复选框形式。
+boolean 类型默认是下拉选择框形式，内置选项 _true_ 和 _false_。假如设置 `format` 为 _checkbox_，就可以切换为复选框形式。
 
 ```javascript
 let schema = {
@@ -901,7 +1000,7 @@ let schema = {
 };
 ```
 
-另外 Press 还新增了一个切换开关形式用于布尔类型。
+另外 Press 还新增了一个切换开关形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
 
 ```javascript
 let schema = {
@@ -914,9 +1013,9 @@ let schema = {
 
 number、integer 类型都是用于输入数字值，它们的唯一区别就是一个接受数字，一个接受整数，默认控件是输入框。
 
-另外可以通过 _maximum_ 和 _minimum_ 关键字限定最大最小值。
+另外可以通过 `maximum` 和 `minimum` 关键字限定最大最小值。
 
-其中，integer 类型可设置 format 为 _range_，切换为滑块形式；_rating_，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
+其中，integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_rating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
 
 ```javascript
 let schema = {
@@ -927,9 +1026,20 @@ let schema = {
 };
 ```
 
+#### 结合 enum 属性
+
+当通过 `enum` 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 `format` 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
+
+```javascript
+let schema = {
+    type: 'integer',
+    enum: [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
+};
+```
+
 #### datetime
 
-datetime 控件也支持数值类型，同 string 下 datetime 类似，只是返回值为对应的时间戳。
+datetime 控件也支持数值类型，同 string 下同类控件相似，只是返回值为对应的时间戳。
 
 ```javascript
 let schema = {
@@ -940,17 +1050,6 @@ let schema = {
             ...
         }
     }
-};
-```
-
-#### 结合 enum 属性
-
-当通过 enum 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 format 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
-
-```javascript
-let schema = {
-    type: 'integer',
-    enum: [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
 };
 ```
 
@@ -1030,7 +1129,7 @@ let schema = {
 
 #### 结合 enum 属性
 
-同样的，通过 enum 属性提供了可选枚举值并同时设置 _uniqueItems_ 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 format 为 _select_ 或 _checkbox_，进行显式定义。
+同样的，通过 `enum` 属性提供了可选枚举值并同时设置 `uniqueItems` 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 `format` 为 _select_ 或 _checkbox_，进行显式定义。
 
 ```javascript
 let schema = {
@@ -1044,7 +1143,7 @@ let schema = {
 };
 ```
 
-上文提及的 select2 也支持多选，设置 format 为 _select2_，就可以启用。
+上文提及的 select2 也支持多选，设置 `format` 为 _select2_，就可以启用。
 
 ```javascript
 let schema = {
@@ -1079,12 +1178,12 @@ editor.on('deleteAllRows', (editor) => {
 
 ### object
 
-object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。
+object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。它通过 `format` 关键字来设定。
 
 -   默认: 每个子属性单独占据一行。
 -   grid: 多个子属性并排在一行显示，每个子属性可以通过 _grid_columns_ 选项来设置宽度，然后 每行会尽可能占满 12 格后换行，所以该布局不能保证子属性的显示顺序和代码一致。
 -   grid-strict: 同上，但是每个子属性会严格按照 _grid_columns_ 显示，不会自动扩展。同时支持通过 _grid_break_ 选项来设置手动换行。
--   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 _basicCategoryTitle_ 属性进行自定义）。
+-   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 `basicCategoryTitle` 属性进行自定义）。
 
 ```javascript
 let schema = {
@@ -1172,8 +1271,524 @@ let schema = {
 };
 ```
 
-### multiple
+### info
+
+info 类型提供了静态文本的展示方式，一般用于信息提示和说明。
+
+```javascript
+let schema = {
+    type: 'info',
+    title: 'Tips',
+    description: 'It shows the available standard elements with all displayable options enabled, such as description and infoText.'
+};
+```
 
 ### button
 
-默认为 required
+button 类型提供了按钮控件形式，一般用于获取当前编辑器的值及额外操作。
+
+启用方法：
+
+-   首先设置 `type` 为 _button_，同时通过 `options.button` 中设置相关属性，即可启用一个按钮控件。
+-   在相关属性内，使用 `action` 关键字指定一个函数用于按钮点击调用；使用 `validated` 关键字设置是否校验数据有效后才让按钮生效。
+-   同时要通过 `JSONEditor.defaults.callbacks.button` 属性定义上述函数。
+
+> 注：当为 button 时，该字段默认为 required
+
+```javascript
+let schema = {
+    type: 'button',
+    title: 'Click this',
+    options: {
+        button: {
+            validated: true,
+            action: 'show'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.button = {
+    show: function (jseditor, evt) {
+        console.log('value = ', jseditor.jsoneditor.getValue());
+    }
+};
+```
+
+## anyOf、oneOf 和 allOf
+
+编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
+
+-   anyOf: 满足任意一个子 schema
+-   oneOf: 满足其中的一个，不能同时满足多个子 schema
+-   allOf: 满足所有子 schema
+
+```javascript
+let schema = {
+    any: {
+        anyOf: [
+            {
+                type: 'string',
+                maxLength: 5
+            },
+            {
+                type: 'number',
+                minimum: 10
+            }
+        ]
+    },
+    all: {
+        allOf: [
+            {
+                type: 'string'
+            },
+            {
+                maxLength: 5
+            }
+        ]
+    },
+    one: {
+        oneOf: [
+            {
+                type: 'number',
+                multipleOf: 5
+            },
+            {
+                type: 'number',
+                multipleOf: 3
+            }
+        ]
+    }
+};
+```
+
+## 依赖项
+
+在编辑 JSON 时，一个字段依赖于另外一个字段的值是很常见的情况。编辑器提供了 `dependencies` 关键字来满足这方面的需求。
+
+`dependencies` 的值是 map 形式的键值对，用来描述要监控的字段和期望值。它的值支持三种形式：
+
+-   单个键值对：表明依赖项的值为期望值即生效。
+-   单个键值对，但是值为数组：表明依赖项的值为数组元素之一即生效。
+-   多个键值对，但是值只能为基础类型，不能为数组：表明当多个依赖项都分别满足期望值时才生效。
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'string',
+        enum: ['foo', 'bar', 'cool'],
+        default: 'foo'
+    },
+    fieldTwo: {
+        type: 'string',
+        enum: ['a', 'b', 'c'],
+        default: 'a'
+    },
+    depender1: {
+        type: 'string',
+        description: 'show when fieldOne is bar',
+        options: {
+            dependencies: {
+                fieldOne: 'bar'
+            }
+        }
+    },
+    depender2: {
+        type: 'string',
+        description: 'show when fieldOne is bar or cool',
+        options: {
+            dependencies: {
+                fieldOne: ['bar', 'cool']
+            }
+        }
+    },
+    depender3: {
+        type: 'string',
+        description: 'show when fieldOne is bar and fieldTwo is b',
+        options: {
+            dependencies: {
+                fieldTwo: 'b',
+                fieldOne: 'bar'
+            }
+        }
+    }
+};
+```
+
+### 自定义依赖
+
+上述规则可以满足大部分常见场景的需求，但是还不够灵活。所以编辑器还提供了一系列关键字的组合来提供更多可能。
+
+#### 使用 watch 定义监听项
+
+首先，使用 `watch` 关键字来定义需要监听的字段路径
+
+```javascript
+let schema = {
+    first_name: {
+        type: 'string'
+    },
+    last_name: {
+        type: 'string'
+    },
+    full_name: {
+        type: 'string',
+        watch: {
+            fname: 'first_name',
+            lname: 'last_name'
+        }
+    }
+};
+```
+
+上述例子中的 `fname` 是待监听字段的化名，`first_name` 是字段的路径，使用 `.` 号分割嵌套属性，默认从根路径算起。可以使用 `id` 关键字指定相对节点，然后就可以使用相对路径了。这个在数组内描述路径时十分有用。
+
+```javascript
+let schema = {
+    type: 'array',
+    items: {
+        type: 'object',
+        id: 'arr_item',
+        properties: {
+            first_name: {
+                type: 'string'
+            },
+            last_name: {
+                type: 'string'
+            },
+            full_name: {
+                type: 'string',
+                watch: {
+                    fname: 'arr_item.first_name',
+                    lname: 'arr_item.last_name'
+                }
+            }
+        }
+    }
+};
+```
+
+上述例子中的 `arr_item` 是定义的相对节点，然后数组每个项下的 `full_name` 都能观测到同级的 `first_name` 和 `last_name` 属性值。
+
+#### 使用 template 实现渲染
+
+其次，使用 `template` 关键字定义用于渲染变量和结果的模板字符串。Press 除了支持默认引擎外，还引入了第三方支持（nunjucks）。
+
+引入第三方模板配置支持两种方式：
+
+-   全局默认值形式
+
+`JSONEditor.defaults.options.template = "nunjucks"`
+
+-   实例化传参形式
+
+```javascript
+const editor = new JSONEditor(element, {
+    //...
+    template: 'nunjucks'
+});
+```
+
+第三方模板可以自定义其实现方法：
+
+```javascript
+const myEngine = {
+    // 渲染引擎必须包含 compile 方法，并返回一个渲染函数
+    compile(template) {
+        return (view) => {
+            // 实现 render 方法来渲染模板，需要结合传入的数据 view
+            let render = function () {};
+            const result = render(template, view);
+            return result;
+        };
+    }
+};
+```
+
+上个例子使用默认模板渲染如下：
+
+```javascript
+let schema = {
+    first_name: {
+        type: 'string'
+    },
+    last_name: {
+        type: 'string'
+    },
+    full_name: {
+        type: 'string',
+        template: '{{fname}} {{lname}}',
+        watch: {
+            fname: 'first_name',
+            lname: 'last_name'
+        }
+    }
+};
+```
+
+`template` 关键字除了定义为模板字符串，也支持指定为一个回调函数。然后通过 `JSONEditor.defaults.callbacks.template` 属性定义该回调函数，可访问参数就是 `watch` 定义的监听项。
+
+```javascript
+let schema = {
+    first_name: {
+        type: 'string'
+    },
+    last_name: {
+        type: 'string'
+    },
+    full_name: {
+        type: 'string',
+        template: 'watchCallback',
+        watch: {
+            fname: 'first_name',
+            lname: 'last_name'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.template = {
+    watchCallback: function (jseditor, evt) {
+        return evt.fname + ':' + evt.lname;
+    }
+};
+```
+
+### enum 依赖
+
+另外一个常见的依赖场景就是下拉选择框的枚举值依赖于其他字段。这种需求也需要 `watch` 关键字并配合 `enumSource` 关键字来实现。它支持定义为字符串值或数组。
+
+#### 基础用法
+
+定义为字符串时，表明为枚举数据的来源，该值来自于 `watch` 中的监听字段的化名。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'string'
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: 'colors'
+    }
+};
+```
+
+#### 高级用法
+
+`enumSource` 关键字也支持定义为更加复杂的数组形式以支持筛选、多个来源、内置常量等等需求。下面为示例，它使用了 `nunjucks` 作为模板引擎以支持高级语法表达式。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'string'
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: [
+            // 前置常量
+            ['none'],
+            {
+                // 监听来源
+                source: 'colors',
+                // 定义枚举项的显示文本
+                title: '{{item|title}}',
+                // 定义枚举项的值
+                value: '{{item|trim}}',
+                // 可以定义数组子集，相当于 arr.slice
+                slice: [2, 5],
+                // 过滤特殊值，返回常量表示不渲染
+                filter: "{% if item !== 'black' %}1{% endif %}"
+            },
+            // 后置常量
+            ['transparent']
+        ]
+    }
+};
+```
+
+`enumSource.source` 也可以定义为静态列表，使用的语法稍有不同。
+
+```javascript
+let schema = {
+    enumSource: [
+        {
+            source: [
+                {
+                    value: 1,
+                    title: 'One'
+                },
+                {
+                    value: 2,
+                    title: 'Two'
+                }
+            ],
+            title: '{{item.title}}',
+            value: '{{item.value}}'
+        }
+    ]
+};
+```
+
+除了监听简单的字符串数组外，也可以监听对象数组，只是解析值的时候表达式有所不同。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                id: {
+                    type: 'string'
+                },
+                text: {
+                    type: 'string'
+                }
+            }
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: [
+            {
+                source: 'colors',
+                title: '{{item.text}}',
+                value: '{{item.id}}'
+            }
+        ]
+    }
+};
+```
+
+所有支持使用自定义表达式的地方，都会包括两个属性 `item` 和 `i`，表示数组的元素和它们的索引（以 0 开始）。
+
+#### 回调函数
+
+对于 `enumSource` 的 _title、value、filter_ 等属性，也支持使用回调函数来处理渲染数据，以代替模板表达式。
+
+```javascript
+let schema = {
+    possible_colors: {
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                text: {
+                    type: 'string'
+                }
+            }
+        }
+    },
+    primary_color: {
+        type: 'string',
+        watch: {
+            colors: 'possible_colors'
+        },
+        enumSource: [
+            {
+                source: 'colors',
+                title: 'enumTitleCB',
+                value: 'enumValueCB',
+                filter: 'enumFilterCB'
+            }
+        ]
+    }
+};
+
+JSONEditor.defaults.callbacks.template = {
+    enumTitleCB: (jseditor, evt) => evt.item.text.toUpperCase(),
+    enumValueCB: (jseditor, evt) => evt.item.text.toLowerCase(),
+    enumFilterCB: (jseditor, evt) => {
+        if (evt.item.text.toLowerCase() == 'red') {
+            return '';
+        }
+        return evt.item.text;
+    }
+};
+```
+
+#### 排序
+
+候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
+
+### 动态标题
+
+schema 的 `title` 关键字用于在编辑界面向用户展示友好易于理解的标题。有时候，实现标题依赖其他字段而动态改变，对用户很有用。
+
+对于常见的数组元素，默认其标题是 `item 1` 等等以此类推，即使定义了 `title = child` 的情况下，也仅仅是 `child 1` 等等。而使用了动态标题后，就可以向用户展示该元素下的一些复合信息，方便用户理解。
+
+编辑器提供了 `headerTemplate` 关键字来实现，它提供了三个属性用于模板表达式：`self` 表示数组元素自身、`i0` 表示以 0 起始索引、 `i1` 表示以 1 起始索引。
+
+```javascript
+let schema = {
+    type: 'array',
+    title: 'Children',
+    items: {
+        type: 'object',
+        title: 'Child',
+        headerTemplate: '{{ i1 }} - {{ self.name }} (age {{ self.age }})',
+        properties: {
+            name: {type: 'string'},
+            age: {type: 'integer'}
+        }
+    }
+};
+```
+
+## 自定义校验
+
+编辑器对于校验引擎提供了一个钩子函数，可以方便进行自定义规则的即校验。
+
+例如，可以对所有 `format` 为 _date_ 的数据都要求符合 `YYYY-MM-DD` 格式。
+
+```javascript
+JSONEditor.defaults.custom_validators.push((schema, value, path) => {
+    const errors = [];
+    if (schema.format === 'date') {
+        if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value)) {
+            // 错误对象必须包含 path、property、message 三种属性
+            errors.push({
+                path: path,
+                property: 'format',
+                message: 'Dates must be in the format "YYYY-MM-DD"'
+            });
+        }
+    }
+    return errors;
+});
+```
+
+## 覆盖默认方法
+
+编辑器提供了两种方式可以覆盖原有的方法。
+
+### 通过构造类原型
+
+```javascript
+JSONEditor.defaults.editors.integer.prototype.sanitize = function (value) {
+    return value;
+};
+```
+
+### 通过路径获取的节点
+
+```javascript
+var path = 'root.integerfield';
+editor.getEditor(path).sanitize = function (value) {
+    return value;
+};
+```

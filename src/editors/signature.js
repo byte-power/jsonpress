@@ -25,7 +25,7 @@ export class SignatureEditor extends StringEditor {
       signatureContainer.appendChild(canvas)
 
       this.signaturePad = new window.SignaturePad(canvas, {
-        onEnd () {
+        onEnd: () => {
           /* check if the signature is not empty before setting a value */
           if (!this.signaturePad.isEmpty()) {
             this.input.value = this.signaturePad.toDataURL()
@@ -66,7 +66,7 @@ export class SignatureEditor extends StringEditor {
         e.stopPropagation()
         this.signaturePad.clear()
         /* trigger stroke end to let signaturePad update the dataURL */
-        this.signaturePad.strokeEnd()
+        this.signaturePad.onEnd()
       })
 
       this.control = this.theme.getFormControl(this.label, signatureContainer, this.description)
