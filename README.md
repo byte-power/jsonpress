@@ -1441,6 +1441,22 @@ const editor = new JSONEditor(element, {
 });
 ```
 
+第三方模板可以自定义其实现方法：
+
+```javascript
+const myEngine = {
+    // 渲染引擎必须包含 compile 方法，并返回一个渲染函数
+    compile(template) {
+        return (view) => {
+            // 实现 render 方法来渲染模板，需要结合传入的数据 view
+            let render = function () {};
+            const result = render(template, view);
+            return result;
+        };
+    }
+};
+```
+
 上个例子使用默认模板渲染如下：
 
 ```javascript
@@ -1661,3 +1677,27 @@ JSONEditor.defaults.callbacks.template = {
 #### 排序
 
 候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
+
+### 动态标题
+
+schema 的 `title` 关键字用于在编辑界面向用户展示友好易于理解的标题。有时候，实现标题依赖其他字段而动态改变，对用户很有用。
+
+对于常见的数组元素，默认其标题是 `item 1` 等等以此类推，即使定义了 `title = child` 的情况下，也仅仅是 `child 1` 等等。而使用了动态标题后，就可以向用户展示该元素下的一些复合信息，方便用户理解。
+
+编辑器提供了 `headerTemplate` 关键字来实现，它提供了三个属性用于模板表达式：`self` 表示数组元素自身、`i0` 表示以 0 起始索引、 `i1` 以 1 起始索引。
+
+```javascript
+let schema = {
+    type: 'array',
+    title: 'Children',
+    items: {
+        type: 'object',
+        title: 'Child',
+        headerTemplate: '{{ i1 }} - {{ self.name }} (age {{ self.age }})',
+        properties: {
+            name: {type: 'string'},
+            age: {type: 'integer'}
+        }
+    }
+};
+```
