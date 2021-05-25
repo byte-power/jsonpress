@@ -177,12 +177,12 @@ div[data-theme] {
         display: inline-block;
         width: auto;
     }
-    .hi-select-wrap,
-    .autocomplete {
+    label + .hi-select-wrap,
+    label + .autocomplete,
+    label + div[name*='[rating]'] {
         display: inline-block;
     }
     label + div[data-container-for='radio'],
-    label + div[name*='[rating]'],
     label + .hi-icon-date,
     label + .je-range-control,
     label + .signature-container,
@@ -204,14 +204,15 @@ div[data-theme] {
     }
 }
 .hi-inline.hi-control-size-middle {
-    h3 label {
-        width: auto;
-    }
-    div[data-container-for='radio'] label {
-        width: auto;
-    }
     label {
         width: 10em;
         text-align: right;
+    }
+    h3 label {
+        width: auto;
+    }
+    div[data-container-for='radio'] label,
+    div.starrating label {
+        width: auto;
     }
 }
