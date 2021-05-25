@@ -111,3 +111,11 @@
 ### Added
 
 -   添加 date 自定义校验功能（可以约定起、始时间必须前者小于后者）
+
+## [1.0.13] - 2021-06-
+
+### Fixed
+
+-   修复 signature 类型的 bug（onEnd 事件定义的 function 内 this 指向错误;clear 时没有清除 data 值）
+-   修复 dependencies 属性设置为数组时，不生效的 bug
+-   修复 nunjucks 模板引擎渲染方法
