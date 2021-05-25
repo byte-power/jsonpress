@@ -318,7 +318,7 @@ let schema = {
 };
 ```
 
-本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。其定义的内容除了被 `$ref` 索引，也可以被后文提到的 `anyOf`、`oneOf` 和 `allOf` 来使用。
+本地自定义类型主要是通过定义在根节点的 `definitions` 关键字来生成。它的描述路径格式为 `#/definitions/xxx`，xxx 为定义的名字。其定义的内容除了被 `$ref` 索引，也可以被后文提到的 `anyOf`、`oneOf` 和 `allOf` 来使用。
 
 ### hyper-schema
 
@@ -1319,7 +1319,7 @@ JSONEditor.defaults.callbacks.button = {
 编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
 
 -   anyOf: 满足任意一个子 schema
--   oneOf: 满足其中的一个，不能同时满足多个子 schema
+-   oneOf: 满足其中的一个子 schema，不能同时满足多个
 -   allOf: 满足所有子 schema
 
 ```javascript
@@ -1347,6 +1347,7 @@ let schema = {
         ]
     },
     one: {
+        // 可以为 5 或 3，不能为 15
         oneOf: [
             {
                 type: 'number',
@@ -1357,6 +1358,69 @@ let schema = {
                 multipleOf: 3
             }
         ]
+    }
+};
+```
+
+any 字段可以选择任一条件进行满足，没有通过即报错；all 字段必须满足所有条件，没有选择界面；one 字段只能优先选择一个条件，无论有没有通过，继续以当前值来验证后续条件，假如最后满足的条件项不等于 1，则报错。
+
+`anyOf` 可以支持更复杂应用场景，比如一个字段支持多种格式的输入，可以使用它结合 `definitions` 属性来实现。
+
+```javascript
+let schema = {
+    definitions: {
+        base64: {
+            type: 'object',
+            title: 'base64 decode',
+            properties: {
+                base64: {
+                    type: 'string',
+                    default: 'standard',
+                    readOnly: true
+                }
+            }
+        },
+        encrypt_var: {
+            type: 'object',
+            title: 'defined encrypt variable',
+            properties: {
+                encrypt_name: {
+                    type: 'string',
+                    enum: ['aes', 'tkip', 'psk']
+                }
+            },
+            required: ['encrypt_name']
+        },
+        encrypt: {
+            type: 'object',
+            title: 'encrypt method',
+            properties: {
+                type: {
+                    type: 'string',
+                    enum: ['aes', 'tkip', 'psk']
+                },
+                key: {
+                    type: 'string'
+                }
+            },
+            required: ['type', 'key']
+        }
+    },
+    type: 'object',
+    properties: {
+        any: {
+            anyOf: [
+                {
+                    $ref: '#/definitions/base64'
+                },
+                {
+                    $ref: '#/definitions/encrypt_var'
+                },
+                {
+                    $ref: '#/definitions/encrypt'
+                }
+            ]
+        }
     }
 };
 ```
