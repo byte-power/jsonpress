@@ -42,7 +42,7 @@
 ### Added
 
 -   input 元素支持通过 options 指定宽度
--   调试 readonly 功能（添加 log 代码）
+-   调试 readOnly 功能（添加 log 代码）
 
 ### Changed
 
@@ -65,7 +65,7 @@
 
 ### Fixed
 
--   array 子项修复延时造成的 readonly 未生效的 bug
+-   array 子项修复延时造成的禁用 readOnly 未生效的 bug
 
 ## [1.0.6] - 2021-04-23
 
