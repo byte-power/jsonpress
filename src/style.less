@@ -153,3 +153,37 @@ div[data-theme] {
         min-width: 6em;
     }
 }
+
+.hi-inline {
+    label {
+        padding-right: 10px;
+    }
+    .form-control {
+        display: inline-block;
+        width: auto;
+        background-color: gray;
+    }
+    .hi-select-wrap,
+    .hi-icon-date {
+        display: inline-block;
+    }
+    .well-sm .form-group {
+        & > label {
+            // display: table-cell;
+            // width: auto;
+        }
+        & > .form-control {
+            // display: table-cell;
+            // width: auto;
+        }
+    }
+}
+.hi-control-size-middle {
+    label {
+        width: 10em;
+        text-align: right;
+    }
+    .form-control {
+        width: 20em;
+    }
+}

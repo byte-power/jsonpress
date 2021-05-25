@@ -27,6 +27,14 @@ export class JSONEditor {
     const themeName = this.options.theme || JSONEditor.defaults.theme
     const themeClass = JSONEditor.defaults.themes[themeName]
 
+    // 启用 inline 模式
+    if (this.options.inline) {
+      this.element.classList.add('hi-inline');
+    }
+    // 添加 control size
+    if (this.options.control_size) {
+        this.element.classList.add('hi-control-size-' + this.options.control_size);
+    }
     /* Load editors and selected theme style rules */
     if (!themeClass) throw new Error(`Unknown theme ${themeName}`)
     this.element.setAttribute('data-theme', themeName)

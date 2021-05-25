@@ -37,7 +37,7 @@ h3 {
     border-radius: 0;
     box-shadow: none;
     background-color: transparent;
-    font-size: 15px;
+    font-size: 14px;
     line-height: normal;
 }
 .form-control:focus {
@@ -128,18 +128,15 @@ div[data-schemapath='root'] {
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > td {
-    border: 0;
+    border-left: 0;
+    border-right: 0;
+    border-width: 1px;
 }
 .table-bordered {
-    border: 0;
-    tbody tr:nth-child(odd) {
+    border-left: 0;
+    border-right: 0;
+    thead tr {
         background-color: #f2f2f2;
-    }
-    tbody tr:nth-child(even) {
-        background-color: #fff;
-    }
-    table tbody tr {
-        background-color: transparent;
     }
 }
 
