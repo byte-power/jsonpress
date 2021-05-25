@@ -91,6 +91,7 @@ export class bootstrap3Theme extends AbstractTheme {
     const icon = document.createElement('span')
     icon.classList.add('glyphicon', 'glyphicon-info-sign', 'pull-right')
     icon.style.padding = '.25rem'
+    icon.style.marginLeft = '1em'
     icon.style.position = 'relative'
     icon.style.display = 'inline-block'
 
@@ -117,9 +118,12 @@ export class bootstrap3Theme extends AbstractTheme {
     return icon
   }
 
-  getFormInputDescription (text) {
+  getFormInputDescription (text, options) {
     const el = document.createElement('p')
     el.classList.add('help-block')
+    if (options && options.warning) {
+      el.classList.add('help-warning');
+    }
     if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(text)
     else el.textContent = this.cleanText(text)
     return el

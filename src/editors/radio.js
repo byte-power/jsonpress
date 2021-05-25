@@ -9,7 +9,7 @@ export class RadioEditor extends SelectEditor {
   build () {
     this.label = ''
     if (!this.options.compact) this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
-    if (this.schema.description) this.description = this.theme.getFormInputDescription(this.schema.description)
+    if (this.schema.description) this.description = this.theme.getFormInputDescription(this.schema.description, this.options)
     if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.options.infoText)
     if (this.options.compact) this.container.classList.add('compact')
 
