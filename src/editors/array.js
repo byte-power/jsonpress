@@ -54,7 +54,6 @@ export class ArrayEditor extends AbstractEditor {
   }
 
   disable (alwaysDisabled) {
-    console.log('array 类型执行禁用');
     if (alwaysDisabled) this.always_disabled = true
     this.setAvailability(this, true)
 

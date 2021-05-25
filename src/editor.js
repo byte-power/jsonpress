@@ -584,7 +584,6 @@ export class AbstractEditor {
   }
 
   disable () {
-    console.log('自身执行禁用');
     this.disabled = true
   }
 
