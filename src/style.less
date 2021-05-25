@@ -154,6 +154,17 @@ div[data-theme] {
     }
 }
 
+.hi-control-size-small {
+    .form-control {
+        width: 10em;
+    }
+}
+.hi-control-size-middle {
+    .form-control {
+        width: 20em;
+    }
+}
+
 .hi-inline {
     label {
         padding-right: 10px;
@@ -167,6 +178,13 @@ div[data-theme] {
     .hi-icon-date {
         display: inline-block;
     }
+    label + div[data-container-for='radio'] {
+        display: inline-block;
+        vertical-align: top;
+    }
+    table {
+        width: auto;
+    }
     .well-sm .form-group {
         & > label {
             // display: table-cell;
@@ -178,12 +196,15 @@ div[data-theme] {
         }
     }
 }
-.hi-control-size-middle {
+.hi-inline.hi-control-size-middle {
+    h3 label {
+        width: auto;
+    }
+    div[data-container-for='radio'] label {
+        width: auto;
+    }
     label {
         width: 10em;
         text-align: right;
-    }
-    .form-control {
-        width: 20em;
     }
 }
