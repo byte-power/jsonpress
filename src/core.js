@@ -350,9 +350,7 @@ export class JSONEditor {
   }
 
   disable () {
-    console.log('start 执行总禁用功能');
     this.root.disable()
-    console.log('end');
   }
 
   setCopyClipboardContents (value) {
