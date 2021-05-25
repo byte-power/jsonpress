@@ -163,10 +163,6 @@ div[data-theme] {
     .form-control {
         width: 20em;
     }
-    td > .form-group > .form-control,
-    td > .form-group > .hi-select-wrap > .form-control {
-        // width: auto;
-    }
 }
 
 .hi-inline {
@@ -193,14 +189,9 @@ div[data-theme] {
     table {
         width: auto;
     }
-    div[class*='col-md-'] > .form-group {
-        & > label {
-            // display: table-cell;
-            // width: auto;
-        }
-        & > .form-control {
-            // display: table-cell;
-        }
+    td > .form-group > .form-control,
+    td > .form-group > .hi-select-wrap > .form-control {
+        width: 100%;
     }
 }
 .hi-inline.hi-control-size-middle {
