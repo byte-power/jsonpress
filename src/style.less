@@ -172,7 +172,6 @@ div[data-theme] {
     .form-control {
         display: inline-block;
         width: auto;
-        background-color: gray;
     }
     .hi-select-wrap,
     .hi-icon-date {
@@ -185,14 +184,13 @@ div[data-theme] {
     table {
         width: auto;
     }
-    .well-sm .form-group {
+    div[class*='col-md-'] > .form-group {
         & > label {
             // display: table-cell;
             // width: auto;
         }
         & > .form-control {
             // display: table-cell;
-            // width: auto;
         }
     }
 }
