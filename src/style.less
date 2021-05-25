@@ -163,6 +163,10 @@ div[data-theme] {
     .form-control {
         width: 20em;
     }
+    td > .form-group > .form-control,
+    td > .form-group > .hi-select-wrap > .form-control {
+        // width: auto;
+    }
 }
 
 .hi-inline {
@@ -174,10 +178,15 @@ div[data-theme] {
         width: auto;
     }
     .hi-select-wrap,
-    .hi-icon-date {
+    .autocomplete {
         display: inline-block;
     }
-    label + div[data-container-for='radio'] {
+    label + div[data-container-for='radio'],
+    label + div[name*='[rating]'],
+    label + .hi-icon-date,
+    label + .je-range-control,
+    label + .signature-container,
+    label + .ace_editor {
         display: inline-block;
         vertical-align: top;
     }
