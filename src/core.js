@@ -95,7 +95,7 @@ export class JSONEditor {
       if (hasOwnProperty(this.options, 'startval')) this.root.setValue(this.options.startval)
 
       this.validation_results = this.validator.validate(this.root.getValue())
-      // 初始化时校验
+      // 初始化时不再校验
       // this.root.showValidationErrors(this.validation_results)
       this.ready = true
 
@@ -103,7 +103,7 @@ export class JSONEditor {
       window.requestAnimationFrame(() => {
         if (!this.ready) return
         this.validation_results = this.validator.validate(this.root.getValue())
-        // 初始化时校验
+        // 初始化时不再校验
         // this.root.showValidationErrors(this.validation_results)
         this.trigger('ready')
         this.trigger('change')
