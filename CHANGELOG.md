@@ -114,6 +114,10 @@
 
 ## [1.0.13] - 2021-05-25
 
+### Added
+
+-   description 说明支持传入 options.warning 来开启警示颜色
+
 ### Fixed
 
 -   修复 signature 类型的 bug（onEnd 事件定义的 function 内 this 指向错误;clear 时没有清除 data 值）
