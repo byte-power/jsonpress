@@ -11,6 +11,9 @@ export class bootstrap3Theme extends AbstractTheme {
 
   setGridColumnSize (el, size, offset) {
     el.classList.add(`col-md-${size}`)
+    if (size !== 12) {
+      el.classList.add('in-table');
+    }
     if (offset) {
       el.classList.add(`col-md-offset-${offset}`)
     }

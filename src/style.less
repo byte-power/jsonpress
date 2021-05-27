@@ -193,6 +193,16 @@ div[data-theme] {
         overflow: auto;
         padding-top: 6px;
     }
+    .in-table {
+        label {
+            display: table-cell;
+            width: 1px;
+        }
+        label + .form-control {
+            display: table-cell;
+            width: 100%;
+        }
+    }
     table {
         width: auto;
     }
