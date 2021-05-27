@@ -140,19 +140,21 @@ export class AbstractTheme {
 
   getMultiCheckboxHolder (controls, label, description, infoText) {
     const el = document.createElement('div')
-    el.classList.add('control-group')
 
     if (label) {
-      label.style.display = 'block'
       el.appendChild(label)
+      label.classList.add('checkbox-label')
       if (infoText) label.appendChild(infoText)
     }
 
+    const wrap = document.createElement('div')
+    wrap.classList.add('control-group')
     Object.values(controls).forEach(control => {
       control.style.display = 'inline-block'
       control.style.marginRight = '20px'
-      el.appendChild(control)
+      wrap.appendChild(control)
     })
+    el.appendChild(wrap)
 
     if (description) el.appendChild(description)
 

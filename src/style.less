@@ -162,6 +162,9 @@ div[data-theme] {
         display: inline-block;
         width: auto;
     }
+    label + textarea {
+        vertical-align: top;
+    }
     label + .hi-select-wrap,
     label + .autocomplete,
     label + div[name*='[rating]'] {
@@ -175,12 +178,22 @@ div[data-theme] {
         display: inline-block;
         vertical-align: top;
     }
-    label.info-label {
+    label.info-label,
+    label.checkbox-label {
         float: left;
     }
     label + .info-container {
         overflow: auto;
         padding-top: 6px;
+    }
+    label + .control-group {
+        overflow: auto;
+        .checkbox {
+            margin-top: 2px;
+            input[type='checkbox'] {
+                margin-top: 6px;
+            }
+        }
     }
     .in-table {
         label {
@@ -200,15 +213,26 @@ div[data-theme] {
         width: 100%;
     }
 }
+.hi-inline.hi-control-size-small {
+    label {
+        width: 5em;
+    }
+}
 .hi-inline.hi-control-size-middle {
     label {
         width: 10em;
+    }
+}
+.hi-inline.hi-control-size-small,
+.hi-inline.hi-control-size-middle {
+    label {
         text-align: right;
     }
     h3 label {
         width: auto;
     }
     div[data-container-for='radio'] label,
+    div.checkbox label,
     div.starrating label {
         width: auto;
     }
@@ -221,7 +245,9 @@ div[data-theme] {
     }
 }
 .hi-control-size-middle {
-    .form-control,
+    input.form-control,
+    select.form-control,
+    textarea.form-control,
     .hi-icon-date,
     .hi-select-wrap {
         width: 20em;
