@@ -35,8 +35,9 @@
 
 `npm run watch` 监控 js 文件更新并实时编译（文件打包目录为 dist，可以用 npm link 指定项目软连接到当前打包目录，进行实时调试）
 
-`npm run watch.css` 监控 css 文件更新并实时编译
+`npm run watch:css` 监控 css 文件更新并实时编译
 
 ### 发布
 
-`npm run pub` 修改最小版本号，并发布到 npmjs 网站
+`npm run push` 修改最小版本号，并发布到 npmjs 网站
+`npm run publish` 修改次版本号，并发布到 npmjs 网站
