@@ -40,6 +40,7 @@
 .starrating > input:checked ~ label:before,
 .starrating:not(.readonly) > input:hover ~ label:before {
   content: '\2605'; /* Filled Star when star checked/hover */
+  font-size: 22px;
   text-shadow: 0 0 1px rgba(0,20,20,1);
 }
 

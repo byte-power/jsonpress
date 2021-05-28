@@ -63,6 +63,7 @@ export class StarratingEditor extends StringEditor {
     }
 
     const ratingsContainerWrapper = this.theme.getContainer()
+    ratingsContainerWrapper.classList.add('rating-container')
     ratingsContainerWrapper.appendChild(this.ratingContainer)
 
     this.input = ratingsContainerWrapper
