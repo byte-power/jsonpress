@@ -165,12 +165,14 @@ export class UploadEditor extends AbstractEditor {
     if (this.uploader) this.uploader.controlgroup = this.control
     const inputNode = this.uploader || this.input
     const elements = document.createElement('div')
+    inputNode.parentNode.appendChild(elements)
+    elements.classList.add('upload-container')
+    elements.appendChild(inputNode)
 
     if (this.dropZone && !this.altDropZone && this.options.drop_zone_top === true) elements.appendChild(this.dropZone)
     if (this.fileUploadGroup) elements.appendChild(this.fileUploadGroup)
     if (this.dropZone && !this.altDropZone && this.options.drop_zone_top !== true) elements.appendChild(this.dropZone)
     elements.appendChild(this.preview)
-    inputNode.parentNode.insertBefore(elements, inputNode.nextSibling)
 
     this.container.appendChild(this.control)
 
