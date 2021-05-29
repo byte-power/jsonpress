@@ -2,6 +2,7 @@ import { AbstractEditor } from '../editor.js'
 import { extend, trigger } from '../utilities.js'
 import rules from './array.css.js'
 
+const tabsFormat = ['tabs','tabs-top']
 export class ArrayEditor extends AbstractEditor {
   askConfirmation () {
     if (this.jsoneditor.options.prompt_before_delete === true) {
@@ -463,7 +464,8 @@ export class ArrayEditor extends AbstractEditor {
 
     if (this.tabs_holder) {
       this.rows[i].tab_text = document.createElement('span')
-      this.rows[i].tab_text.textContent = this.rows[i].getHeaderText()
+      const isTabs = tabsFormat.includes(this.schema.format)
+      this.rows[i].tab_text.textContent = this.rows[i].getHeaderText(isTabs)
       if (this.schema.format === 'tabs-top') {
         this.rows[i].tab = this.theme.getTopTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path))
         this.theme.addTopTab(this.tabs_holder, this.rows[i].tab)

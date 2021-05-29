@@ -454,7 +454,8 @@ export class ObjectEditor extends AbstractEditor {
       if (!isObjOrArray) {
         this.rows[idx].tab_text.textContent = (typeof this.schema.basicCategoryTitle === 'undefined') ? 'Basic' : this.schema.basicCategoryTitle
       } else {
-        this.rows[idx].tab_text.textContent = this.rows[idx].getHeaderText()
+        const isCategoriesFormat = (this.format === 'categories')
+        this.rows[idx].tab_text.textContent = this.rows[idx].getHeaderText(isCategoriesFormat)
       }
       this.rows[idx].tab = this.theme.getTopTab(this.rows[idx].tab_text, this.getValidId(this.rows[idx].tab_text.textContent))
       this.rows[idx].tab.addEventListener('click', (e) => {
