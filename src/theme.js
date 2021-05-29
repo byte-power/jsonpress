@@ -142,8 +142,8 @@ export class AbstractTheme {
     const el = document.createElement('div')
 
     if (label) {
-      el.appendChild(label)
       label.classList.add('checkbox-label')
+      el.appendChild(label)
       if (infoText) label.appendChild(infoText)
     }
 

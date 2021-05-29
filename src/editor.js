@@ -45,11 +45,11 @@ export class AbstractEditor {
     else if (this.jsoneditor) this.jsoneditor.onChange(currentChanged)
   }
 
-  onChange(bubble, currentChanged) {
-    this.notify();
-    if (this.watch_listener) this.watch_listener();
-    if (bubble) this.change(currentChanged);
-}
+  onChange (bubble, currentChanged) {
+    this.notify()
+    if (this.watch_listener) this.watch_listener()
+    if (bubble) this.change(currentChanged)
+  }
 
   register () {
     this.jsoneditor.registerEditor(this)
