@@ -447,8 +447,9 @@ export class AbstractEditor {
   }
 
   updateHeaderText () {
+    let titleOnly = this.schema.type === 'object' || this.schema.type === 'array' || this.schema.format === 'table';
     if (this.header) {
-      const headerText = this.getHeaderText()
+      const headerText = this.getHeaderText(titleOnly)
       /* If the header has children, only update the text node's value */
       if (this.header.children.length) {
         for (let i = 0; i < this.header.childNodes.length; i++) {
@@ -466,9 +467,14 @@ export class AbstractEditor {
   }
 
   getHeaderText (titleOnly) {
-    if (this.header_text) return this.header_text
-    else if (titleOnly) return this.schema.title
-    else return this.getTitle()
+    let result = this.getTitle();
+    if (this.header_text) {
+        result = this.header_text;
+    }
+    if (this.jsoneditor.options.inline && !titleOnly) {
+        result += ' :';
+    }
+    return result;
   }
 
   cleanText (txt) {
