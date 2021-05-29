@@ -44,7 +44,7 @@ export class ArraySelect2Editor extends MultiSelectEditor {
       this.select2_instance.on('select2-blur', this.selectChangeHandler)
       this.select2_instance.on('change', this.selectChangeHandler)
     }
-    this.label.classList.add('select2-label')
+    this.label && this.label.classList.add('select2-label')
     super.afterInputReady()
   }
 
