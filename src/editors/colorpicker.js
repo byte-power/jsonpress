@@ -14,6 +14,10 @@ export class ColorEditor extends StringEditor {
       this.input.type = 'text'
     }
     this.input.style.padding = '3px'
+    this.inputWrap = document.createElement('div');
+    this.inputWrap.classList.add('color-container');
+    this.input.parentNode.insertBefore(this.inputWrap, this.input);
+    this.inputWrap.appendChild(this.input);
   }
 
   setValue (value, initial, fromTemplate) {
@@ -74,7 +78,7 @@ export class ColorEditor extends StringEditor {
           color: this.value,
           popup: 'bottom' /* show in the bottom */
         }, this.defaults.options.colorpicker || {}, this.options.colorpicker || {}, {
-          parent: this.container
+          parent: this.inputWrap
         }))
 
         const updateHandler = color => {
