@@ -100,8 +100,8 @@ export class AbstractTheme {
 
   getFormInputLabel (text, req) {
     const el = document.createElement('label')
-    // 此处文本节点内容会被更新
-    el.appendChild(document.createTextNode(text))
+    // 此处文本节点内容会被更新(除了 color 特殊格式之外)
+    el.appendChild(document.createTextNode(text + ' :'))
     if (req) el.classList.add('required')
     return el
   }

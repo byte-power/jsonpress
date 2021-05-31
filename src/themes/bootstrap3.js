@@ -94,7 +94,7 @@ export class bootstrap3Theme extends AbstractTheme {
     const icon = document.createElement('span')
     icon.classList.add('glyphicon', 'glyphicon-info-sign', 'pull-right')
     icon.style.padding = '.25rem'
-    icon.style.marginLeft = '1em'
+    icon.style.marginLeft = '.5em'
     icon.style.position = 'relative'
     icon.style.display = 'inline-block'
 

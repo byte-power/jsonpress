@@ -447,7 +447,7 @@ export class AbstractEditor {
   }
 
   updateHeaderText () {
-    let titleOnly = this.schema.type === 'object' || this.schema.type === 'array' || this.schema.format === 'table';
+    let titleOnly = this.schema.type === 'object' || (this.schema.type === 'array' && !['select2', 'checkbox'].includes(this.schema.format));
     if (this.header) {
       const headerText = this.getHeaderText(titleOnly)
       /* If the header has children, only update the text node's value */
