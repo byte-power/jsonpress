@@ -106,6 +106,14 @@ export class AbstractTheme {
     return el
   }
 
+  getToggleLabel (text, req) {
+    const el = document.createElement('div')
+    el.appendChild(document.createTextNode(text + ' :'))
+    if (req) el.classList.add('required')
+    el.classList.add('toggle-label')
+    return el
+  }
+
   getHeader (text) {
     const el = document.createElement('h3')
     if (typeof text === 'string') {
@@ -115,14 +123,6 @@ export class AbstractTheme {
     }
     el.classList.add('je-header')
 
-    return el
-  }
-
-  getToggleLabel (text, req) {
-    const el = document.createElement('div')
-    el.appendChild(document.createTextNode(text))
-    if (req) el.classList.add('required')
-    el.classList.add('toggle-label')
     return el
   }
 
