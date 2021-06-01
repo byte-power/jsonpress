@@ -404,7 +404,7 @@ export class AbstractTheme {
   }
 
   getButtonPointer () {
-    let el = document.createElement('span')
+    let el = document.createElement('button')
     el.appendChild(document.createTextNode('...'))
     el.classList.add('btn', 'btn-default')
     return el
