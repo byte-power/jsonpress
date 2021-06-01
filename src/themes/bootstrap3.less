@@ -193,7 +193,20 @@ div[data-schemapath='root'] {
         transform: translateX(-100%);
     }
 }
-
+.hi-btn-more {
+    position: relative;
+    .btn-group {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        width: 200px;
+    }
+    &:hover {
+        .btn-group {
+            display: inline-block;
+        }
+    }
+}
 .hi-array-item-wrap {
     position: relative;
 }

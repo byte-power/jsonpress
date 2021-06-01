@@ -397,6 +397,19 @@ export class AbstractTheme {
     return this.getDescription(text)
   }
 
+  getButtonMore () {
+    let el = document.createElement('div')
+    el.classList.add('hi-btn-more')
+    return el
+  }
+
+  getButtonPointer () {
+    let el = document.createElement('span')
+    el.appendChild(document.createTextNode('...'))
+    el.classList.add('btn', 'btn-default')
+    return el
+  }
+
   getButtonHolder () {
     return document.createElement('span')
   }

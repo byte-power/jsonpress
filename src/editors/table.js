@@ -149,7 +149,9 @@ export class TableEditor extends ArrayEditor {
       ret.controls_cell = row.appendChild(this.theme.getTableCell())
       ret.row = row
       ret.table_controls = this.theme.getButtonHolder()
-      ret.controls_cell.appendChild(ret.table_controls)
+      ret.table_controls_more = this.theme.getButtonMore()
+      ret.table_controls_more.appendChild(ret.table_controls)
+      ret.controls_cell.appendChild(ret.table_controls_more)
       ret.table_controls.style.margin = 0
       ret.table_controls.style.padding = 0
     }
@@ -299,6 +301,9 @@ export class TableEditor extends ArrayEditor {
     const i = this.rows.length
 
     this.rows[i] = this.getElementEditor(i)
+
+    let pointer = this.theme.getButtonPointer()
+    this.rows[i].table_controls_more.appendChild(pointer)
 
     const controlsHolder = this.rows[i].table_controls
 
