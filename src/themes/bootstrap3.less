@@ -194,16 +194,17 @@ div[data-schemapath='root'] {
     }
 }
 .hi-btn-more {
+    display: inline-block;
     position: relative;
     .btn-group {
         visibility: hidden;
         position: absolute;
         z-index: 1;
-        width: 200px;
         transition: opacity 0.5s ease-out;
         opacity: 0;
     }
     &:hover {
+        display: block;
         .btn-group {
             visibility: visible;
             opacity: 1;
