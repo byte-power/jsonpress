@@ -119,13 +119,15 @@ export class bootstrap3Theme extends AbstractTheme {
   }
 
   getFormInputDescription (text, options) {
+    let pureText = this.cleanText(text);
+
     const el = document.createElement('p')
     el.classList.add('help-block')
     if (options && options.warning) {
       el.classList.add('help-warning');
     }
-    if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(text)
-    else el.textContent = this.cleanText(text)
+    if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(this.addLinebreak(text))
+    else el.innerHTML = this.addLinebreak(pureText)
     return el
   }
 

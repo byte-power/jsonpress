@@ -373,10 +373,16 @@ export class AbstractTheme {
     return document.createElement('div')
   }
 
+  addLinebreak(str) {
+    let result = str.split('\n');
+    return result.join('<br/>');
+  }
+
   getDescription (text) {
+    let pureText = this.cleanText(text);
     const el = document.createElement('p')
-    if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(text)
-    else el.textContent = this.cleanText(text)
+    if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(this.addLinebreak(text))
+    else el.innerHTML = this.addLinebreak(pureText)
     return el
   }
 
