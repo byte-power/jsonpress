@@ -79,8 +79,8 @@ export class TableEditor extends ArrayEditor {
 
     this.panel.appendChild(this.table)
     this.controls = this.theme.getButtonHolder()
-    if (this.array_controls_top) {
-      this.title && this.title.appendChild(this.controls)
+    if (this.array_controls_top && this.title) {
+      this.title.appendChild(this.controls)
     } else {
       this.panel.appendChild(this.controls)
     }
