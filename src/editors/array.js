@@ -137,7 +137,7 @@ export class ArrayEditor extends AbstractEditor {
         this.panel.appendChild(this.row_holder)
         this.controls = this.theme.getButtonHolder()
         if (this.array_controls_top) {
-          this.title.appendChild(this.controls)
+          this.title && this.title.appendChild(this.controls)
         } else {
           this.panel.appendChild(this.controls)
         }
