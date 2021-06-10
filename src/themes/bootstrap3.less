@@ -17,8 +17,12 @@
 label {
     line-height: 28px;
 }
+label.required {
+    position: relative;
+}
 label.required::after {
     position: absolute;
+    left: -7px;
     content: ' *';
     color: red;
 }
@@ -154,6 +158,7 @@ div[data-schemapath='root'] {
     }
     div.required::after {
         position: absolute;
+        left: -7px;
         content: ' *';
         color: red;
     }
