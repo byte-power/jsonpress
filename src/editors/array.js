@@ -255,7 +255,11 @@ export class ArrayEditor extends AbstractEditor {
 
     if (!ret.title_controls) {
       ret.array_controls = this.theme.getButtonHolder()
-      holder.appendChild(ret.array_controls)
+      if (this.array_controls_top && ret.title) {
+          ret.title.appendChild(ret.array_controls)
+      } else {
+          holder.appendChild(ret.array_controls)
+      }
     }
 
     return ret
