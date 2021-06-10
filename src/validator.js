@@ -8,9 +8,21 @@ export class Validator {
     this.schema = schema || this.jsoneditor.schema
     this.options = options || {}
     this.translate = this.jsoneditor.translate || defaults.translate
+    this.translateProperty = this.jsoneditor.translateProperty || defaults.translateProperty
     this.defaults = defaults
 
     this._validateSubSchema = {
+      const (schema, value, path) {
+        const valid = JSON.stringify(schema.const) === JSON.stringify(value) && !(Array.isArray(value) || typeof value === 'object')
+        if (!valid) {
+          return [{
+            path,
+            property: 'const',
+            message: this.translate('error_const')
+          }]
+        }
+        return []
+      },
       enum (schema, value, path) {
         const stringified = JSON.stringify(value)
         const valid = schema.enum.some(e => stringified === JSON.stringify(e))
@@ -348,7 +360,7 @@ export class Validator {
             errors.push({
               path: path + '.' + e,
               property: 'required',
-              message: this.translate('error_required', [e])
+              message: this.translate('error_required', [schema && schema.properties && schema.properties[e] && schema.properties[e].title ? schema.properties[e].title : e])
             })
           })
         }
@@ -410,6 +422,12 @@ export class Validator {
                 }
                 if (k.length > prop) {
                   msg = 'error_property_names_exceeds_maxlength'
+                  break
+                }
+                return true
+              case 'const':
+                if (prop !== k) {
+                  msg = 'error_property_names_const_mismatch'
                   break
                 }
                 return true
@@ -605,7 +623,7 @@ export class Validator {
   }
 
   _validateV3Required (schema, value, path) {
-    if ((typeof schema.required !== 'undefined' && schema.required === true) || (typeof schema.required === 'undefined' && this.jsoneditor.options.required_by_default === true)) {
+    if (((typeof schema.required !== 'undefined' && schema.required === true) || (typeof schema.required === 'undefined' && this.jsoneditor.options.required_by_default === true)) && (schema.type !== 'info')) {
       return [{
         path,
         property: 'required',

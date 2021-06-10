@@ -79,8 +79,8 @@ export class TableEditor extends ArrayEditor {
 
     this.panel.appendChild(this.table)
     this.controls = this.theme.getButtonHolder()
-    if (this.array_controls_top) {
-      this.title && this.title.appendChild(this.controls)
+    if (this.array_controls_top && this.title) {
+      this.title.appendChild(this.controls)
     } else {
       this.panel.appendChild(this.controls)
     }
@@ -324,7 +324,7 @@ export class TableEditor extends ArrayEditor {
       this.rows[i].movedown_button = this._createMoveDownButton(i, controlsHolder)
     }
 
-    if (value) this.rows[i].setValue(value)
+    if (typeof value !== 'undefined') this.rows[i].setValue(value)
   }
 
   _createDeleteButton (i, holder) {

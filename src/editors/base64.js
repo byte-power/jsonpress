@@ -31,7 +31,7 @@ export class Base64Editor extends AbstractEditor {
   }
 
   build () {
-    this.title = this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
+    if (!this.options.compact) this.title = this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
     if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.options.infoText)
 
     /* Input that holds the base64 string */
@@ -138,7 +138,8 @@ export class Base64Editor extends AbstractEditor {
 
   setValue (val) {
     if (this.value !== val) {
-      this.value = val
+      if (this.schema.readOnly && this.schema.enum && !this.schema.enum.includes(val)) this.value = this.schema.enum[0]
+      else this.value = val
       this.input.value = this.value
       this.refreshPreview()
       this.onChange()

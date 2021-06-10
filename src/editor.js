@@ -11,6 +11,7 @@ export class AbstractEditor {
     this.template_engine = this.jsoneditor.template
     this.iconlib = this.jsoneditor.iconlib
     this.translate = this.jsoneditor.translate || this.defaults.translate
+    this.translateProperty = this.jsoneditor.translateProperty || this.defaults.translateProperty
     this.original_schema = options.schema
     this.schema = this.jsoneditor.expandSchema(this.original_schema)
     this.active = true
@@ -129,7 +130,11 @@ export class AbstractEditor {
       this.notify()
     }
 
-    const displayMode = this.dependenciesFulfilled ? 'block' : 'none'
+    let displayMode = this.dependenciesFulfilled ? 'block' : 'none'
+    if (this.options.hidden) {
+      displayMode = 'none'
+    }
+
     if (wrapper.tagName === 'TD') {
       Object.keys(wrapper.childNodes).forEach(child => (wrapper.childNodes[child].style.display = displayMode))
     } else wrapper.style.display = displayMode
@@ -146,10 +151,8 @@ export class AbstractEditor {
     if (!editor || !editor.dependenciesFulfilled) {
       this.dependenciesFulfilled = false
     } else if (Array.isArray(choices)) {
-      this.dependenciesFulfilled = false
-      choices.some(choice => {
+      this.dependenciesFulfilled = choices.some(choice => {
         if (value === choice) {
-          this.dependenciesFulfilled = true
           return true
         }
       })
@@ -475,6 +478,10 @@ export class AbstractEditor {
         result += ' :';
     }
     return result;
+  }
+
+  getPathDepth () {
+    return this.path.split('.').length
   }
 
   cleanText (txt) {
