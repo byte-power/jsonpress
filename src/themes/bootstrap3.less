@@ -267,18 +267,18 @@ div[data-schemapath='root'] {
     position: relative;
     &::after {
         position: absolute;
-        top: 5px;
-        right: 7px;
-        padding: 0 0 2px;
-        border-bottom: 1px solid #999;
-        transform: rotate(90deg);
-        content: '<>';
-        color: #333;
-        font: 17px 'Consolas', monospace;
-        pointer-events: none;
+        top: 10px;
+        right: 10px;
+        width: 9px;
+        height: 9px;
+        border: 1px solid #333;
+        border-width: 2px 2px 0 0;
+        transform: rotate(135deg);
+        content: ' ';
     }
     select {
         padding-right: 2em;
+        -webkit-appearance: none;
         appearance: none;
     }
     /* To remove button from IE11
