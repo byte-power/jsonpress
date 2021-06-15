@@ -177,6 +177,10 @@ export class MultipleEditor extends AbstractEditor {
 
     this.switcher = this.theme.getSwitcher(this.display_text)
     container.appendChild(this.switcher)
+    /* change select arrow */
+    this.wrap = this.theme.getInputWrap(this.switcher)
+    this.wrap.classList.add('hi-select-wrap', 'hi-switch-wrap')
+
     this.switcher.addEventListener('change', e => {
       e.preventDefault()
       e.stopPropagation()
