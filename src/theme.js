@@ -203,6 +203,7 @@ export class AbstractTheme {
   getSelectInput (options, multiple) {
     const select = document.createElement('select')
     if (options) this.setSelectOptions(select, options)
+    select.classList.add('form-control')
     return select
   }
 
@@ -232,7 +233,7 @@ export class AbstractTheme {
 
   getTextareaInput () {
     const el = document.createElement('textarea')
-    el.classList.add('je-textarea')
+    el.classList.add('je-textarea', 'form-control')
     return el
   }
 
@@ -336,6 +337,9 @@ export class AbstractTheme {
   getFormInputField (type) {
     const el = document.createElement('input')
     el.setAttribute('type', type)
+    if (type !== 'checkbox' && type !== 'radio') {
+      el.classList.add('form-control')
+    }
     return el
   }
 
@@ -345,13 +349,13 @@ export class AbstractTheme {
 
   getFormControl (label, input, description, infoText) {
     const el = document.createElement('div')
-    el.classList.add('form-control')
     if (label) el.appendChild(label)
     if ((input.type === 'checkbox' || input.type === 'radio') && label) {
       input.style.width = 'auto'
       label.insertBefore(input, label.firstChild)
       if (infoText) label.appendChild(infoText)
     } else {
+      el.classList.add('form-group')
       if (infoText && label) label.appendChild(infoText)
       el.appendChild(input)
     }
@@ -411,7 +415,9 @@ export class AbstractTheme {
   }
 
   getButtonHolder () {
-    return document.createElement('span')
+    let el = document.createElement('span')
+    el.classList.add('btn-group')
+    return el
   }
 
   getHeaderButtonHolder () {
