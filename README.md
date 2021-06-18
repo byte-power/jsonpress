@@ -448,7 +448,7 @@ let schema = {
 -   array
 -   object
 -   info
--   null
+-   button
 
 ### 扩展格式
 
@@ -575,7 +575,7 @@ let schema = {
             <td></td>
         </tr>
         <tr>
-            <td>null</td>
+            <td>button</td>
             <td></td>
             <td></td>
             <td></td>
