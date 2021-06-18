@@ -10,7 +10,7 @@ export class htmlTheme extends AbstractTheme {
 
   getFormInputDescription (text) {
     const el = super.getFormInputDescription(text)
-    el.classList.add('je-form-input-label')
+    el.classList.add('je-form-input-description')
     return el
   }
 
