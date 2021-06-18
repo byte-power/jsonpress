@@ -152,63 +152,64 @@ div[data-theme] {
     .je-min-w {
         min-width: 6em;
     }
+
+    /* 第三方样式重定义 */
+    .choices__list--dropdown .choices__item {
+        white-space: nowrap;
+    }
+    .select2-container .select2-selection--single,
+    .select2-container .select2-selection--multiple {
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+    .select2-container .select2-selection--single {
+        height: 32px;
+    }
+    .ace_editor {
+        border: 1px solid #ddd;
+    }
+
+    /* 自有样式重定义 */
+    label {
+        line-height: 28px;
+    }
+    label.required {
+        position: relative;
+    }
+    label.required::after {
+        position: absolute;
+        left: -7px;
+        content: ' *';
+        color: red;
+    }
+    td {
+        vertical-align: top;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    .json-editor-btntype-toggle {
+        width: 24px;
+        height: 30px;
+        margin-right: 8px;
+        padding-left: 0;
+        padding-right: 0;
+        border-color: transparent;
+        background-color: transparent;
+        vertical-align: 0;
+    }
+    div[data-schemapath='root'] {
+        & > .je-header {
+            font-size: 14px;
+        }
+        & > .je-header > .json-editor-btntype-toggle {
+            display: none;
+        }
+    }
 }
 
-/* 第三方样式重定义 */
-.choices__list--dropdown .choices__item {
-    white-space: nowrap;
-}
-.select2-container .select2-selection--single,
-.select2-container .select2-selection--multiple {
-    border-top: 0;
-    border-right: 0;
-    border-left: 0;
-    border-radius: 0;
-}
-.select2-container .select2-selection--single {
-    height: 32px;
-}
-.ace_editor {
-    border: 1px solid #ddd;
-}
-
-/* 自有样式重定义 */
-label {
-    line-height: 28px;
-}
-label.required {
-    position: relative;
-}
-label.required::after {
-    position: absolute;
-    left: -7px;
-    content: ' *';
-    color: red;
-}
-td {
-    vertical-align: top;
-}
-h3 {
-    margin-top: 0;
-}
-.json-editor-btntype-toggle {
-    width: 24px;
-    height: 30px;
-    margin-right: 8px;
-    padding-left: 0;
-    padding-right: 0;
-    border-color: transparent;
-    background-color: transparent;
-    vertical-align: 0;
-}
-div[data-schemapath='root'] {
-    & > .je-header {
-        font-size: 14px;
-    }
-    & > .je-header > .json-editor-btntype-toggle {
-        display: none;
-    }
-}
 /* 定制样式 */
 .hi-inline {
     label {
