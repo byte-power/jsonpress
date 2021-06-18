@@ -667,7 +667,6 @@ export class ArrayEditor extends AbstractEditor {
     this.title.insertBefore(button, this.title.childNodes[0])
 
     const rowHolderDisplay = this.row_holder.style.display
-    const controlsDisplay = this.controls.style.display
     button.addEventListener('click', e => {
       e.preventDefault()
       e.stopPropagation()
