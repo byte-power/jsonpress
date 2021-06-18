@@ -21,7 +21,7 @@
     "editor"
   ],
   "scripts": {
-    "publish": "npm version minor",
+    "pub": "npm version minor",
     "push": "npm version patch",
     "prepare": "npm run build",
     "clean": "find ./src -name *.css.js -type f -delete",
