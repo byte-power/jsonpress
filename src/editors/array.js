@@ -676,12 +676,10 @@ export class ArrayEditor extends AbstractEditor {
       if (this.collapsed) {
         this.collapsed = false
         this.row_holder.style.display = rowHolderDisplay
-        this.controls.style.display = controlsDisplay
         this.setButtonText(e.currentTarget, '', 'collapse', 'button_collapse')
       } else {
         this.collapsed = true
         this.row_holder.style.display = 'none'
-        this.controls.style.display = 'none'
         this.setButtonText(e.currentTarget, '', 'expand', 'button_expand')
       }
     })
