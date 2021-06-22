@@ -124,11 +124,21 @@
 -   修复 dependencies 属性设置为数组时，不生效的 bug
 -   修复 nunjucks 模板引擎渲染方法
 
-## [1.1.0] - 2021-06-
+## [1.0.14] - 2021-06-18
 
 ### Added
 
--   description 说明支持传入 \n 来换行
+-   description 说明支持用 \n 来换行
+-   当根元素为字符串时，label 也渲染为大标题
+-   ace 编辑器样式调整
+
+### Fixed
+
+-   修复 array_controls_top 选项打开时，某些按钮找不到 this.title 报错的情况
+-   修复 array_controls_top 选项打开时，折叠时会把新增按钮也隐藏的 bug
+-   修复 description 说明的样式名赋值错误的 bug
+
+## [1.1.0] - 2021-06-
 
 ### Changed
 
