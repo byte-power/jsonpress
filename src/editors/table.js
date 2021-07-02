@@ -1,5 +1,13 @@
 import { ArrayEditor } from './array.js'
 import { extend, trigger } from '../utilities.js'
+let currentHoverTarget;
+const removeHoverClass = function () {
+    if (currentHoverTarget) {
+        currentHoverTarget.classList.remove('hi-btn-more-hover');
+        currentHoverTarget = null;
+    }
+};
+document.addEventListener('click', removeHoverClass);
 
 export class TableEditor extends ArrayEditor {
   register () {
@@ -304,6 +312,13 @@ export class TableEditor extends ArrayEditor {
 
     let pointer = this.theme.getButtonPointer()
     this.rows[i].table_controls_more.appendChild(pointer)
+    pointer.addEventListener('click', evt => {
+        evt.preventDefault();
+        evt.stopPropagation();
+        removeHoverClass();
+        currentHoverTarget = evt.currentTarget.parentNode;
+        currentHoverTarget.classList.add('hi-btn-more-hover');
+    });
 
     const controlsHolder = this.rows[i].table_controls
 
