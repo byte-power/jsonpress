@@ -112,6 +112,9 @@ div[data-schemapath='root'] {
         background-color: #f2f2f2;
     }
 }
+.json-editor-btn-delete {
+    color: red;
+}
 
 /* 定制样式 */
 .hi-toggle-wrap {
@@ -165,7 +168,7 @@ div[data-schemapath='root'] {
 }
 .hi-btn-more {
     position: absolute;
-    width: 160px;
+    width: 130px;
     .btn-group {
         visibility: hidden;
         position: absolute;
@@ -174,6 +177,11 @@ div[data-schemapath='root'] {
         opacity: 0;
         box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.2);
         transition: opacity 0.5s ease-out;
+        .btn {
+            float: none;
+            width: 100%;
+            text-align: left;
+        }
     }
     &.hi-btn-more-hover {
         .btn-group {
