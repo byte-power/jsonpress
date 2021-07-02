@@ -449,6 +449,9 @@ export class AbstractTheme {
       text = ` ${text}`
     }
     if (!this.jsoneditor.options.iconlib || !this.jsoneditor.options.remove_button_labels || !icon) {
+      if (text === ' ') {
+        return
+      }
       const spanEl = document.createElement('span')
       spanEl.appendChild(document.createTextNode(text))
       button.appendChild(spanEl)
