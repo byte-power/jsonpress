@@ -31,6 +31,8 @@ export class JSONEditor {
     // 启用 inline 模式
     if (this.options.inline) {
       this.element.classList.add('hi-inline');
+    } else {
+      this.element.classList.remove('hi-inline');
     }
     // 添加 control size
     if (this.options.control_size) {
