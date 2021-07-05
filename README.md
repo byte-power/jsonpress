@@ -99,6 +99,10 @@ const editor = new JSONEditor(element, {
 | expand_height                 | 是否自动扩展当前输入框的高度以适应内容，用于 textarea                             | false         |      | √    |
 | input_height                  | 设置当前输入框的高度，支持有效 css 值，用于 textarea                              |               |      | √    |
 | input_width                   | 设置当前输入框的宽度，支持有效 css 值，用于 string、number、integer               |               |      | √    |
+| \*control_size                | 设置编辑器输入框宽度为预设尺寸，支持 'small'、'middle'                            |               | √    |      |
+| \*inline                      | 设置输入框和其关联 label 为行内模式                                               | false         | √    |      |
+
+> \*号为 Press 新增属性
 
 ### 局部配置
 
@@ -607,6 +611,15 @@ let schema = {
 };
 ```
 
+> description 说明支持用 \n 来实现换行；支持传入 options.warning 来开启警示颜色。这是 Press 新增特性。
+
+```javascript
+description: 'the first line \n the second line',
+options: {
+    warning：true
+}
+```
+
 string 提供了一个关键字 `minLength` 用于限制字符串的最小长度。
 
 ```javascript
@@ -675,6 +688,29 @@ let schema = {
             enableSeconds: true, // 是否启用秒数
             time_24hr: true, // 是否启用 24 小时制
             allowInput: true // 是否允许手动输入
+        }
+    }
+};
+```
+
+Press 引入了一项自定义校验功能，可以支持指定某项时间必须大于或小于另外一项时间，在设置起始时间的场景下比较有用。通过 `relativeTo.path` 可以指定当前项的对比目标对象的路径，通过 `relativeTo.limit` 设置当前项相对于对比目标的规则，'less' 表明小于目标对象，'greater' 表明大于目标对象。
+
+```javascript
+let schema = {
+    valid_date_start: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_end',
+            limit: 'less'
+        }
+    },
+    valid_date_end: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_start',
+            limit: 'greater'
         }
     }
 };
@@ -1000,7 +1036,7 @@ let schema = {
 };
 ```
 
-另外 Press 还新增了一个切换开关形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
+另外 Press 还新增了一个开关切换形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
 
 ```javascript
 let schema = {
@@ -1162,16 +1198,16 @@ let schema = {
 编辑器针对 array 的元素常见操作（增加、删除、移动）都提供了对应的钩子函数便于做相应的处理。
 
 ```javascript
-editor.on('moveRow', (editor) => {
+editor.on('moveRow', editor => {
     console.log('moveRow', editor);
 });
-editor.on('addRow', (editor) => {
+editor.on('addRow', editor => {
     console.log('addRow', editor);
 });
-editor.on('deleteRow', (editor) => {
+editor.on('deleteRow', editor => {
     console.log('deleteRow', editor);
 });
-editor.on('deleteAllRows', (editor) => {
+editor.on('deleteAllRows', editor => {
     console.log('deleteAllRows', editor);
 });
 ```
@@ -1558,7 +1594,7 @@ const editor = new JSONEditor(element, {
 const myEngine = {
     // 渲染引擎必须包含 compile 方法，并返回一个渲染函数
     compile(template) {
-        return (view) => {
+        return view => {
             // 实现 render 方法来渲染模板，需要结合传入的数据 view
             let render = function () {};
             const result = render(template, view);
