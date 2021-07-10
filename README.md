@@ -1350,13 +1350,14 @@ JSONEditor.defaults.callbacks.button = {
 };
 ```
 
-## anyOf、oneOf 和 allOf
+## anyOf、oneOf、allOf 和 not
 
 编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
 
 -   anyOf: 满足任意一个子 schema
--   oneOf: 满足其中的一个子 schema，不能同时满足多个
+-   oneOf: 满足且仅满足一个子 schema
 -   allOf: 满足所有子 schema
+-   not: 不满足 schema
 
 ```javascript
 let schema = {
@@ -1394,6 +1395,14 @@ let schema = {
                 multipleOf: 3
             }
         ]
+    },
+    // 不能为数字
+    not: {
+        type: 'number'
+    },
+    // 不能为枚举项任意一个值
+    not: {
+        enum: ['default', 'origin']
     }
 };
 ```
