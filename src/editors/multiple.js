@@ -1,7 +1,7 @@
 /* Multiple Editor (for when `type` is an array, also when `oneOf` is present) */
 import { AbstractEditor } from '../editor.js'
 import { Validator } from '../validator.js'
-import { extend } from '../utilities.js'
+import { extend, getProp } from '../utilities.js'
 
 export class MultipleEditor extends AbstractEditor {
   register () {
@@ -218,6 +218,18 @@ export class MultipleEditor extends AbstractEditor {
     this.types.forEach((type, i) => {
       this.switchEditor(i)
     })
+
+    // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
+    let hasDependencies = false;
+    if (this.editors) {
+      hasDependencies = this.editors.every(editor => {
+        let depend = getProp(editor, 'schema.options.dependencies')
+        return !!depend;
+      });
+    }
+    if (hasDependencies) {
+      this.switcher.style.display = 'none'
+    }
   }
 
   onChildEditorChange (editor) {
