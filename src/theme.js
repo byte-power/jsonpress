@@ -101,6 +101,9 @@ export class AbstractTheme {
   getFormInputLabel (text, req) {
     const el = document.createElement('label')
     el.appendChild(document.createTextNode(text))
+    if (!text) {
+      el.style.display = 'inline'
+    }
     if (req) el.classList.add('required')
     return el
   }
