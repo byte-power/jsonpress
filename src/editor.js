@@ -143,6 +143,7 @@ export class AbstractEditor {
       wrapper.style.display = displayMode
       if(parent && parent.anyOf && displayMode === 'block') {
         parent.type = this.order
+        parent.setValue('')
       }
     }
   }
