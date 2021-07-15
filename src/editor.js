@@ -24,6 +24,7 @@ export class AbstractEditor {
     this.formname = options.formname || this.path.replace(/\.([^.]+)/g, '[$1]')
 
     this.parent = options.parent
+    this.order = options.order
     this.key = this.parent !== undefined ? this.path.split('.').slice(this.parent.path.split('.').length).join('.') : this.path
 
     this.link_watchers = []
@@ -135,9 +136,15 @@ export class AbstractEditor {
       displayMode = 'none'
     }
 
+    let parent = this.parent;
     if (wrapper.tagName === 'TD') {
       Object.keys(wrapper.childNodes).forEach(child => (wrapper.childNodes[child].style.display = displayMode))
-    } else wrapper.style.display = displayMode
+    } else {
+      wrapper.style.display = displayMode
+      if(parent && parent.anyOf && displayMode === 'block') {
+        parent.type = this.order
+      }
+    }
   }
 
   checkDependency (path, choices) {

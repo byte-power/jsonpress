@@ -105,6 +105,7 @@ export class MultipleEditor extends AbstractEditor {
       container: holder,
       path: this.path,
       parent: this,
+      order: i,
       required: true
     })
     this.editors[i].preBuild()
