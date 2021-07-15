@@ -101,3 +101,10 @@ export function dateStr2timestamp(value) {
   let timestamp = new Date(str).getTime();
   return timestamp;
 }
+
+// 安全读取对象深度嵌套的属性，遇到不存在的属性会返回 undefined，避免报错
+export function getProp(target, path) {
+  return path.split('.').reduce((obj, key) => {
+      return obj && obj[key];
+  }, target);
+}
