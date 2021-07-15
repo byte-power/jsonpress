@@ -228,6 +228,7 @@ export class MultipleEditor extends AbstractEditor {
       });
     }
     if (hasDependencies) {
+      this.header.style.display = 'none'
       this.switcher.style.display = 'none'
     }
   }
