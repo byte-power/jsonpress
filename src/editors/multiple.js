@@ -213,7 +213,10 @@ export class MultipleEditor extends AbstractEditor {
       this.validators[i] = new Validator(this.jsoneditor, schema, validatorOptions, this.defaults)
     })
 
-    this.switchEditor(0)
+    // 统一初始化 anyOf 的项，然后隐藏非当前项，避免切换时无初始项无法渲染
+    this.types.forEach((type, i) => {
+      this.switchEditor(i)
+    })
   }
 
   onChildEditorChange (editor) {
