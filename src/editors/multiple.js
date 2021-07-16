@@ -216,8 +216,11 @@ export class MultipleEditor extends AbstractEditor {
 
     // 统一初始化 anyOf 的项，然后隐藏非当前项，避免切换时无初始项无法渲染
     this.types.forEach((type, i) => {
-      this.switchEditor(i)
+      if (!this.editors[i]) {
+        this.buildChildEditor(i)
+      }
     })
+    this.switchEditor(0)
 
     // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
     let hasDependencies = false;
