@@ -137,3 +137,17 @@
 -   修复 array_controls_top 选项打开时，某些按钮找不到 this.title 报错的情况
 -   修复 array_controls_top 选项打开时，折叠时会把新增按钮也隐藏的 bug
 -   修复 description 说明的样式名赋值错误的 bug
+
+## [1.0.15] - 2021-06-18
+
+### Added
+
+-   增强 dependencies 和 anyOf 的联动功能:
+    -   针对 anyOf 下所有元素都有依赖项的情况下，隐藏原生切换控件，通过切换 dependencies 项来实现切换（同时隐藏 anyOf 标题）
+    -   实现切换 dependencies 项时，同时重置联动项的值
+    -   统一初始化 anyOf 的项，避免切换时无初始项无法渲染
+-   对于没有内容的 label 标签，改变其 display 属性，变相隐藏
+
+### Fixed
+
+-   修复 uniqueItems 设置为 false 时还执行校验的 bug
