@@ -8,7 +8,7 @@
     -   针对 anyOf 下所有元素都有依赖项的情况下，隐藏原生切换控件，通过切换 dependencies 项来实现切换（同时隐藏 anyOf 标题）
     -   实现切换 dependencies 项时，同时重置联动项的值
     -   统一初始化 anyOf 的项，避免切换时无初始项无法渲染
--   对于没有内容的 label 标签，改变其 display 属性，变相隐藏
+-   对于没有内容的 label 标签，改变其 display 属性，变相隐藏(避免空白区域)
 
 ### Fixed
 
