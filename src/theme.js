@@ -102,6 +102,9 @@ export class AbstractTheme {
     const el = document.createElement('label')
     // 此处文本节点内容会被更新(除了 color 特殊格式之外)
     el.appendChild(document.createTextNode(text + ' :'))
+    if (!text) {
+      el.style.display = 'inline'
+    }
     if (req) el.classList.add('required')
     return el
   }

@@ -99,6 +99,10 @@ const editor = new JSONEditor(element, {
 | expand_height                 | 是否自动扩展当前输入框的高度以适应内容，用于 textarea                             | false         |      | √    |
 | input_height                  | 设置当前输入框的高度，支持有效 css 值，用于 textarea                              |               |      | √    |
 | input_width                   | 设置当前输入框的宽度，支持有效 css 值，用于 string、number、integer               |               |      | √    |
+| \*control_size                | 设置编辑器输入框宽度为预设尺寸，支持 'small'、'middle'                            |               | √    |      |
+| \*inline                      | 设置输入框和其关联 label 为行内模式                                               | false         | √    |      |
+
+> \*号为 Press 新增属性
 
 ### 局部配置
 
@@ -607,6 +611,15 @@ let schema = {
 };
 ```
 
+> description 说明支持用 \n 来实现换行；支持传入 options.warning 来开启警示颜色。这是 Press 新增特性。
+
+```javascript
+description: 'the first line \n the second line',
+options: {
+    warning：true
+}
+```
+
 string 提供了一个关键字 `minLength` 用于限制字符串的最小长度。
 
 ```javascript
@@ -675,6 +688,29 @@ let schema = {
             enableSeconds: true, // 是否启用秒数
             time_24hr: true, // 是否启用 24 小时制
             allowInput: true // 是否允许手动输入
+        }
+    }
+};
+```
+
+Press 引入了一项自定义校验功能，可以支持指定某项时间必须大于或小于另外一项时间，在设置起始时间的场景下比较有用。通过 `relativeTo.path` 可以指定当前项的对比目标对象的路径，通过 `relativeTo.limit` 设置当前项相对于对比目标的规则，'less' 表明小于目标对象，'greater' 表明大于目标对象。
+
+```javascript
+let schema = {
+    valid_date_start: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_end',
+            limit: 'less'
+        }
+    },
+    valid_date_end: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_start',
+            limit: 'greater'
         }
     }
 };
@@ -859,7 +895,7 @@ let schema = {
 JSONEditor.defaults.callbacks.autocomplete = {
     // Setup for Wikipedia lookup
     search_wikipedia: function search(jseditor, input) {
-        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
 
         return new Promise(function (resolve) {
             if (input.length < 3) {
@@ -1000,7 +1036,7 @@ let schema = {
 };
 ```
 
-另外 Press 还新增了一个切换开关形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
+另外 Press 还新增了一个开关切换形式用于布尔类型，设置 `format` 为 _toggle_ 即可。
 
 ```javascript
 let schema = {
@@ -1033,7 +1069,7 @@ let schema = {
 ```javascript
 let schema = {
     type: 'integer',
-    enum: [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
+    enum: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012]
 };
 ```
 
@@ -1138,7 +1174,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
     }
 };
 ```
@@ -1152,7 +1188,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
     }
 };
 ```
@@ -1162,16 +1198,16 @@ let schema = {
 编辑器针对 array 的元素常见操作（增加、删除、移动）都提供了对应的钩子函数便于做相应的处理。
 
 ```javascript
-editor.on('moveRow', (editor) => {
+editor.on('moveRow', editor => {
     console.log('moveRow', editor);
 });
-editor.on('addRow', (editor) => {
+editor.on('addRow', editor => {
     console.log('addRow', editor);
 });
-editor.on('deleteRow', (editor) => {
+editor.on('deleteRow', editor => {
     console.log('deleteRow', editor);
 });
-editor.on('deleteAllRows', (editor) => {
+editor.on('deleteAllRows', editor => {
     console.log('deleteAllRows', editor);
 });
 ```
@@ -1279,7 +1315,7 @@ info 类型提供了静态文本的展示方式，一般用于信息提示和说
 let schema = {
     type: 'info',
     title: 'Tips',
-    description: 'It shows the available standard elements with all displayable options enabled, such as description and infoText.'
+    description: 'It shows the available standard elements with all displayable options enabled'
 };
 ```
 
@@ -1314,13 +1350,14 @@ JSONEditor.defaults.callbacks.button = {
 };
 ```
 
-## anyOf、oneOf 和 allOf
+## anyOf、oneOf、allOf 和 not
 
 编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
 
 -   anyOf: 满足任意一个子 schema
--   oneOf: 满足其中的一个子 schema，不能同时满足多个
+-   oneOf: 满足且仅满足一个子 schema
 -   allOf: 满足所有子 schema
+-   not: 不满足 schema
 
 ```javascript
 let schema = {
@@ -1358,6 +1395,14 @@ let schema = {
                 multipleOf: 3
             }
         ]
+    },
+    // 不能为数字
+    not: {
+        type: 'number'
+    },
+    // 不能为枚举项任意一个值
+    not: {
+        enum: ['default', 'origin']
     }
 };
 ```
@@ -1558,7 +1603,7 @@ const editor = new JSONEditor(element, {
 const myEngine = {
     // 渲染引擎必须包含 compile 方法，并返回一个渲染函数
     compile(template) {
-        return (view) => {
+        return view => {
             // 实现 render 方法来渲染模板，需要结合传入的数据 view
             let render = function () {};
             const result = render(template, view);
@@ -1671,7 +1716,8 @@ let schema = {
                 value: '{{item|trim}}',
                 // 可以定义数组子集，相当于 arr.slice
                 slice: [2, 5],
-                // 过滤特殊值，返回常量表示不渲染
+                // 过滤特殊值，返回常量表示不渲染（需要引入第三方模板引擎支持）
+                // 也可以直接定义回调函数以避免引入模板引擎，见 [回调函数] 部分
                 filter: "{% if item !== 'black' %}1{% endif %}"
             },
             // 后置常量

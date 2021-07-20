@@ -1,7 +1,7 @@
 /* Multiple Editor (for when `type` is an array, also when `oneOf` is present) */
 import { AbstractEditor } from '../editor.js'
 import { Validator } from '../validator.js'
-import { extend } from '../utilities.js'
+import { extend, getProp } from '../utilities.js'
 
 export class MultipleEditor extends AbstractEditor {
   register () {
@@ -71,7 +71,9 @@ export class MultipleEditor extends AbstractEditor {
       if (this.type === type) {
         if (this.keep_values) editor.setValue(currentValue, true)
         editor.container.style.display = ''
-      } else editor.container.style.display = 'none'
+      } else {
+        editor.container.style.display = 'none'
+      }
     })
     this.refreshValue()
     this.refreshHeaderText()
@@ -105,6 +107,7 @@ export class MultipleEditor extends AbstractEditor {
       container: holder,
       path: this.path,
       parent: this,
+      order: i,
       required: true
     })
     this.editors[i].preBuild()
@@ -217,7 +220,30 @@ export class MultipleEditor extends AbstractEditor {
       this.validators[i] = new Validator(this.jsoneditor, schema, validatorOptions, this.defaults)
     })
 
+    // 统一初始化 anyOf 的项，然后隐藏非当前项，避免切换时无初始项无法渲染
+    this.types.forEach((type, i) => {
+      if (!this.editors[i]) {
+        this.buildChildEditor(i)
+      }
+    })
     this.switchEditor(0)
+
+    // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
+    if (this.hasDependency()) {
+      this.header.style.display = 'none'
+      this.switcher.style.display = 'none'
+    }
+  }
+
+  hasDependency() {
+    let hasDependencies = false;
+    if (this.editors) {
+      hasDependencies = this.editors.every(editor => {
+        let depend = getProp(editor, 'schema.options.dependencies')
+        return !!depend;
+      });
+    }
+    return hasDependencies;
   }
 
   onChildEditorChange (editor) {
@@ -286,7 +312,10 @@ export class MultipleEditor extends AbstractEditor {
     if (finalI === null) {
       finalI = this.type
     }
-    this.type = finalI
+    // 全部有依赖项时，初始化时不修改 type 为 the best match schema，避免联动的输入控件不能正确渲染为对应的项和值
+    if (!this.hasDependency()){
+      this.type = finalI
+    }
     this.switcher.value = this.display_text[finalI]
 
     const typeChanged = this.type !== prevType

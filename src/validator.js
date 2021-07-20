@@ -314,6 +314,9 @@ export class Validator {
           if (typeof schema.uniqueItems === 'string') {
               target = target[schema.uniqueItems];
           }
+          if (schema.uniqueItems === false) {
+            continue;
+          }
           const valid = JSON.stringify(target)
           if (seen[valid]) {
             return [{
