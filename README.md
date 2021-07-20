@@ -895,7 +895,7 @@ let schema = {
 JSONEditor.defaults.callbacks.autocomplete = {
     // Setup for Wikipedia lookup
     search_wikipedia: function search(jseditor, input) {
-        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
 
         return new Promise(function (resolve) {
             if (input.length < 3) {
@@ -1069,7 +1069,7 @@ let schema = {
 ```javascript
 let schema = {
     type: 'integer',
-    enum: [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
+    enum: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012]
 };
 ```
 
@@ -1174,7 +1174,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
     }
 };
 ```
@@ -1188,7 +1188,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes', 'D-Unknown', 'E-Yes', 'E-Unknown']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
     }
 };
 ```
@@ -1315,7 +1315,7 @@ info 类型提供了静态文本的展示方式，一般用于信息提示和说
 let schema = {
     type: 'info',
     title: 'Tips',
-    description: 'It shows the available standard elements with all displayable options enabled, such as description and infoText.'
+    description: 'It shows the available standard elements with all displayable options enabled'
 };
 ```
 
@@ -1716,7 +1716,8 @@ let schema = {
                 value: '{{item|trim}}',
                 // 可以定义数组子集，相当于 arr.slice
                 slice: [2, 5],
-                // 过滤特殊值，返回常量表示不渲染（需要引入第三方模板引擎支持），也可以直接使用回调函数以避免引入模板引擎，见[回调函数]部分
+                // 过滤特殊值，返回常量表示不渲染（需要引入第三方模板引擎支持）
+                // 也可以直接定义回调函数以避免引入模板引擎，见 [回调函数] 部分
                 filter: "{% if item !== 'black' %}1{% endif %}"
             },
             // 后置常量
