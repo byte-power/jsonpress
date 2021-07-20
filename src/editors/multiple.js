@@ -308,7 +308,10 @@ export class MultipleEditor extends AbstractEditor {
     if (finalI === null) {
       finalI = this.type
     }
-    this.type = finalI
+    // 全部有依赖项时，初始化时不修改 type，避免联动的输入控件被错误渲染为第一项
+    if (!this.hasDependency()){
+      this.type = finalI
+    }
     this.switcher.value = this.display_text[finalI]
 
     const typeChanged = this.type !== prevType
