@@ -231,6 +231,7 @@ export class MultipleEditor extends AbstractEditor {
     // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
     if (this.hasDependency()) {
       this.header.style.display = 'none'
+      this.wrap.style.display = 'none'
       this.switcher.style.display = 'none'
     }
   }
