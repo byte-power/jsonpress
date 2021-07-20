@@ -308,7 +308,7 @@ export class MultipleEditor extends AbstractEditor {
     if (finalI === null) {
       finalI = this.type
     }
-    // 全部有依赖项时，初始化时不修改 type，避免联动的输入控件被错误渲染为第一项
+    // 全部有依赖项时，初始化时不修改 type 为 the best match schema，避免联动的输入控件不能正确渲染为对应的项和值
     if (!this.hasDependency()){
       this.type = finalI
     }
