@@ -71,7 +71,9 @@ export class MultipleEditor extends AbstractEditor {
       if (this.type === type) {
         if (this.keep_values) editor.setValue(currentValue, true)
         editor.container.style.display = ''
-      } else editor.container.style.display = 'none'
+      } else {
+        editor.container.style.display = 'none'
+      }
     })
     this.refreshValue()
     this.refreshHeaderText()
@@ -223,6 +225,13 @@ export class MultipleEditor extends AbstractEditor {
     this.switchEditor(0)
 
     // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
+    if (this.hasDependency()) {
+      this.header.style.display = 'none'
+      this.switcher.style.display = 'none'
+    }
+  }
+
+  hasDependency() {
     let hasDependencies = false;
     if (this.editors) {
       hasDependencies = this.editors.every(editor => {
@@ -230,10 +239,7 @@ export class MultipleEditor extends AbstractEditor {
         return !!depend;
       });
     }
-    if (hasDependencies) {
-      this.header.style.display = 'none'
-      this.switcher.style.display = 'none'
-    }
+    return hasDependencies;
   }
 
   onChildEditorChange (editor) {

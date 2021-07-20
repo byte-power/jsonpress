@@ -141,7 +141,7 @@ export class AbstractEditor {
       Object.keys(wrapper.childNodes).forEach(child => (wrapper.childNodes[child].style.display = displayMode))
     } else {
       wrapper.style.display = displayMode
-      if(parent && parent.anyOf && displayMode === 'block') {
+      if (parent && parent.anyOf && displayMode === 'block') {
         parent.type = this.order
         parent.setValue('')
       }
