@@ -482,7 +482,7 @@ export class AbstractEditor {
     if (this.header_text) {
         result = this.header_text;
     }
-    if (this.jsoneditor.options.inline && !titleOnly) {
+    if (result && this.jsoneditor.options.inline && !titleOnly) {
         result += ' :';
     }
     return result;
