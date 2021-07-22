@@ -394,6 +394,7 @@ export class TableEditor extends ArrayEditor {
     button.addEventListener('click', e => {
       e.preventDefault()
       e.stopPropagation()
+      removeHoverClass();
 
       const j = e.currentTarget.getAttribute('data-i') * 1
       const value = this.getValue()
@@ -415,6 +416,7 @@ export class TableEditor extends ArrayEditor {
     button.addEventListener('click', e => {
       e.preventDefault()
       e.stopPropagation()
+      removeHoverClass();
 
       const j = e.currentTarget.getAttribute('data-i') * 1
       const value = this.getValue()
