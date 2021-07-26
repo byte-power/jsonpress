@@ -513,15 +513,17 @@ let schema = {
 启用方法：
 
 -   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
--   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数名。
--   同时要通过 `JSONEditor.defaults.callbacks.upload` 属性定义该上传处理函数。该函数有四个回调参数 _jseditor, type, file, callback_。
-    -   jseditor：当前编辑器实例
-    -   type：上传控件对应的路径字段
+-   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数。该回调函数有三个参数 _path, file, callback_。
+
+    -   path：上传控件对应的路径字段
     -   file：上传控件选中的文件
     -   callback：回调对象（提供了 success、failure、updateProgress 方法）
         -   success：成功的回调方法，用于给控件对应的字段赋值
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
+
+    也可以设置该属性为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.upload` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前编辑器实例
+
 -   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
 
 ```javascript
@@ -542,8 +544,8 @@ let schema = {
 };
 
 JSONEditor.defaults.callbacks.upload = {
-    uploadHandler: function (jseditor, type, file, callback) {
-        if (type === 'root.uploadfail') {
+    uploadHandler: function (jseditor, path, file, callback) {
+        if (path === 'root.uploadfail') {
             callback.failure('Upload failed');
         } else {
             let step = 0;
@@ -615,8 +617,12 @@ let schema = {
 启用方法：
 
 -   首先设置 `format` 为 _autocomplete_，同时通过 `options.autocomplete` 设置相关属性，即可启用一个带自动完成的输入控件。
--   在相关属性内，使用 `search` 关键字指定一个搜索函数并异步返回结果；使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到输入框；使用 `getResultValue` 关键字指定一个函数返回选中项对应文本；使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
--   同时要通过 `JSONEditor.defaults.callbacks.autocomplete` 属性定义上述各个函数。
+-   在相关属性内，
+    -   使用 `search` 关键字指定一个搜索函数并异步返回结果。该回调函数有一个参数，表示当前输入值；
+    -   使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到备选下拉框。该回调函数有两个参数，分别表示单个备选结果及其相关属性；
+    -   使用 `getResultValue` 关键字指定一个函数处理选中项并返回结果用于渲染。该回调函数有一个参数，表示当前选中值；
+    -   使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
+-   上述属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.autocomplete` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前编辑器实例
 
 ```javascript
 let schema = {
