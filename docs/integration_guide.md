@@ -292,3 +292,47 @@ editor.getEditor('root.name').activate();
 // 从 DOM 树移除当前编辑器
 editor.destroy();
 ```
+
+## 自定义校验
+
+编辑器对于校验引擎提供了一个钩子函数，可以方便进行自定义规则的即校验。
+
+例如，可以对所有 `format` 为 _date_ 的数据都要求符合 `YYYY-MM-DD` 格式。
+
+```javascript
+JSONEditor.defaults.custom_validators.push((schema, value, path) => {
+    const errors = [];
+    if (schema.format === 'date') {
+        if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(value)) {
+            // 错误对象必须包含 path、property、message 三种属性
+            errors.push({
+                path: path,
+                property: 'format',
+                message: 'Dates must be in the format "YYYY-MM-DD"'
+            });
+        }
+    }
+    return errors;
+});
+```
+
+## 覆盖默认方法
+
+编辑器提供了两种方式可以覆盖原有的方法。
+
+### 通过构造类原型
+
+```javascript
+JSONEditor.defaults.editors.integer.prototype.sanitize = function (value) {
+    return value;
+};
+```
+
+### 通过路径获取的节点
+
+```javascript
+var path = 'root.integerfield';
+editor.getEditor(path).sanitize = function (value) {
+    return value;
+};
+```
