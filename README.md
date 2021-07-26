@@ -914,7 +914,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown']
     }
 };
 ```
@@ -928,7 +928,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown', 'D-Yes']
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown']
     }
 };
 ```
