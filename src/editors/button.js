@@ -29,13 +29,13 @@ export class ButtonEditor extends AbstractEditor {
       icon: '',
       validated: false,
       align: 'left',
-      action: (jseditor, e) => {
-        window.alert(`No button action defined for "${jseditor.path}"`)
+      action: (e) => {
+        window.alert(`No button action defined for "${this.path}"`)
       }
     }, this.defaults.options.button || {}, this.options.button || {}))
 
     this.input = this.theme.getFormButton(title, options.icon, title)
-    this.input.addEventListener('click', options.action, false)
+    this.input.addEventListener('click', options.action.bind(this), false)
 
     if (this.schema.readOnly || this.schema.readonly || this.schema.template) {
       this.disable(true)
