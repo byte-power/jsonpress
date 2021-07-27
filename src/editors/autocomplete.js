@@ -29,9 +29,9 @@ export class AutocompleteEditor extends StringEditor {
       /* Get options, either global options from "this.defaults.options.autocomplete" or */
       /* single property options from schema "options.autocomplete" */
       options = this.expandCallbacks('autocomplete', extend({}, {
-        search: (jseditor, input) => {
+        search: (input) => {
           // eslint-disable-next-line no-console
-          console.log(`No "search" callback defined for autocomplete in property "${jseditor.key}"`)
+          window.alert(`No "search" callback defined for autocomplete in property "${this.key}"`)
           return []
         },
         baseClass: 'autocomplete'
