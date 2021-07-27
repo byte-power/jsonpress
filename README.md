@@ -33,6 +33,8 @@ let editor = new JSONEditor(element, options);
 
 更多关于集成方面的说明，请查看 [集成指南](./docs/integration_guide.md)
 
+以下说明，面向使用 JSON Press 撰写 JSON schema 的运维和产品人员。
+
 ## 原生 JSON Schema 支持
 
 编辑器支持原生的 JSON Schema 规范（v4 版），包括核心定义和校验规则。

@@ -1,12 +1,6 @@
 # 集成指南
 
-## 简介
-
-JSON Press 是一款能将描述数据结构的 JSON Schema 转换为相应的 HTML 表单的前端工具库。
-
-它能快速生成以 JSON 文件作为产出物的可交互、有约束、易校验的 HTML 表单，可以对应用、游戏提供简洁快速的配置支持，避免使用原始表单组件进行大量重复的页面布局和功能开发，提高生产效率。
-
-它是 [json-editor/json-editor](https://github.com/json-editor/json-editor) 的 fork 版本，在其基础上进行了美化、增强和修正（下文用 Press 代指来注明修改之处）。
+该指南面向打算把 JSON Press 集成到自身 Web 产品并在此基础上进行封装，并预设配置和样式的开发者。
 
 ## 安装
 
@@ -316,11 +310,11 @@ JSONEditor.defaults.custom_validators.push((schema, value, path) => {
 });
 ```
 
-## 基础数据类型的增强集成
+## 基础数据类型的全局函数定义
 
 ### upload
 
-对于 upload 的 upload_handler 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.upload` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+对于 upload 的 `upload_handler` 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.upload` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
 
 ```javascript
 let schema = {
@@ -369,7 +363,7 @@ JSONEditor.defaults.callbacks.upload = {
 
 ### autocomplete
 
-对于 autocomplete 的 search、renderResult、getResultValue 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.autocomplete` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+对于 autocomplete 的 `search、renderResult、getResultValue` 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.autocomplete` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
 
 ```javascript
 let schema = {
@@ -447,7 +441,7 @@ JSONEditor.defaults.callbacks.button = {
 
 #### template
 
-在使用 template 实现自定义渲染时， 它可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.template` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
+在使用 `template` 实现自定义渲染时，它可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.template` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
 
 ```javascript
 let schema = {
