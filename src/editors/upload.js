@@ -23,9 +23,9 @@ export class UploadEditor extends AbstractEditor {
       alt_drop_zone: '', /* Alternate DropZone DOM selector (Can be created inside another property) */
       mime_type: '', /* If set, restricts to mime type(s). Can be either a string or an array */
       max_upload_size: 0, /* Maximum file size allowed. 0 = no limit */
-      upload_handler: (jseditor, type, file, cbs) => {
+      upload_handler: (type, file, cbs) => {
         /* Default dummy test upload handler */
-        window.alert(`No upload_handler defined for "${jseditor.path}". You must create your own handler to enable upload to server`)
+        window.alert(`No upload_handler defined for "${this.path}". You must create your own handler to enable upload to server`)
       }
     }, this.defaults.options.upload || {}, this.options.upload || {}))
 
@@ -231,7 +231,7 @@ export class UploadEditor extends AbstractEditor {
         this.preview.appendChild(this.progressBar)
       }
 
-      this.options.upload_handler(this.path, file, {
+      this.options.upload_handler.call(this, this.path, file, {
         success: (url) => {
           this.setValue(url)
 
