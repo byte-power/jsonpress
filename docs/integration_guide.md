@@ -316,6 +316,164 @@ JSONEditor.defaults.custom_validators.push((schema, value, path) => {
 });
 ```
 
+## 基础数据类型的增强集成
+
+### upload
+
+对于 upload 的 upload_handler 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.upload` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'url',
+    options: {
+        upload: {
+            upload_handler: 'uploadHandler'
+        }
+    },
+    links: [
+        {
+            href: '{{self}}',
+            rel: 'view'
+        }
+    ]
+};
+
+JSONEditor.defaults.callbacks.upload = {
+    uploadHandler: function (jseditor, path, file, callback) {
+        if (path === 'root.uploadfail') {
+            callback.failure('Upload failed');
+        } else {
+            let step = 0;
+
+            let tickFunction = function () {
+                step += 1;
+                console.log('progress: ' + step);
+
+                if (step < 100) {
+                    callback.updateProgress(step);
+                    window.setTimeout(tickFunction, 50);
+                } else if (step == 100) {
+                    callback.updateProgress();
+                    window.setTimeout(tickFunction, 500);
+                } else {
+                    callback.success('http://www.example.com/images/' + file.name);
+                }
+            };
+
+            window.setTimeout(tickFunction);
+        }
+    }
+};
+```
+
+### autocomplete
+
+对于 autocomplete 的 search、renderResult、getResultValue 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.autocomplete` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'autocomplete',
+    options: {
+        autocomplete: {
+            search: 'search_wikipedia',
+            renderResult: 'renderResult_wikipedia',
+            getResultValue: 'getResultValue_wikipedia',
+            autoSelect: true
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.autocomplete = {
+    // Setup for Wikipedia lookup
+    search_wikipedia: function search(jseditor, input) {
+        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
+
+        return new Promise(function (resolve) {
+            if (input.length < 3) {
+                return resolve([]);
+            }
+
+            fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    resolve(data.query.search);
+                });
+        });
+    },
+    renderResult_wikipedia: function (jseditor, result, props) {
+        return [
+            '<li ' + props + '>',
+            '<div class="wiki-title">' + result.title + '</div>',
+            '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
+            '</li>'
+        ].join('');
+    },
+    getResultValue_wikipedia: function (jseditor, result) {
+        return result.title;
+    }
+};
+```
+
+### button
+
+对于 button 的 `action` 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.button` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
+
+```javascript
+let schema = {
+    type: 'button',
+    title: 'Click this',
+    options: {
+        button: {
+            validated: true,
+            action: 'show'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.button = {
+    show: function (jseditor, evt) {
+        console.log('value = ', jseditor.jsoneditor.getValue());
+    }
+};
+```
+
+## 依赖项
+
+### 自定义依赖
+
+#### template
+
+在使用 template 实现自定义渲染时， 它可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.template` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
+
+```javascript
+let schema = {
+    first_name: {
+        type: 'string'
+    },
+    last_name: {
+        type: 'string'
+    },
+    full_name: {
+        type: 'string',
+        template: 'watchCallback',
+        watch: {
+            fname: 'first_name',
+            lname: 'last_name'
+        }
+    }
+};
+
+JSONEditor.defaults.callbacks.template = {
+    watchCallback: function (jseditor, target) {
+        return target.fname + ':' + target.lname;
+    }
+};
+```
+
 ## 覆盖默认方法
 
 编辑器提供了两种方式可以覆盖原有的方法。

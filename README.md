@@ -31,7 +31,7 @@ let element = document.getElementById('editor');
 let editor = new JSONEditor(element, options);
 ```
 
-更多关于集成方面的说明，请查看 [集成指南](./docs/integration.guide.md)
+更多关于集成方面的说明，请查看 [集成指南](./docs/integration_guide.md)
 
 ## 原生 JSON Schema 支持
 
@@ -522,7 +522,7 @@ let schema = {
         -   failure：失败的回调方法，用于控件显示错误提示信息
         -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
 
-    也可以设置该属性为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.upload` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+    也可以设置该属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#upload)的对应部分
 
 -   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
 
@@ -532,7 +532,30 @@ let schema = {
     format: 'url',
     options: {
         upload: {
-            upload_handler: 'uploadHandler'
+            upload_handler: function (path, file, callback) {
+                if (path === 'root.uploadfail') {
+                    callback.failure('Upload failed');
+                } else {
+                    let step = 0;
+
+                    let tickFunction = function () {
+                        step += 1;
+                        console.log('progress: ' + step);
+
+                        if (step < 100) {
+                            callback.updateProgress(step);
+                            window.setTimeout(tickFunction, 50);
+                        } else if (step == 100) {
+                            callback.updateProgress();
+                            window.setTimeout(tickFunction, 500);
+                        } else {
+                            callback.success('http://www.example.com/images/' + file.name);
+                        }
+                    };
+
+                    window.setTimeout(tickFunction);
+                }
+            }
         }
     },
     links: [
@@ -541,33 +564,6 @@ let schema = {
             rel: 'view'
         }
     ]
-};
-
-JSONEditor.defaults.callbacks.upload = {
-    uploadHandler: function (jseditor, path, file, callback) {
-        if (path === 'root.uploadfail') {
-            callback.failure('Upload failed');
-        } else {
-            let step = 0;
-
-            let tickFunction = function () {
-                step += 1;
-                console.log('progress: ' + step);
-
-                if (step < 100) {
-                    callback.updateProgress(step);
-                    window.setTimeout(tickFunction, 50);
-                } else if (step == 100) {
-                    callback.updateProgress();
-                    window.setTimeout(tickFunction, 500);
-                } else {
-                    callback.success('http://www.example.com/images/' + file.name);
-                }
-            };
-
-            window.setTimeout(tickFunction);
-        }
-    }
 };
 ```
 
@@ -622,7 +618,7 @@ let schema = {
     -   使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到备选下拉框。该回调函数有两个参数，分别表示单个备选结果及其相关属性；
     -   使用 `getResultValue` 关键字指定一个函数处理选中项并返回结果用于渲染。该回调函数有一个参数，表示当前选中值；
     -   使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
--   上述属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.autocomplete` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点
+-   也可以设置上述属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#autocomplete)的对应部分
 
 ```javascript
 let schema = {
@@ -630,43 +626,31 @@ let schema = {
     format: 'autocomplete',
     options: {
         autocomplete: {
-            search: 'search_wikipedia',
-            renderResult: 'renderResult_wikipedia',
-            getResultValue: 'getResultValue_wikipedia',
+            search: function search(input) {
+                let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
+
+                return new Promise(function (resolve) {
+                    if (input.length < 3) {
+                        return resolve([]);
+                    }
+
+                    fetch(url)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            resolve(data.query.search);
+                        });
+                });
+            },
+            renderResult: function (result, props) {
+                return `<li ${props}>${result.title}</li>`;
+            },
+            getResultValue: function (result) {
+                return result.title;
+            },
             autoSelect: true
         }
-    }
-};
-
-JSONEditor.defaults.callbacks.autocomplete = {
-    // Setup for Wikipedia lookup
-    search_wikipedia: function search(jseditor, input) {
-        let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
-
-        return new Promise(function (resolve) {
-            if (input.length < 3) {
-                return resolve([]);
-            }
-
-            fetch(url)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    resolve(data.query.search);
-                });
-        });
-    },
-    renderResult_wikipedia: function (jseditor, result, props) {
-        return [
-            '<li ' + props + '>',
-            '<div class="wiki-title">' + result.title + '</div>',
-            '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
-            '</li>'
-        ].join('');
-    },
-    getResultValue_wikipedia: function getResultValue(jseditor, result) {
-        return result.title;
     }
 };
 ```
@@ -1073,7 +1057,7 @@ button 类型提供了按钮控件形式，一般用于获取当前编辑器的�
 
 -   首先设置 `type` 为 _button_，同时通过 `options.button` 中设置相关属性，即可启用一个按钮控件。
 -   在相关属性内，使用 `action` 关键字指定一个函数用于按钮点击调用，该函数有一个参数，表示当前事件；使用 `validated` 关键字设置是否校验数据有效后才让按钮生效。
--   上述 `action` 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.button` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
+-   也可以设置 `action` 属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#button)的对应部分
 
 > 注：当为 button 时，该字段默认为 required
 
@@ -1084,14 +1068,10 @@ let schema = {
     options: {
         button: {
             validated: true,
-            action: 'show'
+            action: function (evt) {
+                console.log('value = ', this.jsoneditor.getValue());
+            }
         }
-    }
-};
-
-JSONEditor.defaults.callbacks.button = {
-    show: function (jseditor, evt) {
-        console.log('value = ', jseditor.jsoneditor.getValue());
     }
 };
 ```
@@ -1381,7 +1361,8 @@ let schema = {
 ```
 
 `template` 关键字除了定义为模板字符串，也支持指定为一个回调函数，该函数有一个参数就是 `watch` 定义的监听项。
-上述 `template` 属性可以设置为字符串值，表示函数名称，然后通过 `JSONEditor.defaults.callbacks.template` 属性进行全局函数定义，不过要注意的时，全局函数的参数比直接定义函数在最前面多一个参数 jseditor，指向当前节点。
+
+也可以设置该属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#template)的对应部分
 
 ```javascript
 let schema = {
@@ -1393,17 +1374,13 @@ let schema = {
     },
     full_name: {
         type: 'string',
-        template: 'watchCallback',
+        template: function (target) {
+            return target.fname + ':' + target.lname;
+        },
         watch: {
             fname: 'first_name',
             lname: 'last_name'
         }
-    }
-};
-
-JSONEditor.defaults.callbacks.template = {
-    watchCallback: function (jseditor, target) {
-        return target.fname + ':' + target.lname;
     }
 };
 ```
