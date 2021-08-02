@@ -311,18 +311,21 @@ export class Validator {
         const seen = {}
         for (let i = 0; i < value.length; i++) {
           let target = value[i];
+          let isProps = false;
           if (typeof schema.uniqueItems === 'string') {
-              target = target[schema.uniqueItems];
+            target = target[schema.uniqueItems];
+            isProps = true;
           }
           if (schema.uniqueItems === false) {
             continue;
           }
           const valid = JSON.stringify(target)
           if (seen[valid]) {
+            let msg = isProps ? 'error_uniqueProps' : 'error_uniqueItems'
             return [{
               path,
               property: 'uniqueItems',
-              message: this.translate('error_uniqueItems')
+              message: this.translate(msg, [schema.uniqueItems])
             }]
           }
           seen[valid] = true
