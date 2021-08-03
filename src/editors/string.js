@@ -291,7 +291,7 @@ export class StringEditor extends AbstractEditor {
   }
 
   getValue () {
-    const hasValueSet = !!(this.input && this.input.value)
+    const hasValueSet = !!(this.input && super.getValue())
     if (this.isRequired() && !hasValueSet) {
       return undefined
     }
@@ -367,7 +367,7 @@ export class StringEditor extends AbstractEditor {
   showValidationErrors (errors) {
     if (this.jsoneditor.options.show_errors === 'always') {
     } else if (!this.is_dirty && this.previous_error_setting === this.jsoneditor.options.show_errors) {
-      // 禁用返回，副作用未知！！！
+      // 禁用返回，否则校验不会显示。副作用未知！！！
     }
 
     this.previous_error_setting = this.jsoneditor.options.show_errors
