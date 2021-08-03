@@ -129,7 +129,7 @@ languages.en = {
   */
   error_uniqueItems: 'Array must have unique items',
   /**
-  * When an array is supposed to have unique items but has duplicates
+  * When an array is supposed to have unique property items but has duplicates
   */
    error_uniqueProps: 'Array item must have unique property : {{0}}',
   /**
