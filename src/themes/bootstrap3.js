@@ -64,7 +64,7 @@ export class bootstrap3Theme extends AbstractTheme {
       }
       group.insertBefore(input, label);
       group.insertBefore(infoText, input);
-  } else if (label && (input.type === 'checkbox' || input.type === 'radio')) {
+    } else if (label && (input.type === 'checkbox' || input.type === 'radio')) {
       group.classList.add(input.type)
       label.insertBefore(input, label.firstChild)
       group.appendChild(label)
