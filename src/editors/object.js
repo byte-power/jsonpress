@@ -57,13 +57,10 @@ export class ObjectEditor extends AbstractEditor {
     if (this.addproperty_button) this.addproperty_button.disabled = true
     this.hideEditJSON()
 
-    console.log('执行自身（父类）禁用');
     super.disable()
     if (this.editors) {
-      console.log('迭代子级的禁用');
       Object.values(this.editors).forEach(e => {
         if (e.isActive()) {
-          console.log('执行单个子级禁用', e.key);
           e.disable(alwaysDisabled)
         }
         e.optInCheckbox.disabled = true
