@@ -1215,7 +1215,8 @@ export class ObjectEditor extends AbstractEditor {
         if (this.jsoneditor.options.show_opt_in || this.options.show_opt_in) {
           editor.deactivate()
         } else {
-          this.removeObjectProperty(i)
+          // 禁用删除，否则当没有非必填项的数据时，该项不会渲染。副作用未知！！！
+          // this.removeObjectProperty(i)
         }
         /* Otherwise, set the value to the default */
       } else {
