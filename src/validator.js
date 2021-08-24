@@ -157,6 +157,35 @@ export class Validator {
     this._validateNumberSubSchema = {
       multipleOf (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
       divisibleBy (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
+      relativeTo(schema, value, path) {
+        let pathParts = schema.relativeTo.path.split('.');
+        let first = pathParts.shift();
+        let self = this.jsoneditor.getEditor(path);
+        let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
+        let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
+        let relEditor = this.jsoneditor.getEditor(adjustedPath);
+        let target = relEditor.getValue();
+        if (target) {
+          if (schema.relativeTo.limit === 'less' && target < value) {
+            return [
+              {
+                path,
+                property: 'format',
+                message: this.translate('error_maximum_excl', [relEditor.key])
+              }
+            ];
+          } else if (schema.relativeTo.limit === 'greater' && target > value) {
+            return [
+              {
+                path,
+                property: 'format',
+                message: this.translate('error_minimum_excl', [relEditor.key])
+              }
+            ];
+          }
+        }
+        return [];
+      },
       maximum (schema, value, path) {
         /* Vanilla JS, prone to floating point rounding errors (e.g. .999999999999999 == 1) */
         let valid = schema.exclusiveMaximum ? (value < schema.maximum) : (value <= schema.maximum)

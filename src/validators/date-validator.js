@@ -5,12 +5,12 @@ const validateRelation = (schema, value, path, editor) => {
     if (schema.relativeTo) {
         let relObj = schema.relativeTo;
         let relEditor = editor.getEditor(`${relObj.path}`);
-        let target = relEditor.getValue();
+        let target = relEditor && relEditor.getValue();
         let timestamp = value;
         if (schema.type === 'string') {
             if (schema.format.includes('date') || schema.format.includes('time')) {
                 timestamp = dateStr2timestamp(value);
-                target = dateStr2timestamp(target);
+                target = target && dateStr2timestamp(target);
             }
         }
         if (target) {

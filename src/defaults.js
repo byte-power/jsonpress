@@ -82,7 +82,7 @@ languages.en = {
   */
   error_maximum_excl: 'Value must be less than {{0}}',
   /**
-  * When a value is greater than it's supposed to be (inclusive
+  * When a value is greater than it's supposed to be (inclusive)
   * @variables This key takes one variable: The maximum
   */
   error_maximum_incl: 'Value must be at most {{0}}',
