@@ -1,17 +1,23 @@
 import {dateStr2timestamp} from '../utilities.js';
 
 /* 实现 date 输入框联动校验的功能 */
+function isDate(schema) {
+    return schema.format && (schema.format.includes('date') || schema.format.includes('time'));
+}
 const validateRelation = (schema, value, path, editor) => {
-    if (schema.relativeTo) {
+    if (schema.relativeTo && isDate(schema)) {
         let relObj = schema.relativeTo;
-        let relEditor = editor.getEditor(`${relObj.path}`);
+        let pathParts = relObj.path.split('.');
+        let first = pathParts.shift();
+        let self = editor.getEditor(path);
+        let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
+        let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
+        let relEditor = editor.getEditor(adjustedPath);
         let target = relEditor && relEditor.getValue();
         let timestamp = value;
         if (schema.type === 'string') {
-            if (schema.format.includes('date') || schema.format.includes('time')) {
-                timestamp = dateStr2timestamp(value);
-                target = target && dateStr2timestamp(target);
-            }
+            timestamp = dateStr2timestamp(value);
+            target = target && dateStr2timestamp(target);
         }
         if (target) {
             if (relObj.limit === 'less' && target <= timestamp) {
