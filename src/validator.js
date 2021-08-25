@@ -50,6 +50,17 @@ export class Validator {
         return schema.allOf.reduce(validate, [])
       },
       anyOf (schema, value, path) {
+        // 当 anyOf 是联动关系时，仅校验当前激活项，而非所有
+        let current = this.jsoneditor.getEditor(path);
+        let hasDep = schema.anyOf.some(item => {
+          return item.options && item.options.dependencies;
+        });
+        if (hasDep) {
+          let currentSchema = schema.anyOf[current.type];
+          let result = this._validateSchema(currentSchema, value, path);
+          return result;
+        }
+
         const valid = schema.anyOf.some(e => !this._validateSchema(e, value, path).length)
         if (!valid) {
           return [{
