@@ -52,7 +52,8 @@ export class Validator {
       anyOf (schema, value, path) {
         // 当 anyOf 是联动关系时，仅校验当前激活项，而非所有
         let current = this.jsoneditor.getEditor(path);
-        let hasDep = schema.anyOf.some(item => {
+        let realSchema = this.jsoneditor.expandSchema(schema);
+        let hasDep = realSchema.anyOf.some(item => {
           return item.options && item.options.dependencies;
         });
         if (hasDep) {
