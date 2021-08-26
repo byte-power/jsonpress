@@ -108,3 +108,13 @@ export function getProp(target, path) {
       return obj && obj[key];
   }, target);
 }
+
+// 通过 schema 和 path 获取当前对应的元素（用于 relativeTo 字段）
+export function getEditor(relativeObj, path, editor) {
+  let pathParts = relativeObj.path.split('.');
+  let first = pathParts.shift();
+  let self = editor.getEditor(path);
+  let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
+  let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
+  return editor.getEditor(adjustedPath);
+}
