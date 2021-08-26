@@ -347,16 +347,17 @@ export class Validator {
         if (schema.uniqueItems === false) {
           return [];
         }
-        let realValue = value
+        let realValue = value;
         if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') > -1) {
-            realValue =[]
-            let arr = schema.uniqueItems.split('.');
-            value.forEach((item)=>{
-              let first = item[arr[0]];
-              first.forEach((i)=>{
-                realValue.push(i[arr[1]])
-              })
-            })
+          realValue = [];
+          let arr = schema.uniqueItems.split('.');
+          value.forEach(item => {
+            let first = item[arr[0]];
+            first &&
+              first.forEach(i => {
+                realValue.push(i[arr[1]]);
+              });
+          });
         }
 
         const seen = {}
