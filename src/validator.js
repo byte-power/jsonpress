@@ -343,16 +343,28 @@ export class Validator {
         return []
       },
       uniqueItems (schema, value, path) {
+        if (schema.uniqueItems === false) {
+          return [];
+        }
+        let realValue = value
+        if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') > -1) {
+            realValue =[]
+            let arr = schema.uniqueItems.split('.');
+            value.forEach((item)=>{
+              let first = item[arr[0]];
+              for (let l = 0; l < first.length; l++) {
+                realValue.push(first[l][arr[1]])
+              }
+            })
+        }
+
         const seen = {}
-        for (let i = 0; i < value.length; i++) {
-          let target = value[i];
+        for (let i = 0; i < realValue.length; i++) {
+          let target = realValue[i];
           let isProps = false;
-          if (typeof schema.uniqueItems === 'string') {
+          if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') === -1) {
             target = target[schema.uniqueItems];
             isProps = true;
-          }
-          if (schema.uniqueItems === false) {
-            continue;
           }
           const valid = JSON.stringify(target)
           if (seen[valid]) {
