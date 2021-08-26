@@ -352,9 +352,9 @@ export class Validator {
             let arr = schema.uniqueItems.split('.');
             value.forEach((item)=>{
               let first = item[arr[0]];
-              for (let l = 0; l < first.length; l++) {
-                realValue.push(first[l][arr[1]])
-              }
+              first.forEach((i)=>{
+                realValue.push(i[arr[1]])
+              })
             })
         }
 
