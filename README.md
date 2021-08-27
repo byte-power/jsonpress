@@ -185,7 +185,7 @@ let schema = {
 
 在 schema 的书写过程中，对元素的路径描述是一个常用的功能，在某些场景下发挥重要的作用，包括校验规则和依赖联动项等等。
 
-路径使用字符串形式，使用 `.` 号分割嵌套属性，默认从根路径算起。
+路径使用字符串形式，使用 `.` 号分隔嵌套属性，默认从根路径算起。
 
 ### 绝对路径
 
@@ -548,6 +548,8 @@ let schema = {
 
 当 `format` 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
 
+> 注： Press 对其进行了修改，输出统一为大写字母。
+
 ```javascript
 let schema = {
     type: 'string',
@@ -880,7 +882,7 @@ let schema = {
 };
 ```
 
-和 datetime 类似，Press 也对 Number 实现了相关对象及关系校验功能：可以指定某项值必须大于或小于另外一项。
+和 datetime 类似，Press 也对 number 实现了相关对象及关系校验功能：可以指定某项值必须大于或小于另外一项。
 
 通过 `relativeTo` 属性来描述规则：
 
@@ -967,6 +969,40 @@ let schema = {
             },
             id: {
                 type: 'string'
+            }
+        }
+    }
+};
+```
+
+`uniqueItems` 关键字还支持多级嵌套，用 `.` 号进行分隔，表明在包含属性定义的当前层级下，所指属性不能重复。
+
+```javascript
+let schema = {
+    rules: {
+        type: 'array',
+        // rewards 数组的 id 在 rules 范围内必须唯一
+        uniqueItems: 'rewards.id',
+        items: {
+            type: 'object',
+            properties: {
+                rewards: {
+                    type: 'array',
+                    // id 在 rewards 数组内必须唯一
+                    uniqueItems: 'id',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: {
+                                type: 'integer',
+                                minimum: 0
+                            },
+                            weight: {
+                                type: 'integer'
+                            }
+                        }
+                    }
+                }
             }
         }
     }
