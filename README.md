@@ -342,7 +342,9 @@ let schema = {
         title: 'User Name', // 输入框对应的 label，不提供的话默认使用 key 值
         description: 'input text for user name', // 该字段的描述，显示在输入框下方
         default: 'bob', // 该字段的默认值
+        readOnly: true, // 该字段为只读模式，此设置也可以放入 options 字段内
         options: {
+            readOnly: true, // 作用同上
             // 可以通过 options 关键字传入一些定制化的设定
             inputAttributes: {
                 placeholder: 'your name here...',

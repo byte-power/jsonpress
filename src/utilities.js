@@ -90,13 +90,13 @@ export function isInteger (value) {
 // 将日期格式的字符串转为时间戳
 export function dateStr2timestamp(value) {
   if (typeof value !== 'string') {
-      return;
+    return;
   }
   let str = value;
   // 将 safari 不支持的日期格式转换（使用 T 检测来避免过度处理）
   // safari 支持 '1970-01-01T00:00:00' 和 '1970/01/01 00:00:00'，不支持 '1970.01.01 00:00:00'
   if (!value.includes('T')) {
-      str = value.replace(/-/g, '/');
+    str = value.replace(/-/g, '/');
   }
   let timestamp = new Date(str).getTime();
   return timestamp;
@@ -105,7 +105,7 @@ export function dateStr2timestamp(value) {
 // 安全读取对象深度嵌套的属性，遇到不存在的属性会返回 undefined，避免报错
 export function getProp(target, path) {
   return path.split('.').reduce((obj, key) => {
-      return obj && obj[key];
+    return obj && obj[key];
   }, target);
 }
 
@@ -117,4 +117,20 @@ export function getEditor(relativeObj, path, editor) {
   let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
   let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
   return editor.getEditor(adjustedPath);
+}
+
+// 通过 path 获取对象嵌套属性中的数组并将其扁平化（用于 uniqueItems 字段）
+export function flatArrByPath(data, path) {
+  let paths = path.split('.')
+
+  return paths.reduce((result, prop) => {
+    if (Array.isArray(result)) {
+      return result.reduce((arr, item) => {
+        let realItem = item ? item[prop] : []
+        return arr.concat(realItem)
+      }, [])
+    } else {
+      return result[prop] || []
+    }
+  }, data)
 }

@@ -1,6 +1,6 @@
 import { ipValidator } from './validators/ip-validator.js'
 import { dateValidator } from './validators/date-validator.js'
-import { extend, hasOwnProperty, getEditor } from './utilities.js'
+import { extend, hasOwnProperty, getEditor, flatArrByPath} from './utilities.js'
 
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
@@ -52,7 +52,8 @@ export class Validator {
       anyOf (schema, value, path) {
         // 当 anyOf 是联动关系时，仅校验当前激活项，而非所有
         let current = this.jsoneditor.getEditor(path);
-        let hasDep = schema.anyOf.some(item => {
+        let realSchema = this.jsoneditor.expandSchema(schema);
+        let hasDep = realSchema.anyOf.some(item => {
           return item.options && item.options.dependencies;
         });
         if (hasDep) {
@@ -346,24 +347,20 @@ export class Validator {
         if (schema.uniqueItems === false) {
           return [];
         }
-        let realValue = value
+        let realValue = value;
         if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') > -1) {
-            realValue =[]
-            let arr = schema.uniqueItems.split('.');
-            value.forEach((item)=>{
-              let first = item[arr[0]];
-              first.forEach((i)=>{
-                realValue.push(i[arr[1]])
-              })
-            })
+          realValue = [];
+          realValue = flatArrByPath(value, schema.uniqueItems)
         }
 
         const seen = {}
         for (let i = 0; i < realValue.length; i++) {
           let target = realValue[i];
           let isProps = false;
-          if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') === -1) {
-            target = target[schema.uniqueItems];
+          if (typeof schema.uniqueItems === 'string') {
+            if (schema.uniqueItems.indexOf('.') === -1) {
+              target = target[schema.uniqueItems];
+            }
             isProps = true;
           }
           const valid = JSON.stringify(target)
