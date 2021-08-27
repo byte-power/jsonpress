@@ -1,6 +1,6 @@
 import { ipValidator } from './validators/ip-validator.js'
 import { dateValidator } from './validators/date-validator.js'
-import { extend, hasOwnProperty, getEditor, flatArrByPath} from './utilities.js'
+import { extend, hasOwnProperty, getEditor, flatArrByPath } from './utilities.js'
 
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
@@ -349,7 +349,6 @@ export class Validator {
         }
         let realValue = value;
         if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') > -1) {
-          realValue = [];
           realValue = flatArrByPath(value, schema.uniqueItems)
         }
 
