@@ -118,3 +118,19 @@ export function getEditor(relativeObj, path, editor) {
   let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
   return editor.getEditor(adjustedPath);
 }
+
+// 通过 path 获取对象嵌套属性中的数组并将其扁平化（用于 uniqueItems 字段）
+export function flatArrByPath(data, path) {
+  let paths = path.split('.')
+
+  return paths.reduce((result, prop) => {
+    if (Array.isArray(result)) {
+      return result.reduce((arr, item) => {
+        let realItem = item ? item[prop] : []
+        return arr.concat(realItem)
+      }, [])
+    } else {
+      return result[prop] || []
+    }
+  }, data)
+}
