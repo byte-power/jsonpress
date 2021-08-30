@@ -1690,7 +1690,92 @@ JSONEditor.defaults.callbacks.template = {
 
 候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
 
-### 动态标题
+## anyOf 和依赖项的组合
+
+通过 anyOf 和依赖项的结合使用，可以满足某些特殊场景的联动需求，不过这种使用方式官方并未完全支持，所以 Press 在此基础上针对具体需求进行修改和增强开发，提供了更具想象力的使用方式。
+
+增强功能列表：
+
+-   假如 anyOf 下所有元素都有 dependencies 属性的情况下，
+    -   隐藏 anyOf 原生切换控件，通过激活 dependencies 对应项来实现切换（同时隐藏 anyOf 标题）
+    -   实现激活 dependencies 对应项时，同时重置 anyOf 当前激活项的值
+    -   初始化时修改内部参数，避免联动的输入控件不能正确渲染为对应的项和值
+    -   统一初始化 anyOf 的项，避免切换时无初始项无法渲染
+    -   仅按 anyOf 当前激活项的规则进行校验，而非按 anyOf 所有规则校验
+
+通过上述的改造，Press 组件支持以下应用场景：
+
+1. 元素的 schema 内规则和联动项的取值有关联
+
+    如下：当 algorithm = mutative 时，reference 为必填项
+
+    ```javascript
+    let schema = {
+        algorithm: {
+            type: 'string',
+            enum: ['constant', 'mutative', 'global']
+        },
+        reference: {
+            title: 'reference',
+            anyOf: [
+                {
+                    type: 'string',
+                    options: {
+                        dependencies: {
+                            algorithm: ['constant', 'global']
+                        }
+                    }
+                },
+                {
+                    type: 'string',
+                    minLength: 1,
+                    options: {
+                        dependencies: {
+                            algorithm: 'mutative'
+                        }
+                    }
+                }
+            ]
+        }
+    };
+    ```
+
+2. 元素的 schema 内控件类型和联动项的取值有关联
+
+    如下：当 kind = custom 时，name 为文本输入框；当 kind = preset 时，name 为下拉选择框
+
+    ```javascript
+    let schema = {
+        kind: {
+            type: 'string',
+            enum: ['preset', 'custom']
+        },
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    minLength: 1,
+                    options: {
+                        dependencies: {
+                            kind: 'custom'
+                        }
+                    }
+                },
+                {
+                    type: 'string',
+                    enum: ['a', 'b'],
+                    options: {
+                        dependencies: {
+                            kind: 'preset'
+                        }
+                    }
+                }
+            ]
+        }
+    };
+    ```
+
+## 动态标题
 
 schema 的 `title` 关键字用于在编辑界面向用户展示友好易于理解的标题。有时候，实现标题依赖其他字段而动态改变，对用户很有用。
 
