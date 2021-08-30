@@ -181,9 +181,88 @@ let schema = {
 };
 ```
 
+## 路径描述
+
+在 schema 的书写过程中，对元素的路径描述是一个常用的功能，在某些场景下发挥重要的作用，包括校验规则和依赖联动项等等。
+
+路径使用字符串形式，使用 `.` 号分隔嵌套属性，默认从根路径算起。
+
+### 绝对路径
+
+以 root 为根路径，通过 'root.XXX.XXX' 形式描述的路径为绝对路径，一般用于对象等数据格式固定的场景中。
+
+```javascript
+let schema = {
+    foo: {
+        type: 'object',
+        properties: {
+            // 路径为 'root.foo.bar'
+            bar: {
+                type: 'string'
+            }
+        }
+    }
+};
+```
+
+### 相对路径
+
+可以使用 `id` 关键字指定参考节点，然后在其内部就可以使用相对路径来描述相邻节点的关系。这个在数组等动态变化的数据格式场景中描述路径时十分有用。
+
+```javascript
+let schema = {
+    rewards: {
+        type: 'array',
+        items: {
+            type: 'object',
+            id: 'timeItem',
+            properties: {
+                // 路径为 'timeItem.min_time'
+                min_time: {
+                    type: 'number',
+                    relativeTo: {
+                        path: 'timeItem.max_time',
+                        limit: 'less'
+                    }
+                },
+                // 路径为 'timeItem.max_time'
+                max_time: {
+                    type: 'number',
+                    relativeTo: {
+                        path: 'timeItem.min_time',
+                        limit: 'greater'
+                    }
+                }
+            }
+        }
+    }
+};
+```
+
 ## 数据类型
 
 目前 schema 支持的数据包括基础类型 `type` 和扩展格式 `format`，通过这两种关键字的结合设置和使用，从而满足更丰富更个性化的数据格式及交互需求。
+
+```javascript
+let schema = {
+    valid_date_start: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_end',
+            limit: 'less'
+        }
+    },
+    valid_date_end: {
+        type: 'integer',
+        format: 'datetime-local',
+        relativeTo: {
+            path: 'root.valid_date_start',
+            limit: 'greater'
+        }
+    }
+};
+```
 
 ### 基础类型
 
@@ -437,7 +516,12 @@ let schema = {
 };
 ```
 
-Press 引入了一项自定义校验功能，可以支持指定某项时间必须大于或小于另外一项时间，在设置起始时间的场景下比较有用。通过 `relativeTo.path` 可以指定当前项的对比目标对象的路径，通过 `relativeTo.limit` 设置当前项相对于对比目标的规则，'less' 表明小于目标对象，'greater' 表明大于目标对象。
+Press 针对 datetime 类型额外实现了相关对象及关系校验功能：可以指定某项时间必须大于或小于另外一项时间，这项特性在设置起始时间的场景下比较有用。
+
+通过 `relativeTo` 属性来描述规则：
+
+-   通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
+-   通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
 
 ```javascript
 let schema = {
@@ -463,6 +547,8 @@ let schema = {
 #### uuid
 
 当 `format` 为 _uuid_ 时，渲染为一个只读的输入框，自动生成 uuid 格式字符串。
+
+> 注： Press 对其进行了修改，输出统一为大写字母。
 
 ```javascript
 let schema = {
@@ -519,7 +605,7 @@ let schema = {
 -   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
 -   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数。该回调函数有三个参数 _path, file, callback_。
 
-    -   path：上传控件对应的路径字段
+    -   path：上传控件对应的路径字段。它支持绝对路径
     -   file：上传控件选中的文件
     -   callback：回调对象（提供了 success、failure、updateProgress 方法）
         -   success：成功的回调方法，用于给控件对应的字段赋值
@@ -796,6 +882,13 @@ let schema = {
 };
 ```
 
+和 datetime 类似，Press 也对 number 实现了相关对象及关系校验功能：可以指定某项值必须大于或小于另外一项。
+
+通过 `relativeTo` 属性来描述规则：
+
+-   通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
+-   通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于等于目标对象，'greater' 表明大于等于目标对象。
+
 #### 结合 enum 属性
 
 当通过 `enum` 属性提供了可选枚举值后，number 类型会被渲染为下拉选择框。假如设置 `format` 为 _radio_，就可以切换为单选框形式（推荐在可选项小于 5 个时使用）。
@@ -876,6 +969,40 @@ let schema = {
             },
             id: {
                 type: 'string'
+            }
+        }
+    }
+};
+```
+
+`uniqueItems` 关键字还支持多级嵌套，用 `.` 号进行分隔，表明在包含属性定义的当前层级下，所指属性不能重复。
+
+```javascript
+let schema = {
+    rules: {
+        type: 'array',
+        // rewards 数组的 id 在 rules 范围内必须唯一
+        uniqueItems: 'rewards.id',
+        items: {
+            type: 'object',
+            properties: {
+                rewards: {
+                    type: 'array',
+                    // id 在 rewards 数组内必须唯一
+                    uniqueItems: 'id',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: {
+                                type: 'integer',
+                                minimum: 0
+                            },
+                            weight: {
+                                type: 'integer'
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -1279,7 +1406,7 @@ let schema = {
 };
 ```
 
-上述例子中的 `fname` 是待监听字段的化名，`first_name` 是字段的路径，使用 `.` 号分割嵌套属性，默认从根路径算起。可以使用 `id` 关键字指定相对节点，然后就可以使用相对路径了。这个在数组内描述路径时十分有用。
+上述例子中的 `fname` 是待监听字段的化名，`first_name` 是字段的路径，支持绝对路径和相对路径。
 
 ```javascript
 let schema = {
@@ -1563,7 +1690,92 @@ JSONEditor.defaults.callbacks.template = {
 
 候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
 
-### 动态标题
+## anyOf 和依赖项的组合
+
+通过 anyOf 和依赖项的结合使用，可以满足某些特殊场景的联动需求，不过这种使用方式官方并未完全支持，所以 Press 在此基础上针对具体需求进行修改和增强开发，提供了更具想象力的使用方式。
+
+增强功能列表：
+
+-   假如 anyOf 下所有元素都有 dependencies 属性的情况下，
+    -   隐藏 anyOf 原生切换控件，通过激活 dependencies 对应项来实现切换（同时隐藏 anyOf 标题）
+    -   实现激活 dependencies 对应项时，同时重置 anyOf 当前激活项的值
+    -   初始化时修改内部参数，避免联动的输入控件不能正确渲染为对应的项和值
+    -   统一初始化 anyOf 的项，避免切换时无初始项无法渲染
+    -   仅按 anyOf 当前激活项的规则进行校验，而非按 anyOf 所有规则校验
+
+通过上述的改造，Press 组件支持以下应用场景：
+
+1. 元素的 schema 内规则和联动项的取值有关联
+
+    如下：当 algorithm = mutative 时，reference 为必填项
+
+    ```javascript
+    let schema = {
+        algorithm: {
+            type: 'string',
+            enum: ['constant', 'mutative', 'global']
+        },
+        reference: {
+            title: 'reference',
+            anyOf: [
+                {
+                    type: 'string',
+                    options: {
+                        dependencies: {
+                            algorithm: ['constant', 'global']
+                        }
+                    }
+                },
+                {
+                    type: 'string',
+                    minLength: 1,
+                    options: {
+                        dependencies: {
+                            algorithm: 'mutative'
+                        }
+                    }
+                }
+            ]
+        }
+    };
+    ```
+
+2. 元素的 schema 内控件类型和联动项的取值有关联
+
+    如下：当 kind = custom 时，name 为文本输入框；当 kind = preset 时，name 为下拉选择框
+
+    ```javascript
+    let schema = {
+        kind: {
+            type: 'string',
+            enum: ['preset', 'custom']
+        },
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    minLength: 1,
+                    options: {
+                        dependencies: {
+                            kind: 'custom'
+                        }
+                    }
+                },
+                {
+                    type: 'string',
+                    enum: ['a', 'b'],
+                    options: {
+                        dependencies: {
+                            kind: 'preset'
+                        }
+                    }
+                }
+            ]
+        }
+    };
+    ```
+
+## 动态标题
 
 schema 的 `title` 关键字用于在编辑界面向用户展示友好易于理解的标题。有时候，实现标题依赖其他字段而动态改变，对用户很有用。
 
