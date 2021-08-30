@@ -2,7 +2,7 @@
   "name": "@byte-power/json-press",
   "title": "JSONPress",
   "description": "JSON Schema based editor",
-  "version": "1.1.0-beta.0",
+  "version": "1.1.0-beta.1",
   "main": "dist/jsonpress.js",
   "author": {
     "name": "lizux"
@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "pub": "npm version minor",
-    "push": "npm version patch --no-git-tag-version",
+    "push": "npm version prerelease --preid beta --no-git-tag-version",
     "prepare": "npm run build",
     "clean": "find ./src -name *.css.js -type f -delete",
     "build": "webpack --config config/webpack.prod.js --progress --profile --bail",
