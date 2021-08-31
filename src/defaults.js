@@ -125,6 +125,10 @@ languages.en = {
   */
   error_minItems: 'Value must have at least {{0}} items',
   /**
+  * When an array is supposed to it's item property is greater or less than the previous one
+  */
+   error_compareThan: 'Array item property {{0}} must be {{1}} than the previous item',
+  /**
   * When an array is supposed to have unique items but has duplicates
   */
   error_uniqueItems: 'Array must have unique items',

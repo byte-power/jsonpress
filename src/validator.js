@@ -343,6 +343,33 @@ export class Validator {
         }
         return []
       },
+      compareThanPrev(schema, value, path) {
+        let rule = schema.compareThanPrev;
+        let valid = value.every((item, i, arr) => {
+          if (i > 0) {
+            let prev = arr[i - 1][rule.path];
+            if (rule.limit === 'greater') {
+              return item[rule.path] > prev;
+            } else if (rule.limit === 'less') {
+              return item[rule.path] < prev;
+            } else {
+              return true;
+            }
+          } else {
+            return true;
+          }
+        });
+        if (!valid) {
+          return [
+            {
+              path,
+              property: 'compareThanPrev',
+              message: this.translate('error_compareThan', [rule.path, rule.limit])
+            }
+          ];
+        }
+        return [];
+      },
       uniqueItems (schema, value, path) {
         if (schema.uniqueItems === false) {
           return [];
