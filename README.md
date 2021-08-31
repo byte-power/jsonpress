@@ -954,7 +954,7 @@ let schema2 = {
 };
 ```
 
-### uniqueItems 属性
+#### uniqueItems 属性
 
 array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
 
@@ -1011,7 +1011,7 @@ let schema = {
 };
 ```
 
-### minItems 和 maxItems 属性
+#### minItems 和 maxItems 属性
 
 array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
 
@@ -1028,7 +1028,7 @@ let schema = {
 };
 ```
 
-### compareThanPrev 属性
+#### compareThanPrev 属性
 
 Press 针对 array 类型提供一个可以指定数组元素的某个属性必须比相邻元素的大或者小的校验功能。这个特性一般用于设定连续区间。
 
