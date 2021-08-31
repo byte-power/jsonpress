@@ -370,38 +370,58 @@ export class Validator {
         }
         return [];
       },
-      uniqueItems (schema, value, path) {
-        if (schema.uniqueItems === false) {
-          return [];
+      uniqueItems(schema, value, path) {
+        let rule = schema.uniqueItems
+        if (rule === false) {
+          return []
         }
-        let realValue = value;
-        if (typeof schema.uniqueItems === 'string' && schema.uniqueItems.indexOf('.') > -1) {
-          realValue = flatArrByPath(value, schema.uniqueItems)
-        }
-
-        const seen = {}
-        for (let i = 0; i < realValue.length; i++) {
-          let target = realValue[i];
-          let isProps = false;
-          if (typeof schema.uniqueItems === 'string') {
-            if (schema.uniqueItems.indexOf('.') === -1) {
-              target = target[schema.uniqueItems];
+        if (Array.isArray(rule)) {
+          for (let i = 0; i < rule.length; i++) {
+            let result = this.uniqueOne(rule[i], value, path)
+            if (result) {
+              return result
             }
-            isProps = true;
           }
-          const valid = JSON.stringify(target)
-          if (seen[valid]) {
-            let msg = isProps ? 'error_uniqueProps' : 'error_uniqueItems'
-            return [{
-              path,
-              property: 'uniqueItems',
-              message: this.translate(msg, [schema.uniqueItems])
-            }]
+        } else {
+          let result = this.uniqueOne(rule, value, path)
+          if (result) {
+            return result
           }
-          seen[valid] = true
         }
         return []
       }
+    }
+
+    this.uniqueOne = function (schema, value, path) {
+      let realValue = value
+      if (typeof schema === 'string' && schema.indexOf('.') > -1) {
+        realValue = flatArrByPath(value, schema)
+      }
+
+      const seen = {}
+      for (let i = 0; i < realValue.length; i++) {
+        let target = realValue[i]
+        let isProps = false
+        if (typeof schema === 'string') {
+          if (schema.indexOf('.') === -1) {
+            target = target[schema]
+          }
+          isProps = true
+        }
+        const valid = JSON.stringify(target)
+        if (seen[valid]) {
+          let msg = isProps ? 'error_uniqueProps' : 'error_uniqueItems'
+          return [
+            {
+              path,
+              property: 'uniqueItems',
+              message: this.translate(msg, [schema])
+            }
+          ]
+        }
+        seen[valid] = true
+      }
+      return null
     }
 
     this._validateObjectSubSchema = {
