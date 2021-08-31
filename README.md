@@ -954,6 +954,23 @@ let schema2 = {
 };
 ```
 
+#### minItems 和 maxItems 属性
+
+array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: true,
+    minItems: 1,
+    maxItems: 10,
+    items: {
+        type: 'string'
+    }
+};
+```
+
 #### uniqueItems 属性
 
 array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
@@ -1007,23 +1024,6 @@ let schema = {
                 }
             }
         }
-    }
-};
-```
-
-#### minItems 和 maxItems 属性
-
-array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
-
-```javascript
-let schema = {
-    type: 'array',
-    format: 'table',
-    uniqueItems: true,
-    minItems: 1,
-    maxItems: 10,
-    items: {
-        type: 'string'
     }
 };
 ```
