@@ -1024,6 +1024,41 @@ let schema = {
 };
 ```
 
+Press 针对 array 类型提供一个可以指定数组元素的某个属性必须比相邻元素的大或者小的校验功能。这个特性一般用于设定连续区间。
+
+通过 `compareThanPrev` 属性来描述规则：
+
+-   通过 `path` 关键字可以指定数组元素内的属性。
+-   通过 `limit` 关键字设置当前项相对于前一个元素同名属性的比较规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
+
+```javascript
+let schema = {
+    rules: {
+        type: 'array',
+        compareThanPrev: {
+            path: 'range_to',
+            limit: 'greater'
+        },
+        items: {
+            type: 'object',
+            properties: {
+                range_to: {
+                    type: 'integer'
+                },
+                id: {
+                    type: 'string'
+                },
+                weight: {
+                    type: 'integer'
+                }
+            }
+        }
+    }
+};
+```
+
+上述例子中表明了数组元素 `range_to` 属性必须比前一个元素的同名属性大。
+
 #### 结合 enum 属性
 
 同样的，通过 `enum` 属性提供了可选枚举值并同时设置 `uniqueItems` 属性后，array 类型会被渲染为多选形式。假如可选项小于 8 个时会被渲染为复选框样式，否则渲染为下拉多选样式。可以通过设置 `format` 为 _select_ 或 _checkbox_，进行显式定义。
