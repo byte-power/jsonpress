@@ -62,13 +62,16 @@ export class Validator {
           return result;
         }
 
-        const valid = schema.anyOf.some(e => !this._validateSchema(e, value, path).length)
+        let invalids = [];
+        const valid = schema.anyOf.some(e => {
+          let nopass = this._validateSchema(e, value, path);
+          if (nopass.length) {
+            invalids.push(nopass)
+          }
+          return !nopass.length
+        })
         if (!valid) {
-          return [{
-            path,
-            property: 'anyOf',
-            message: this.translate('error_anyOf')
-          }]
+          return invalids[0]
         }
         return []
       },
