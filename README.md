@@ -954,6 +954,25 @@ let schema2 = {
 };
 ```
 
+#### minItems 和 maxItems 属性
+
+array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: true,
+    minItems: 1,
+    maxItems: 10,
+    items: {
+        type: 'string'
+    }
+};
+```
+
+#### uniqueItems 属性
+
 array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
 
 ```javascript
@@ -1009,20 +1028,42 @@ let schema = {
 };
 ```
 
-array 类型提供了两个关键字用于限制数组的长度 `minItems` 和 `maxItems`
+#### compareThanPrev 属性
+
+Press 针对 array 类型提供一个可以指定数组元素的某个属性必须比相邻元素的大或者小的校验功能。这个特性一般用于设定连续区间。
+
+通过 `compareThanPrev` 属性来描述规则：
+
+-   通过 `path` 关键字可以指定数组元素内的属性。
+-   通过 `limit` 关键字设置当前项相对于前一个元素同名属性的比较规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
 
 ```javascript
 let schema = {
-    type: 'array',
-    format: 'table',
-    uniqueItems: true,
-    minItems: 1,
-    maxItems: 10,
-    items: {
-        type: 'string'
+    rules: {
+        type: 'array',
+        compareThanPrev: {
+            path: 'range_to',
+            limit: 'greater'
+        },
+        items: {
+            type: 'object',
+            properties: {
+                range_to: {
+                    type: 'integer'
+                },
+                id: {
+                    type: 'string'
+                },
+                weight: {
+                    type: 'integer'
+                }
+            }
+        }
     }
 };
 ```
+
+上述例子中表明了数组元素 `range_to` 属性必须比前一个元素的同名属性大。
 
 #### 结合 enum 属性
 
