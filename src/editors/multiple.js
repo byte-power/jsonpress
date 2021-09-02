@@ -302,6 +302,8 @@ export class MultipleEditor extends AbstractEditor {
         if (fitTestResult !== null) {
           validVal.match = fitTestResult.match
         }
+      } else {
+        fitTestVal = validVal
       }
     })
     let finalI = validVal.i
