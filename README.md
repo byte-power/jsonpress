@@ -843,6 +843,34 @@ let schema = {
 };
 ```
 
+假如需要下拉选项的显示值和实际值区别开来，可以使用 `enumSource` 属性来完成这种特殊需求。
+
+-   通过 `source` 关键字可以指定一个对象数组作为枚举备选项。
+-   通过 `title` 关键字定义枚举项的显示文本，支持模板语法，其中用 item 代指对象数组中的单个对象。
+-   通过 `value` 关键字定义枚举项的值，支持模板语法，其中用 item 代指对象数组中的单个对象。
+
+```javascript
+let schema = {
+    type: 'string',
+    enumSource: [
+        {
+            source: [
+                {
+                    value: 1,
+                    title: 'One'
+                },
+                {
+                    value: 2,
+                    title: 'Two'
+                }
+            ],
+            title: '{{item.title}}',
+            value: '{{item.value}}'
+        }
+    ]
+};
+```
+
 ### boolean
 
 boolean 类型默认是下拉选择框形式，内置选项 _true_ 和 _false_。假如设置 `format` 为 _checkbox_，就可以切换为复选框形式。
