@@ -247,19 +247,11 @@ let schema = {
 let schema = {
     valid_date_start: {
         type: 'integer',
-        format: 'datetime-local',
-        relativeTo: {
-            path: 'root.valid_date_end',
-            limit: 'less'
-        }
+        format: 'datetime-local'
     },
     valid_date_end: {
         type: 'integer',
-        format: 'datetime-local',
-        relativeTo: {
-            path: 'root.valid_date_start',
-            limit: 'greater'
-        }
+        format: 'datetime-local'
     }
 };
 ```
@@ -516,7 +508,7 @@ let schema = {
 };
 ```
 
-Press 针对 datetime 类型额外实现了相关对象及关系校验功能：可以指定某项时间必须大于或小于另外一项时间，这项特性在设置起始时间的场景下比较有用。
+Press 针对 datetime 类型额外实现了对象依赖限制功能：可以指定某项时间必须大于或小于另外一项时间，这项特性在设置起始时间的场景下比较有用。
 
 通过 `relativeTo` 属性来描述规则：
 
@@ -843,6 +835,34 @@ let schema = {
 };
 ```
 
+正常情况下，通过枚举数组定义的下拉选项的显示值就是实际值。假如下拉选项的显示值和实际值不相同，而是一一映射关系，可以使用 `enumSource` 属性来完成这种特殊需求。
+
+-   通过 `source` 关键字可以指定一个对象数组作为枚举备选项，对象中可以分别描述显示值和实际值。
+-   通过 `title` 关键字定义枚举项的显示文本，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
+-   通过 `value` 关键字定义枚举项的值，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
+
+```javascript
+let schema = {
+    type: 'string',
+    enumSource: [
+        {
+            source: [
+                {
+                    value: 1,
+                    title: 'One'
+                },
+                {
+                    value: 2,
+                    title: 'Two'
+                }
+            ],
+            title: '{{item.title}}',
+            value: '{{item.value}}'
+        }
+    ]
+};
+```
+
 ### boolean
 
 boolean 类型默认是下拉选择框形式，内置选项 _true_ 和 _false_。假如设置 `format` 为 _checkbox_，就可以切换为复选框形式。
@@ -882,7 +902,7 @@ let schema = {
 };
 ```
 
-和 datetime 类似，Press 也对 number 实现了相关对象及关系校验功能：可以指定某项值必须大于或小于另外一项。
+和 datetime 类似，Press 也对 number 实现了对象依赖限制功能：可以指定某项值必须大于或小于另外一项。
 
 通过 `relativeTo` 属性来描述规则：
 
