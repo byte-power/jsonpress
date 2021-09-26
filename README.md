@@ -413,6 +413,7 @@ let schema = {
         title: 'User Name', // 输入框对应的 label，不提供的话默认使用 key 值
         description: 'input text for user name', // 该字段的描述，显示在输入框下方
         default: 'bob', // 该字段的默认值
+        pattern: '^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$', // 正则表达式模板
         required: true, // 该字段为必填项，此设置也可以放入父级对象 required 字段（形式为数组，值为当前字段名）
         readOnly: true, // 该字段为只读模式，此设置也可以放入 options 字段内
         options: {
@@ -892,12 +893,13 @@ number、integer 类型都是用于输入数字值，它们的唯一区别就是
 
 另外可以通过 `maximum` 和 `minimum` 关键字限定最大最小值。
 
-其中，integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_rating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMaximum，表示可取值范围不包括最大值）。
+其中，integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_rating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMinimum/exclusiveMaximum 为布尔值，表示可取值范围不包括最小或最大值）。
 
 ```javascript
 let schema = {
     type: 'integer',
     default: 1,
+    multipleOf: 25, // 倍数约束
     minimum: 1,
     maximum: 1000
 };
