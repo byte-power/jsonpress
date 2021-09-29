@@ -6,6 +6,10 @@
 
 - required 属性的增强修正功能（使用 dependencies 设置的字段，当隐藏时，不校验其 required 属性）
 
+### Fixed
+
+- 修复 toggle 类型在 table 单元格内显示异常的 bug
+
 ## [1.0.20] - 2021-08-31
 
 ### Added
