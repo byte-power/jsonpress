@@ -26,7 +26,7 @@ export class CheckboxEditor extends AbstractEditor {
   }
 
   build () {
-    if (!this.parent.options.table_row) {
+    if (!this.parent.options.table_row || (this.schema.format && this.schema.format === 'toggle')) {
       this.label = this.header = this.theme.getCheckboxLabel(this.getTitle(), this.isRequired())
       this.label.htmlFor = this.formname
     }
