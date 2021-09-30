@@ -1,4 +1,4 @@
-import {dateStr2timestamp, getEditor} from '../utilities.js';
+import {dateStr2timestamp, getRelativeEditor} from '../utilities.js';
 
 /* 实现 date 输入框联动校验的功能 */
 function isDate(schema) {
@@ -7,7 +7,7 @@ function isDate(schema) {
 const validateRelation = (schema, value, path, editor) => {
     if (schema.relativeTo && isDate(schema)) {
         let relObj = schema.relativeTo;
-        let relEditor = getEditor(schema.relativeTo, path, editor);
+        let relEditor = getRelativeEditor(schema.relativeTo, path, editor);
         let target = relEditor && relEditor.getValue();
         let timestamp = value;
         if (schema.type === 'string') {

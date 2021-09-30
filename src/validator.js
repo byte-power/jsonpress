@@ -1,6 +1,6 @@
 import { ipValidator } from './validators/ip-validator.js'
 import { dateValidator } from './validators/date-validator.js'
-import { extend, hasOwnProperty, getEditor, flatArrByPath } from './utilities.js'
+import { extend, hasOwnProperty, getRelativeEditor, flatArrByPath } from './utilities.js'
 
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
@@ -173,7 +173,7 @@ export class Validator {
       multipleOf (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
       divisibleBy (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
       relativeTo(schema, value, path) {
-        let relEditor = getEditor(schema.relativeTo, path, this.jsoneditor);
+        let relEditor = getRelativeEditor(schema.relativeTo, path, this.jsoneditor);
         let target = relEditor.getValue();
         if (target) {
           if (schema.relativeTo.limit === 'less' && target < value) {
