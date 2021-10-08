@@ -373,6 +373,31 @@ export class Validator {
         }
         return [];
       },
+      exclusive(schema, value, path) {
+        let rule = schema.exclusive
+        if (!Array.isArray(rule)) {
+          return []
+        }
+        let arr = []
+        let pureValue = value.map(item => {
+          return Object.keys(item)[0]
+        })
+        for (let i = 0; i < rule.length; i++) {
+          if (pureValue.indexOf(rule[i]) > -1) {
+            arr.push(rule[i])
+          }
+        }
+        if (arr.length > 1) {
+          return [
+            {
+              path,
+              property: 'exclusive',
+              message: this.translate('error_exclusive', [rule.join('、')])
+            }
+          ]
+        }
+        return []
+      },
       uniqueItems(schema, value, path) {
         let rule = schema.uniqueItems
         if (rule === false) {
