@@ -1,10 +1,11 @@
 # 版本说明
 
-## [1.0.21] - 2021-09-x
+## [1.0.21] - 2021-10-x
 
 ### Added
 
 - required 属性的增强修正功能（使用 dependencies 设置的字段，当隐藏时，不校验其 required 属性）
+- exclusive 属性用于指定互斥项（表明 exclusive 内的值只能选择其一）
 
 ### Fixed
 
