@@ -1,6 +1,6 @@
 import { ipValidator } from './validators/ip-validator.js'
 import { dateValidator } from './validators/date-validator.js'
-import { extend, hasOwnProperty, getEditor, flatArrByPath } from './utilities.js'
+import { extend, hasOwnProperty, getRelativeEditor, flatArrByPath } from './utilities.js'
 
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
@@ -173,7 +173,7 @@ export class Validator {
       multipleOf (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
       divisibleBy (schema, value, path) { return this._validateNumberSubSchemaMultipleDivisible(schema, value, path) },
       relativeTo(schema, value, path) {
-        let relEditor = getEditor(schema.relativeTo, path, this.jsoneditor);
+        let relEditor = getRelativeEditor(schema.relativeTo, path, this.jsoneditor);
         let target = relEditor.getValue();
         if (target) {
           if (schema.relativeTo.limit === 'less' && target < value) {
@@ -372,6 +372,31 @@ export class Validator {
           ];
         }
         return [];
+      },
+      exclusive(schema, value, path) {
+        let rule = schema.exclusive
+        if (!Array.isArray(rule)) {
+          return []
+        }
+        let arr = []
+        let pureValue = value.map(item => {
+          return Object.keys(item)[0]
+        })
+        for (let i = 0; i < rule.length; i++) {
+          if (pureValue.indexOf(rule[i]) > -1) {
+            arr.push(rule[i])
+          }
+        }
+        if (arr.length > 1) {
+          return [
+            {
+              path,
+              property: 'exclusive',
+              message: this.translate('error_exclusive', [rule.join('、')])
+            }
+          ]
+        }
+        return []
       },
       uniqueItems(schema, value, path) {
         let rule = schema.uniqueItems
@@ -722,6 +747,13 @@ export class Validator {
   }
 
   _validateV3Required (schema, value, path) {
+    const editor = this.jsoneditor.getEditor(path)
+    if (schema.required && schema.required === true) {
+      let wrap = editor.container || editor.control
+      if (wrap.dataset.dependency === 'none') {
+        return []
+      }
+    }
     if (((typeof schema.required !== 'undefined' && schema.required === true) || (typeof schema.required === 'undefined' && this.jsoneditor.options.required_by_default === true)) && (schema.type !== 'info')) {
       return [{
         path,

@@ -140,6 +140,7 @@ export class AbstractEditor {
     if (wrapper.tagName === 'TD') {
       Object.keys(wrapper.childNodes).forEach(child => (wrapper.childNodes[child].style.display = displayMode))
     } else {
+      wrapper.dataset.dependency = displayMode
       wrapper.style.display = displayMode
       if (parent && parent.anyOf && displayMode === 'block') {
         parent.type = this.order

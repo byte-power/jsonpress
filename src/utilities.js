@@ -109,13 +109,22 @@ export function getProp(target, path) {
   }, target);
 }
 
-// 通过 schema 和 path 获取当前对应的元素（用于 relativeTo 字段）
-export function getEditor(relativeObj, path, editor) {
-  let pathParts = relativeObj.path.split('.');
+// 通过相对 path 获取当前对应的路径（用于 dependencies 字段）
+export function getRelativePath(relativePath, currentPath, editor) {
+  let pathParts = relativePath.split('.');
   let first = pathParts.shift();
-  let self = editor.getEditor(path);
+  let self = editor.getEditor(currentPath);
+  if (!self) {
+    return ''
+  }
   let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
   let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
+  return adjustedPath;
+}
+
+// 通过相对 path 获取当前对应的元素（用于 relativeTo 字段）
+export function getRelativeEditor(relativeObj, path, editor) {
+  let adjustedPath = getRelativePath(relativeObj.path, path, editor);
   return editor.getEditor(adjustedPath);
 }
 

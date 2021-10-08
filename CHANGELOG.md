@@ -2,6 +2,17 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
+## [1.0.21] - 2021-10-x
+
+### Added
+
+- required 属性的增强修正功能（使用 dependencies 设置的字段，当隐藏时，不校验其 required 属性）
+- exclusive 属性用于指定互斥项（表明 exclusive 内的值只能选择其一）
+
+### Fixed
+
+- 修复 toggle 类型在 table 单元格内显示异常的 bug
+
 ## [1.0.20] - 2021-08-31
 
 ### Added
