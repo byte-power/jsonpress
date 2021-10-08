@@ -129,7 +129,7 @@ languages.en = {
   */
    error_compareThan: 'Array item property {{0}} must be {{1}} than the previous item',
   /**
-  * When an array is supposed to it's item property is greater or less than the previous one
+  * When an array is supposed to it‘s items have some exclusive property
   */
    error_exclusive: 'Array item only select one of "{{0}}" ',
   /**
