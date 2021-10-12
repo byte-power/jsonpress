@@ -116,7 +116,11 @@ export class MultipleEditor extends AbstractEditor {
 
     // 移除 anyOf 的 title 区(包含折叠按钮)，除了 array 类型以外，因为该类型的添加按钮也在此处
     if (this.editors[i].schema.type !== 'array') {
-      if (this.editors[i].title) this.editors[i].title.style.display = 'none'
+      if (this.editors[i].title) {
+        this.editors[i].title.style.display = 'none'
+      } else if (this.editors[i].header) {
+        this.editors[i].header.style.display = 'none'
+      }
     }
 
     this.editors[i].option = this.switcher_options[i]
