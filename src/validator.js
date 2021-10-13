@@ -429,6 +429,9 @@ export class Validator {
       const seen = {}
       for (let i = 0; i < realValue.length; i++) {
         let target = realValue[i]
+        if (!target) {
+          continue;
+        }
         let isProps = false
         if (typeof schema === 'string') {
           if (schema.indexOf('.') === -1) {
