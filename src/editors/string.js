@@ -118,7 +118,7 @@ export class StringEditor extends AbstractEditor {
     }
 
     /* minLength, maxLength, and pattern */
-    if (typeof this.schema.maxLength !== 'undefined') this.input.setAttribute('maxlength', this.schema.maxLength)
+    // if (typeof this.schema.maxLength !== 'undefined') this.input.setAttribute('maxlength', this.schema.maxLength)
     if (typeof this.schema.pattern !== 'undefined') this.input.setAttribute('pattern', this.schema.pattern)
     else if (typeof this.schema.minLength !== 'undefined') this.input.setAttribute('pattern', `.{${this.schema.minLength},}`)
 
