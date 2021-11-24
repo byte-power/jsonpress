@@ -114,7 +114,7 @@ export class MultipleEditor extends AbstractEditor {
     this.editors[i].build()
     this.editors[i].postBuild()
 
-    // 移除 anyOf 的 title 区(包含折叠按钮)，除了 array 类型以外，因为该类型的添加按钮也在此处
+    // 移除 anyOf 下子元素的 title 区(包含折叠按钮)，除了 array 类型以外，因为该类型的添加按钮也在此处
     if (this.editors[i].schema.type !== 'array') {
       if (this.editors[i].title) {
         this.editors[i].title.style.display = 'none'
@@ -236,9 +236,12 @@ export class MultipleEditor extends AbstractEditor {
 
     // 针对 anyOf 的元素，判断是否全部都有依赖项，是就隐藏切换控件，通过依赖项切换
     if (this.hasDependency()) {
-      this.header.style.display = 'none'
       this.wrap.style.display = 'none'
       this.switcher.style.display = 'none'
+    }
+    // 假如外部为 table，则还隐藏其 label
+    if (this.header.parentNode.nodeName === 'TD') {
+      this.header.style.display = 'none'
     }
   }
 
