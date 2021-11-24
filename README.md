@@ -416,9 +416,10 @@ let schema = {
         pattern: '^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$', // 正则表达式模板
         required: true, // 该字段为必填项，此设置也可以放入父级对象 required 字段（形式为数组，值为当前字段名）
         readOnly: true, // 该字段为只读模式，此设置也可以放入 options 字段内
+        // 可以通过 options 关键字传入一些定制化的设定
         options: {
-            readOnly: true, // 作用同上
-            // 可以通过 options 关键字传入一些定制化的设定
+            readOnly: true, // 作用同外部同名属性
+            patternmessage: '只能输入数字', // 当外部使用 pattern 进行正则校验时，可以在此定义更易理解的提示，避免直接暴露正则表达式给用户
             inputAttributes: {
                 placeholder: 'your name here...',
                 class: 'form-control'
