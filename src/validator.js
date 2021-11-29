@@ -56,7 +56,7 @@ export class Validator {
         let hasDependency = realSchema.anyOf.some(item => {
           return item.options && item.options.dependencies;
         });
-        if (hasDependency) {
+        if (hasDependency && current) {
           let currentSchema = schema.anyOf[current.type];
           let result = this._validateSchema(currentSchema, value, path);
           return result;
