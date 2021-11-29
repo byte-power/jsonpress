@@ -353,6 +353,12 @@ export class MultipleEditor extends AbstractEditor {
         if (!editor) return
         const check = `${this.path}.${checkPart}[${i}]`
         const filterError = (newErrors, error) => {
+          let road = error.path.substr(0, error.path.lastIndexOf('.'))
+          let target = check.substr(0, check.lastIndexOf('.'))
+          if (road.startsWith(target)) {
+            const newError = extend({}, error)
+            newErrors.push(newError)
+          }
           if (error.path.startsWith(check) || error.path === check.substr(0, error.path.length)) {
             const newError = extend({}, error)
             if (error.path.startsWith(check)) {
