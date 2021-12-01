@@ -255,17 +255,9 @@ export class JSONEditor {
       /* Validate and cache results */
       this.validation_results = this.validator.validate(this.root.getValue())
 
-      // 仅校验当前改动项，而非全局
-      let selfResult = this.validation_results;
-      if (currentChanged) {
-          selfResult = this.validation_results.filter((item) => {
-              return item.path === currentChanged.path;
-          });
-      }
-
-      // 值改动时校验
+      // 值改动时，仅校验当前改动项，而非全局
       if (this.options.show_errors !== 'never') {
-        this.root.showValidationErrors(selfResult, currentChanged)
+        this.root.showValidationErrors(this.validation_results, currentChanged)
       } else {
         this.root.showValidationErrors([])
       }
