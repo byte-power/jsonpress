@@ -1273,7 +1273,7 @@ export class ObjectEditor extends AbstractEditor {
 
     /* Show errors for child editors */
     Object.values(this.editors).forEach(editor => {
-      if (!currentChanged || editor.path === currentChanged.path) {
+      if (!currentChanged || editor.path === currentChanged.path || currentChanged.path.startsWith(editor.path)) {
         editor.showValidationErrors(otherErrors);
       }
     })
