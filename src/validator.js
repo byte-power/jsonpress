@@ -751,6 +751,10 @@ export class Validator {
 
   _validateV3Required (schema, value, path) {
     const editor = this.jsoneditor.getEditor(path)
+    if (!editor) {
+      return []
+    }
+
     if (schema.required && schema.required === true) {
       let wrap = editor.container || editor.control
       if (wrap.dataset.dependency === 'none') {
