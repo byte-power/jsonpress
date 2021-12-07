@@ -145,6 +145,8 @@ export class AbstractEditor {
       if (parent && parent.anyOf && displayMode === 'block') {
         parent.type = this.order
         parent.setValue('')
+        // 显式切换，避免 anyOf 元素在有依赖项时切换找不到对应 editor 的问题
+        parent.switchEditor(this.order)
       }
     }
   }

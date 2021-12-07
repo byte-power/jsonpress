@@ -10,10 +10,7 @@ export class MultipleEditor extends AbstractEditor {
         if (!this.editors[i]) continue
         this.editors[i].unregister()
       }
-      // 延时注册，避免 anyOf 元素在有依赖项时切换找不到对应 editor 的问题
-      setTimeout(() => {
-        if (this.editors[this.type]) this.editors[this.type].register()
-      }, 200);
+      if (this.editors[this.type]) this.editors[this.type].register()
     }
     super.register()
   }
