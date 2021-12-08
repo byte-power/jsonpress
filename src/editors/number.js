@@ -42,7 +42,7 @@ export class NumberEditor extends StringEditor {
     if (!this.dependenciesFulfilled) {
       return undefined
     }
-    const value = isNumber(this.value) ? parseFloat(this.value) : ''
+    const value = isNumber(this.value) ? parseFloat(this.value) : this.value
     if (value === '') {
       return undefined
     }
