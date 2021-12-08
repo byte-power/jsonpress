@@ -119,7 +119,7 @@ const fixture = [
       type: 'number'
     },
     input: '12-12',
-    value: undefined
+    value: '12-12'
   },
   {
     title: 'Integer test',
