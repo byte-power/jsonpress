@@ -699,7 +699,7 @@ export class ArrayEditor extends AbstractEditor {
       e.stopPropagation()
       const i = this.rows.length
       let editor
-      if (this.row_cache[i]) {
+      if (this.row_cache[i] && (!this.schema.options || !this.schema.options.nocache)) {
         editor = this.rows[i] = this.row_cache[i]
         this.rows[i].setValue(this.rows[i].getDefault(), true)
         this.rows[i].container.style.display = ''
