@@ -593,7 +593,9 @@ export class ObjectEditor extends AbstractEditor {
         this.hideEditJSON()
       })
       this.editjson_holder.appendChild(this.editjson_textarea)
-      this.editjson_holder.appendChild(this.editjson_save)
+      if (this.jsoneditor.options && this.jsoneditor.options.show_save_btn) {
+        this.editjson_holder.appendChild(this.editjson_save)
+      }
       this.editjson_holder.appendChild(this.editjson_copy)
       this.editjson_holder.appendChild(this.editjson_cancel)
 
