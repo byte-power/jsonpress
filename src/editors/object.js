@@ -53,7 +53,7 @@ export class ObjectEditor extends AbstractEditor {
 
   disable (alwaysDisabled) {
     if (alwaysDisabled) this.always_disabled = true
-    if (this.editjson_control) this.editjson_control.disabled = true
+    // if (this.editjson_control) this.editjson_control.disabled = true
     if (this.addproperty_button) this.addproperty_button.disabled = true
     this.hideEditJSON()
 
