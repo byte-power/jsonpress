@@ -61,7 +61,7 @@ export class ArrayEditor extends AbstractEditor {
     if (this.rows) {
       // 延时执行，避免初次运行时 rows 为空，未正确禁用子项
       setTimeout(() => {
-        this.rows.forEach((row) => {
+        this.rows && this.rows.forEach((row) => {
             row.disable(alwaysDisabled);
             this.setAvailability(row, true);
         });
