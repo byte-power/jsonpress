@@ -244,6 +244,9 @@ export class SelectEditor extends AbstractEditor {
             /* A watched field */
           } else {
             items = vars[this.enumSource[i].source]
+            if (this.enumSource[i].sourceFormat){
+              items = this.enumSource[i].sourceFormat(items)
+            }
           }
 
           if (items) {
