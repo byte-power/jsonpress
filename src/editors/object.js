@@ -642,7 +642,7 @@ export class ObjectEditor extends AbstractEditor {
       this.addproperty_holder.appendChild(spacer)
 
       /* Close properties modal if clicked outside modal */
-      document.addEventListener('click', this.onOutsideModalClick)
+      document.addEventListener('click', this.onOutsideModalClick.bind(this))
 
       /* Description */
       if (this.schema.description) {
@@ -801,7 +801,11 @@ export class ObjectEditor extends AbstractEditor {
 
   deactivateNonRequiredProperties () {
     /* the show_opt_in editor option is for backward compatibility */
-    if (this.jsoneditor.options.show_opt_in || this.options.show_opt_in) {
+    const globalOptIn = this.jsoneditor.options.show_opt_in
+    const editorOptInDefined = (typeof this.options.show_opt_in !== 'undefined')
+    const editorOptInEnabled = (editorOptInDefined && this.options.show_opt_in === true)
+    const editorOptInDisabled = (editorOptInDefined && this.options.show_opt_in === false)
+    if (editorOptInEnabled || (!editorOptInDisabled && globalOptIn) || (!editorOptInDefined && globalOptIn)) {
       Object.entries(this.editors).forEach(([key, editor]) => {
         if (!this.isRequiredObject(editor)) {
           this.editors[key].deactivate()
@@ -1046,9 +1050,8 @@ export class ObjectEditor extends AbstractEditor {
   }
 
   onOutsideModalClick (e) {
-    if (this.addproperty_holder &&
-      !this.addproperty_holder.contains(e.path[0] || e.composedPath()[0]) &&
-      this.adding_property) {
+    const path = e.path || (e.composedPath && e.composedPath())
+    if (this.addproperty_holder && !this.addproperty_holder.contains(path[0]) && this.adding_property) {
       e.preventDefault()
       e.stopPropagation()
       this.toggleAddProperty()
