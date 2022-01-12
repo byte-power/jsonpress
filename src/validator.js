@@ -92,6 +92,13 @@ export class Validator {
         })
         const errors = []
         if (valid !== 1) {
+          if (!schema.options || !schema.options.hideOneOfValidate){
+            errors.push({
+              path,
+              property: 'oneOf',
+              message: this.translate('error_oneOf', [valid])
+            })
+          }
           errors.push(...oneofErrors)
         }
         return errors
