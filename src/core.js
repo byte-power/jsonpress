@@ -114,7 +114,7 @@ export class JSONEditor {
       // 初始化时延时校验，避免渲染结果错位的问题
       setTimeout(() => {
         this.root.showValidationErrors(this.validation_results)
-      }, 0)
+      })
     }, fetchUrl, location)
   }
 
@@ -262,6 +262,10 @@ export class JSONEditor {
       // 值改动时，仅校验当前改动项，而非全局
       if (this.options.show_errors !== 'never') {
         this.root.showValidationErrors(this.validation_results, currentChanged)
+        // 改动时延时校验，避免渲染结果错位的问题
+        setTimeout(() => {
+          this.root && this.root.showValidationErrors(this.validation_results, currentChanged)
+        })
       } else {
         this.root.showValidationErrors([])
       }
