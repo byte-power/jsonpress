@@ -105,12 +105,16 @@ export class JSONEditor {
       /* Fire ready event asynchronously */
       window.requestAnimationFrame(() => {
         if (!this.ready) return
-        this.validation_results = this.validator.validate(this.root.getValue())
         // 初始化时不再校验
+        // this.validation_results = this.validator.validate(this.root.getValue())
         // this.root.showValidationErrors(this.validation_results)
         this.trigger('ready')
         this.trigger('change')
       })
+      // 初始化时延时校验，避免渲染结果错位的问题
+      setTimeout(() => {
+        this.root.showValidationErrors(this.validation_results)
+      }, 0)
     }, fetchUrl, location)
   }
 
