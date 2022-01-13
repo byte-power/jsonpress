@@ -113,7 +113,7 @@ export class JSONEditor {
       })
       // 初始化时延时校验，避免渲染结果错位的问题
       setTimeout(() => {
-        this.root.showValidationErrors(this.validation_results)
+        this.root && this.root.showValidationErrors(this.validation_results)
       })
     }, fetchUrl, location)
   }
