@@ -2,6 +2,23 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
+## [1.1.3-beta.8] - 2022-01-12
+
+### Added
+
+- enumSource 属性支持使用 sourceFormat 来设置格式化函数来处理关联数据
+
+### Changed
+
+- oneOf 项校验可以通过 options.hideOneOfValidate 选项来设置不通过的话不再笼统显示总提示信息
+- 添加延时校验，避免渲染结果错位的问题（初始化时和切换 anyOf/oneOf 时）
+
+### Fixed
+
+- inline 模式下样式优化
+  - anyOf 元素没有正确实现行内布局的问题
+  - anyOf 元素内表单项可以和前面的切换控件垂直对齐
+
 ## [1.1.3-beta.7] - 2021-12-28
 
 ### Changed
@@ -53,6 +70,10 @@
 
 - required 属性的增强修正功能（使用 dependencies 设置的字段，当隐藏时，不校验其 required 属性）
 - exclusive 属性用于指定互斥项（表明 exclusive 内的值只能选择其一）
+
+### Changed
+
+- anyOf 项校验不通过的话不再笼统显示提示信息，而是针对性提示第一个不通过项的校验提示
 
 ### Fixed
 
