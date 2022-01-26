@@ -1706,6 +1706,29 @@ let schema = {
 
 所有支持使用自定义表达式的地方，都会包括两个属性 `item` 和 `i`，表示数组的元素和它们的索引（以 0 开始）。
 
+另外，针对 `enumSource` 关键字，Press 新增 sourceFormat 字段，支持内部设定一个处理方法，用于对 source 设置的数据进行再次处理和加工。
+
+```javascript
+let schema = {
+    select_input: {
+        type: 'string',
+        watch: {
+            target: 'occasionItem.action_name'
+        },
+        enumSource: [
+            {
+                source: 'target',
+                sourceFormat: target => {
+                    return this.realPigatData[target];
+                },
+                title: '{{item.name}}',
+                value: '{{item.name}}:{{item.type}}'
+            }
+        ]
+    }
+}
+```
+
 #### 回调函数
 
 对于 `enumSource` 的 _title、value、filter_ 等属性，也支持使用回调函数来处理渲染数据，以代替模板表达式。
