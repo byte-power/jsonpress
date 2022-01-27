@@ -48,6 +48,9 @@ export class TableEditor extends ArrayEditor {
     if (this.container.nodeName !== 'TD') {
       this.table.classList.add('hi-plain-margin');
     }
+    if (this.options.className) {
+      this.table.classList.add(this.options.className);
+    }
     this.container.appendChild(this.table)
     this.thead = this.theme.getTableHead()
     this.table.appendChild(this.thead)
