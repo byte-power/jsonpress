@@ -189,6 +189,10 @@ export class SelectEditor extends AbstractEditor {
     /* change select arrow */
     this.wrap = this.theme.getInputWrap(this.input)
     this.wrap.classList.add('hi-select-wrap')
+    if (this.options.input_width) {
+      this.input.style.width = this.options.input_width
+      this.wrap.style.width = this.options.input_width
+    }
 
     this.value = this.enum_values[0]
 
@@ -310,6 +314,13 @@ export class SelectEditor extends AbstractEditor {
       }
 
       const prevValue = this.value
+
+      if (this.schema.format && this.schema.format === 'tabs') {
+        if (!(/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent))) {
+          this.wrap.classList.add('hi-tab-select')
+          this.input.setAttribute('size', 2)
+        }
+    }
 
       this.theme.setSelectOptions(this.input, selectOptions, selectTitles)
       this.enum_options = selectOptions

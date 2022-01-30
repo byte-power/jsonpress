@@ -286,3 +286,22 @@ td > .hi-toggle-wrap .toggle-label {
         padding: 6px 2em 6px 12px;
     }
 }
+
+.hi-tab-select {
+    position: static !important;
+    display: inline-block;
+    select {
+        height: 31px;
+        margin: 0 -26px 0 0;
+        padding: 0;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        option {
+            display: inline-block;
+            padding: 7px 20px;
+        }
+    }
+}
