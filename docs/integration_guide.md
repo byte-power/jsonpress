@@ -81,7 +81,7 @@ const editor = new JSONEditor(element, {
 | no_additional_properties      | object 是否能显示 properties 关键字定义外的其他属性                               | false         | √    |      |
 | required_by_default           | schema 字段是否默认为 required (不用显式设定 required 属性)                       | false         | √    |      |
 | display_required_only         | 是否仅显示 required 的字段                                                        | false         | √    |      |
-| show_opt_in                   | 是否将非 required 的字段设置为可选项（其标题旁会加入切换开关）                    | false         | √    |      |
+| show_opt_in                   | 是否将非 required 的字段设置为可选项（加入切换开关来决定该值是否包含到编辑器的值内）                    | false         | √    |      |
 | keep_oneof_values             | 切换 oneOf 时是否保留其内部值                                                     | true          | √    |      |
 | enum_source_value_auto_select | 是否在枚举类型上下移动待选项时，保留选中值                                        | true          | √    |      |
 | compact                       | 是否显示当前项的 label                                                            | false         |      | √    |
