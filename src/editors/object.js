@@ -930,9 +930,23 @@ export class ObjectEditor extends AbstractEditor {
     this.hideEditJSON()
 
     /* Position the form directly beneath the button */
-    /* TODO: edge detection */
-    this.addproperty_holder.style.left = `${this.addproperty_button.offsetLeft}px`
-    this.addproperty_holder.style.top = `${this.addproperty_button.offsetTop + this.addproperty_button.offsetHeight}px`
+    /* Done: edge detection */
+    this.addproperty_holder.style.display = ''
+    let targetRect = this.addproperty_button.getBoundingClientRect()
+    if (targetRect.left + this.addproperty_holder.offsetWidth > window.innerWidth) {
+      this.addproperty_holder.style.left = 'auto'
+      this.addproperty_holder.style.right = 0
+    } else {
+      this.addproperty_holder.style.right = 'auto'
+      this.addproperty_holder.style.left = `${this.addproperty_button.offsetLeft}px`
+    }
+    if (targetRect.top + this.addproperty_holder.offsetHeight > window.innerHeight) {
+      this.addproperty_holder.style.top = 'auto'
+      this.addproperty_holder.style.bottom = `${this.addproperty_button.offsetHeight}px`
+    } else {
+      this.addproperty_holder.style.bottom = 'auto'
+      this.addproperty_holder.style.top = `${this.addproperty_button.offsetTop + this.addproperty_button.offsetHeight}px`
+    }
 
     /* Disable the rest of the form while editing JSON */
     this.disable()
