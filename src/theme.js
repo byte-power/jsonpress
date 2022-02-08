@@ -80,12 +80,12 @@ export class AbstractTheme {
 
   getInfoButton (text) {
     const icon = document.createElement('span')
-    icon.innerText = 'ⓘ'
+    icon.textContent = 'ⓘ'
     icon.classList.add('je-infobutton-icon')
 
     const tooltip = document.createElement('span')
     tooltip.classList.add('je-infobutton-tooltip')
-    tooltip.innerText = text
+    tooltip.textContent = text
     icon.onmouseover = () => {
       tooltip.style.visibility = 'visible'
     }

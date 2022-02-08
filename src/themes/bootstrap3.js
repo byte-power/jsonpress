@@ -108,7 +108,7 @@ export class bootstrap3Theme extends AbstractTheme {
     tooltip.style['border-radius'] = '.25rem'
     tooltip.style.width = '50vw'
     tooltip.style.position = 'absolute'
-    tooltip.innerText = text
+    tooltip.textContent = text
     icon.onmouseover = () => {
       tooltip.style.visibility = 'visible'
     }

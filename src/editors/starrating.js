@@ -54,7 +54,7 @@ export class StarratingEditor extends StringEditor {
     if (this.options.displayValue) {
       this.displayRating = document.createElement('div')
       this.displayRating.classList.add('starrating-display')
-      this.displayRating.innerText = this.enum_values[0]
+      this.displayRating.textContent = this.enum_values[0]
       this.ratingContainer.appendChild(this.displayRating)
     }
 
