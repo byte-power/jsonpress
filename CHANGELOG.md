@@ -2,6 +2,22 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
+## [1.1.3-beta.9] - 2022-02-08
+
+### Added
+
+- table 类型支持通过 options.className 来定制样式
+- select 类型支持使用 format: tabs 设置为标签切换形式（不支持 safari 浏览器）
+- properties 弹窗实现边距检测
+
+### Changed
+
+- 使用 textContent 代替 innerText
+
+### Fixed
+
+- 调整样式（仅隐藏 object 类型的 edit json 按钮而非整个控制栏以便显示 properties 按钮）
+
 ## [1.1.3-beta.8] - 2022-01-12
 
 ### Added
