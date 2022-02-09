@@ -214,14 +214,14 @@ td > .hi-toggle-wrap .toggle-label {
 }
 .hi-array-item-wrap {
     position: relative;
-}
-.hi-array-item-wrap > .btn-group {
-    position: absolute;
-    top: 0 !important;
-    right: 5px !important;
-}
-.hi-array-item-wrap.well-sm > .btn-group {
-    top: 2px !important;
+    & > .btn-group {
+        position: absolute;
+        top: 0 !important;
+        right: 5px !important;
+    }
+    &.well-sm > .btn-group {
+        top: 2px !important;
+    }
 }
 .xhi-plain-padding {
     padding-left: 32px;
