@@ -73,7 +73,7 @@ export class ArrayChoicesEditor extends MultiSelectEditor {
   addNewOption (value) {
     /* Add new value and label */
     this.option_keys.push(`${value}`)
-    this.option_titles.push(`${value}`)
+    // this.option_titles.push(`${value}`)
     this.select_values[`${value}`] = value
     /* Update Schema enum to prevent triggering "Value must be one of the enumerated values" */
     this.schema.items.enum.push(value)

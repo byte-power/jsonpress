@@ -71,7 +71,7 @@ export class ArraySelect2Editor extends MultiSelectEditor {
   addNewOption (value) {
     /* Add new value and label */
     this.option_keys.push(`${value}`)
-    this.option_titles.push(`${value}`)
+    // this.option_titles.push(`${value}`)
     this.select_values[`${value}`] = value
     /* Update Schema enum to prevent triggering "Value must be one of the enumerated values" */
     this.schema.items.enum.push(value)
@@ -80,7 +80,7 @@ export class ArraySelect2Editor extends MultiSelectEditor {
     /* Remove data attribute to make option tag permanent. (user input) */
     if (optionTag) optionTag.removeAttribute('data-select2-tag')
     /* Create new option tag (setValue) */
-    else this.input.appendChild(new Option(value, value, false, false)).trigger('change')
+    else this.input.appendChild(new Option(value, value, false, false))
 
     return true
   }
