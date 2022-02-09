@@ -1392,6 +1392,42 @@ let schema = {
 };
 ```
 
+`oneOf` 项校验可以通过 `options.hideOneOfValidate` 选项来设置内部项校验不通过的话不再笼统显示提示信息，而是针对具体的某一项进行提示。
+
+```javascript
+let schema = {
+    type: 'object',
+    oneOf: [
+        {
+            title: 'condition',
+            required: ['target', 'value'],
+            properties: {
+                target: {
+                    type: 'string',
+                    minLength: 1
+                },
+                value: {
+                    type: 'string'
+                }
+            }
+        },
+        {
+            title: 'expression',
+            required: ['expr'],
+            properties: {
+                expr: {
+                    type: 'string',
+                    minLength: 1
+                }
+            }
+        }
+    ],
+    options: {
+        hideOneOfValidate: true
+    }
+};
+```
+
 ## 依赖项
 
 在编辑 JSON 时，一个字段依赖于另外一个字段的值是很常见的情况。编辑器提供了 `dependencies` 关键字来满足这方面的需求。
