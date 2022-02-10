@@ -1110,9 +1110,12 @@ export class ObjectEditor extends AbstractEditor {
       Object.keys(obj).length === 0 &&
       obj.constructor === Object
     )
-    if (result && (this.jsoneditor.options.remove_empty_properties || this.options.remove_empty_properties)) {
+    if (result) {
       Object.keys(result).forEach(key => {
-        if (isEmpty(result[key])) {
+        if ((this.jsoneditor.options.remove_empty_properties || this.options.remove_empty_properties) && isEmpty(result[key])) {
+          delete result[key]
+        }
+        if (this.editors[key].options.exclude) {
           delete result[key]
         }
       })
