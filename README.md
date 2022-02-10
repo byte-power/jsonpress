@@ -419,6 +419,7 @@ let schema = {
         // 可以通过 options 关键字传入一些定制化的设定
         options: {
             readOnly: true, // 作用同外部同名属性
+            exclude: true, // 设置该字段不包括在最终值内，此选项为 Press 新增特性
             patternmessage: '只能输入数字', // 当外部使用 pattern 进行正则校验时，可以在此定义更易理解的提示，避免直接暴露正则表达式给用户
             inputAttributes: {
                 placeholder: 'your name here...',
@@ -675,6 +676,7 @@ hidden 控件实现有两种方法：
 
 -   通过 `format` 关键字设置为 _hidden_ 实现，字段输入控件不在界面显示，但是字段标题 label 还会渲染
 -   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不在界面显示，但是最终 JSON 值包含该字段值
+-   通过 `options.exclude` 属性设置为 _true_ 实现，整个字段不包含在最终 JSON 值，此选项为 Press 新增特性
 
 ```javascript
 let schema = {
@@ -687,6 +689,12 @@ let schema = {
     hiddenAnother: {
         type: 'string',
         format: 'hidden'
+    },
+    excludeValue: {
+        type: 'string',
+        options: {
+            exclude: true
+        }
     }
 };
 ```
