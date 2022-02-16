@@ -2,6 +2,17 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
+## [1.1.3-beta.11] - 2022-02-
+
+### Changed
+
+- table 类型支持单元格内显示校验错误提示
+- 使用 textContent 代替 createTextNode
+
+### Fixed
+
+- toggle 类型修改 required 下的 css 样式
+
 ## [1.1.3-beta.10] - 2022-02-15
 
 ### Added
