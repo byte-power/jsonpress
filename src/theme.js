@@ -58,7 +58,7 @@ export class AbstractTheme {
   getLink (text) {
     const el = document.createElement('a')
     el.setAttribute('href', '#')
-    el.appendChild(document.createTextNode(text))
+    el.textContent = text
     return el
   }
 
@@ -101,7 +101,7 @@ export class AbstractTheme {
   getFormInputLabel (text, req) {
     const el = document.createElement('label')
     // 此处文本节点内容会被更新(除了 color 特殊格式之外)
-    el.appendChild(document.createTextNode(text + ' :'))
+    el.textContent = text + ' :'
     if (!text) {
       el.style.display = 'inline'
     }
@@ -111,7 +111,7 @@ export class AbstractTheme {
 
   getToggleLabel (text, req) {
     const el = document.createElement('div')
-    el.appendChild(document.createTextNode(text + ' :'))
+    el.textContent = text + ' :'
     if (req) el.classList.add('required')
     el.classList.add('toggle-label')
     return el
@@ -412,7 +412,7 @@ export class AbstractTheme {
 
   getButtonPointer () {
     let el = document.createElement('button')
-    el.appendChild(document.createTextNode('...'))
+    el.textContent = '...'
     el.classList.add('btn', 'btn-default')
     return el
   }
@@ -495,7 +495,7 @@ export class AbstractTheme {
     const el = document.createElement('p')
     el.style = el.style || {}
     el.style.color = 'red'
-    el.appendChild(document.createTextNode(text))
+    el.textContent = text
     return el
   }
 
