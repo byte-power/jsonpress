@@ -80,13 +80,12 @@ export class TableEditor extends ArrayEditor {
         this.container.appendChild(this.description)
       }
       this.panel = this.theme.getIndentedPanel()
-      this.container.appendChild(this.panel)
-      this.error_holder = document.createElement('div')
-      this.panel.appendChild(this.error_holder)
     } else {
       this.panel = document.createElement('div')
-      this.container.appendChild(this.panel)
     }
+    this.container.appendChild(this.panel)
+    this.error_holder = document.createElement('div')
+    this.panel.appendChild(this.error_holder)
 
     this.panel.appendChild(this.table)
     this.controls = this.theme.getButtonHolder()
