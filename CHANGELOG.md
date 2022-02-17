@@ -4,6 +4,10 @@
 
 ## [1.1.3-beta.11] - 2022-02-
 
+### Added
+
+- checkbox 类型也支持 options.infoText 属性
+
 ### Changed
 
 - table 类型支持单元格内显示校验错误提示
