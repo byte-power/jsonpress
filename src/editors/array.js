@@ -356,6 +356,7 @@ export class ArrayEditor extends AbstractEditor {
       if (this.rows[i]) {
         /* TODO: don't set the row's value if it hasn't changed */
         this.rows[i].setValue(val, initial)
+        this.setReadOnly(this.rows[i], val)
       } else if (this.row_cache[i]) {
         this.rows[i] = this.row_cache[i]
         this.rows[i].setValue(val, initial)
@@ -389,6 +390,22 @@ export class ArrayEditor extends AbstractEditor {
     this.onChange()
 
     /* TODO: sortable */
+  }
+
+  setReadOnly(target, value) {
+    if (this.schema.items) {
+      let isReadOnly = this.schema.items.readOnly
+      if (isReadOnly && typeof isReadOnly === 'function') {
+        if (typeof value !== 'undefined') {
+          const controlsHolder = target.title_controls || target.array_controls
+          let result = isReadOnly(value)
+          if (result) {
+            target.disable()
+            controlsHolder.style.display = 'none'
+          }
+        }
+      }
+    }
   }
 
   setVisibility (element, display) {
@@ -510,6 +527,8 @@ export class ArrayEditor extends AbstractEditor {
 
     if (typeof value !== 'undefined') this.rows[i].setValue(value, initial)
     this.refreshTabs()
+
+    this.setReadOnly(this.rows[i], value)
 
     return this.rows[i]
   }
