@@ -7,6 +7,8 @@
 ### Added
 
 - checkbox 类型也支持 options.infoText 属性
+- array 类型支持使用 items.readOnly 字段来设置方法判断并设置单个项的只读模式
+- table 类型支持使用 items.readOnly 字段来设置方法判断并设置单个项的只读模式
 
 ### Changed
 
