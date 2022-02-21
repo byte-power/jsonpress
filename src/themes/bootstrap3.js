@@ -1,4 +1,5 @@
 import { AbstractTheme } from '../theme.js'
+import { closest } from '../utilities'
 import rules from './bootstrap3.css.js'
 
 export class bootstrap3Theme extends AbstractTheme {
@@ -107,13 +108,20 @@ export class bootstrap3Theme extends AbstractTheme {
     tooltip.style.color = '#FAFAFA'
     tooltip.style.padding = '.5rem 1rem'
     tooltip.style['border-radius'] = '.25rem'
-    tooltip.style.width = '50vw'
+    tooltip.style.width = '20vw'
     tooltip.style.position = 'absolute'
     tooltip.textContent = text
+    let dialog = closest(icon, '.el-dialog__body')
     icon.onmouseover = () => {
+      if (dialog) {
+        dialog.style.overflow = 'initial'
+      }
       tooltip.style.visibility = 'visible'
     }
     icon.onmouseleave = () => {
+      if (dialog) {
+        dialog.style.overflow = 'auto'
+      }
       tooltip.style.visibility = 'hidden'
     }
 
