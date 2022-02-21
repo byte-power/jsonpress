@@ -209,6 +209,7 @@ export class TableEditor extends ArrayEditor {
       if (this.rows[i]) {
         /* TODO: don't set the row's value if it hasn't changed */
         this.rows[i].setValue(val)
+        this.setReadOnly(this.rows[i], val)
       } else {
         this.addRow(val)
         numrowsChanged = true
@@ -233,6 +234,25 @@ export class TableEditor extends ArrayEditor {
     this.onChange()
 
     /* TODO: sortable */
+  }
+
+  setReadOnly(target, value) {
+    if (this.schema.items) {
+      let isReadOnly = this.schema.items.readOnly
+      if (isReadOnly && typeof isReadOnly === 'function') {
+        if (typeof value !== 'undefined') {
+          const controlsHolder = target.table_controls_more
+          let result = isReadOnly(value)
+          if (result) {
+            target.disable()
+            controlsHolder.style.display = 'none'
+          } else {
+            target.enable()
+            controlsHolder.style.display = ''
+          }
+        }
+      }
+    }
   }
 
   refreshRowButtons () {
@@ -342,6 +362,8 @@ export class TableEditor extends ArrayEditor {
     }
 
     if (typeof value !== 'undefined') this.rows[i].setValue(value)
+
+    this.setReadOnly(this.rows[i], value)
   }
 
   _createDeleteButton (i, holder) {
