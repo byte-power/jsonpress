@@ -102,27 +102,28 @@ export class bootstrap3Theme extends AbstractTheme {
 
     const tooltip = document.createElement('span')
     tooltip.style['font-family'] = 'sans-serif'
-    tooltip.style.visibility = 'hidden'
+    tooltip.style.display = 'none'
     tooltip.style['background-color'] = 'rgba(50, 50, 50, .75)'
     tooltip.style.margin = '0 .25rem'
     tooltip.style.color = '#FAFAFA'
     tooltip.style.padding = '.5rem 1rem'
     tooltip.style['border-radius'] = '.25rem'
-    tooltip.style.width = '20vw'
+    tooltip.style.width = '20em'
     tooltip.style.position = 'absolute'
     tooltip.textContent = text
-    let dialog = closest(icon, '.el-dialog__body')
     icon.onmouseover = () => {
+      let dialog = closest(icon, '.el-dialog__body')
       if (dialog) {
         dialog.style.overflow = 'initial'
       }
-      tooltip.style.visibility = 'visible'
+      tooltip.style.display = 'block'
     }
     icon.onmouseleave = () => {
+      let dialog = closest(icon, '.el-dialog__body')
       if (dialog) {
         dialog.style.overflow = 'auto'
       }
-      tooltip.style.visibility = 'hidden'
+      tooltip.style.display = 'none'
     }
 
     icon.appendChild(tooltip)
