@@ -402,6 +402,9 @@ export class ArrayEditor extends AbstractEditor {
           if (result) {
             target.disable()
             controlsHolder.style.display = 'none'
+          } else {
+            target.enable()
+            controlsHolder.style.display = ''
           }
         }
       }
