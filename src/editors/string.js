@@ -207,6 +207,9 @@ export class StringEditor extends AbstractEditor {
 
     this.control = this.theme.getFormControl(this.label, input, this.description, this.infoButton)
     this.control.classList.add('hi-plain-padding')
+    if (this.container.nodeName === 'TD') {
+      this.control.style.width = this.options.input_width
+    }
     if (this.container.dataset.schemaid === 'root' && this.header) {
       this.title = this.theme.getHeader(this.header)
       this.container.appendChild(this.title)
