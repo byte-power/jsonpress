@@ -259,8 +259,18 @@ div[data-theme].hi-inline {
             }
         }
     }
-    .hi-array-item-wrap > .btn-group {
-        position: static;
+    .hi-array-item-wrap {
+        & > .form-group {
+            display: inline-block;
+            width: auto;
+        }
+        & > .form-group + div {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        & > .btn-group {
+            position: static;
+        }
     }
     .hi-toggle-wrap {
         .toggle-label {
