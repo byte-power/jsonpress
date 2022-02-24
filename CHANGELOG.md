@@ -4,6 +4,10 @@
 
 ## [1.1.3-beta.13] - 2022-02-
 
+### Added
+
+- array 类型的 uniqueItems 增强功能（支持用 xxx@ 的形式来检测对应字段为 array 类型内的重复项）
+
 ### Changed
 
 - 当设置 input_width 时，单元格内的 input 父级元素也设置对应值，以避免不生效
@@ -358,7 +362,7 @@
 
 ### Added
 
-- array 类型的 uniqueItems 允许设置为字符串（对象的任一属性名），这时表示数组内对象的对应属性为不可重复值
+- array 类型的 uniqueItems 允许设置为字符串（子项的任一属性名），这时表示 array 内单个项对应属性为不可重复值
 - 自定义样式使用 theme 方式注入，而非用封装组件实现，避免依赖链外露
 
 ### Changed

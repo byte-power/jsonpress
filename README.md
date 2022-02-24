@@ -1005,7 +1005,7 @@ let schema = {
 
 #### uniqueItems 属性
 
-array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。
+array 类型提供了一个 `uniqueItems` 关键字，当为 true 时，可以避免添加重复项。Press 针对该特性做了优化，可以通过传入字符串来指定数组元素的某个属性不能重复。也可以设置为数组，表明多个属性不能重复
 
 ```javascript
 let schema = {
@@ -1024,41 +1024,85 @@ let schema = {
         }
     }
 };
+
+let schema2 = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: ['name', 'id'],
+    items: {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string'
+            },
+            id: {
+                type: 'string'
+            }
+        }
+    }
+};
 ```
 
-`uniqueItems` 关键字还支持多级嵌套，用 `.` 号进行分隔，表明在包含属性定义的当前层级下，所指属性不能重复。
+`uniqueItems` 关键字还支持多级嵌套，表明在包含属性定义的当前层级下，所指属性不能重复。
 
-```javascript
-let schema = {
-    rules: {
-        type: 'array',
-        // rewards 数组的 id 在 rules 范围内必须唯一
-        uniqueItems: 'rewards.id',
-        items: {
-            type: 'object',
-            properties: {
-                rewards: {
-                    type: 'array',
-                    // id 在 rewards 数组内必须唯一
-                    uniqueItems: 'id',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: {
-                                type: 'integer',
-                                minimum: 0
-                            },
-                            weight: {
-                                type: 'integer'
+支持两种设定形式：
+
+1. 用 `.` 号进行分隔，适用于对象组成的数组，描述的是数组名+对象属性名
+
+    ```javascript
+    let schema = {
+        rules: {
+            type: 'array',
+            // rewards 数组的 id 在 rules 范围内必须唯一
+            uniqueItems: 'rewards.id',
+            items: {
+                type: 'object',
+                properties: {
+                    rewards: {
+                        type: 'array',
+                        // id 在 rewards 数组内必须唯一
+                        uniqueItems: 'id',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: {
+                                    type: 'integer',
+                                    minimum: 0
+                                },
+                                weight: {
+                                    type: 'integer'
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
-};
-```
+    };
+    ```
+
+2. 用 `@` 号进行分隔，适用于基础类型组成的数组，描述的是数组名
+
+    ```javascript
+    let schema = {
+        rules: {
+            type: 'array',
+            // rewards 数组的值在 rules 范围内必须唯一
+            uniqueItems: 'rewards@',
+            items: {
+                type: 'object',
+                properties: {
+                    rewards: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                        }
+                    }
+                }
+            }
+        }
+    };
+    ```
 
 #### compareThanPrev 属性
 
