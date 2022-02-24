@@ -424,8 +424,14 @@ export class Validator {
 
     this.uniqueOne = function (schema, value, path) {
       let realValue = value
-      if (typeof schema === 'string' && schema.indexOf('.') > -1) {
-        realValue = flatArrByPath(value, schema)
+      let realSchema = schema
+      if (typeof schema === 'string') {
+        if (schema.indexOf('.') > -1) {
+          realValue = flatArrByPath(value, realSchema)
+        } else if (schema.indexOf('@') > -1) {
+          realSchema = schema.split('@')[0]
+          realValue = flatArrByPath(value, realSchema)
+        }
       }
 
       const seen = {}
@@ -436,7 +442,7 @@ export class Validator {
         }
         let isProps = false
         if (typeof schema === 'string') {
-          if (schema.indexOf('.') === -1) {
+          if (schema.indexOf('.') === -1 && schema.indexOf('@') === -1) {
             target = target[schema]
           }
           isProps = true
@@ -448,7 +454,7 @@ export class Validator {
             {
               path,
               property: 'uniqueItems',
-              message: this.translate(msg, [schema])
+              message: this.translate(msg, [realSchema])
             }
           ]
         }
