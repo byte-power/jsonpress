@@ -1,6 +1,6 @@
 import { ipValidator } from './validators/ip-validator.js'
 import { dateValidator } from './validators/date-validator.js'
-import { extend, hasOwnProperty, getRelativeEditor, flatArrByPath } from './utilities.js'
+import { extend, hasOwnProperty, getRelativeEditor, flatArrByPath, typeMap } from './utilities.js'
 
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
@@ -135,6 +135,22 @@ export class Validator {
                 property: 'type',
                 message: this.translate('error_type', [schema.format])
               }]
+            }
+          } else if (schema.format === 'multiline') {
+            let multiType = schema.options.multiType
+            if (multiType) {
+              if (value && Array.isArray(value)) {
+                let invalid = value.some(child => {
+                  return !typeMap[multiType].test(child);
+                });
+                if (invalid) {
+                  return [{
+                    path,
+                    property: 'type',
+                    message: this.translate('error_type', [multiType])
+                  }]
+                }
+              }
             }
           } else if (!this._checkType(schema.type, value)) {
             return [{

@@ -19,7 +19,6 @@ export class MultiLineEditor extends StringEditor {
 
   setValue(value, initial) {
     if (value) {
-      console.log(25, value)
       this.value = value.join('\n')
       this.input.value = this.value
     }
@@ -36,13 +35,6 @@ export class MultiLineEditor extends StringEditor {
     let realValue = this.value
     if (this.options.multiType) {
       let arr = this.cleanArr(realValue.split('\n'))
-      let valid = arr.every(child => {
-        return typeMap[this.options.multiType].test(child)
-      })
-      if (!valid) {
-        console.error('value contains some data with invalid type')
-        // return undefined
-      }
       realValue = arr.map(child => {
         return typeMap[this.options.multiType].handle(child)
       })
