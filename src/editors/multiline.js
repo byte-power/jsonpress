@@ -1,40 +1,116 @@
 import { StringEditor } from './string.js'
-import { extend } from '../utilities.js'
+import { isNumber } from '../utilities.js'
+
+const typeMap = {
+  string: {
+    test: v => {
+      return v
+    },
+    handle: v => {
+      return v
+    }
+  },
+  number: {
+    test: v => {
+      return isNumber(v)
+    },
+    handle: v => {
+      return parseFloat(v)
+    }
+  },
+  boolean: {
+    test: v => {
+      return v === 'true' || v === 'false'
+    },
+    handle: v => {
+      return v === 'true'
+    }
+  }
+}
 
 export class MultiLineEditor extends StringEditor {
-  setValue (value, initial, fromTemplate) {
-    const res = super.setValue(value, initial, fromTemplate)
-    if (res !== undefined && res.changed && this.sceditor_instance) this.sceditor_instance.val(res.value)
-  }
-
-  build () {
+  preBuild() {
+    super.preBuild()
+    this.options.input_width = '98%'
     this.options.format = 'textarea' /* Force format into "textarea" */
+  }
+
+  build() {
     super.build()
-    this.input_type = this.schema.format /* Restore original format */
-    this.input.setAttribute('data-schemaformat', this.input_type)
   }
 
-  afterInputReady () {
-    if (window.sceditor) {
-      this.theme.afterInputReady(this.input)
-    } else super.afterInputReady() /* Library not loaded, so just treat this as a string */
+  postBuild() {
+    super.postBuild()
   }
 
-  enable () {
-    if (!this.always_disabled && this.sceditor_instance) this.sceditor_instance.readOnly(false)
+  setValue(value, initial) {
+    if (value) {
+      console.log(25, value)
+      this.value = value.join('\n')
+      this.input.value = this.value
+      // const changed = this.getValue() !== value
+      // this.refreshValue()
+      // this.onChange(changed)
+      // super.setValue(value, initial)
+    }
+  }
+
+  getValue() {
+    if (!this.dependenciesFulfilled) {
+      return undefined
+    }
+    if (!this.value) {
+      return undefined
+    }
+    let realValue = this.value
+    console.log(36, this.value)
+    console.log(37, this.options.multiType)
+
+    if (this.options.multiType) {
+      let arr = this.cleanArr(realValue.split('\n'))
+      let valid = arr.every(child => {
+        return typeMap[this.options.multiType].test(child)
+      })
+      if (!valid) {
+        console.error('value contains invalid data')
+        return undefined
+      }
+      realValue = arr.map(child => {
+        return typeMap[this.options.multiType].handle(child)
+      })
+    }
+    return realValue
+  }
+
+  enable() {
     super.enable()
   }
 
-  disable (alwaysDisabled) {
-    if (this.sceditor_instance) this.sceditor_instance.readOnly(true)
+  disable(alwaysDisabled) {
     super.disable(alwaysDisabled)
   }
 
-  destroy () {
-    if (this.sceditor_instance) {
-      this.sceditor_instance.destroy()
-      this.sceditor_instance = null
-    }
+  destroy() {
     super.destroy()
+  }
+
+  cleanArr(arr) {
+    if (!arr || arr.length < 1) {
+      return
+    }
+    return arr
+      .map(item => {
+        let value = item.trim()
+        if (value[0] === ',') {
+          value = value.substring(1)
+        }
+        if (value[value.length - 1] === ',') {
+          value = value.substring(0, value.length - 1)
+        }
+        return value
+      })
+      .filter(item => {
+        return item
+      })
   }
 }
