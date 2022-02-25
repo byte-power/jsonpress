@@ -157,3 +157,36 @@ export function closest(el, selector) {
   }
   return null;
 }
+
+// multiline 支持的三种数据类型检测和处理方法
+export const typeMap = {
+  string: {
+    test: v => {
+      return v
+    },
+    handle: v => {
+      return v
+    }
+  },
+  number: {
+    test: v => {
+      return !isNaN(v - parseFloat(v))
+    },
+    handle: v => {
+      return parseFloat(v)
+    }
+  },
+  boolean: {
+    test: v => {
+      return v === true || v === false
+    },
+    handle: v => {
+      if (v === 'true') {
+        return true
+      } else if (v === 'false') {
+        return false
+      }
+      return v
+    }
+  }
+}
