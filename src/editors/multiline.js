@@ -5,7 +5,7 @@ export class MultiLineEditor extends StringEditor {
   preBuild() {
     super.preBuild()
     this.options.input_width = '98%'
-    this.options.format = 'textarea' /* Force format into "textarea" */
+    this.options.format = 'textarea'
     this.options.multiType = this.options.multiType || 'string'
   }
 
@@ -13,11 +13,7 @@ export class MultiLineEditor extends StringEditor {
     super.build()
   }
 
-  postBuild() {
-    super.postBuild()
-  }
-
-  setValue(value, initial) {
+  setValue(value) {
     if (value) {
       this.value = value.join('\n')
       this.input.value = this.value
