@@ -6,6 +6,7 @@
 
 ### Added
 
+- 新增 multiline 类型，表现为支持多行指定类型的文本域，用于快速生成数组（支持 字符串、数字、布尔 三种类型组成数组）
 - array 类型的 uniqueItems 增强功能（支持用 xxx@ 的形式来检测对应字段为 array 类型内的重复项）
 
 ### Changed
