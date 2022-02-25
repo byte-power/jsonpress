@@ -20,6 +20,7 @@ import { InfoEditor as info } from './info.js'
 import { IntegerEditor as integer } from './integer.js'
 import { IpEditor as ip } from './ip.js'
 import { JoditEditor as jodit } from './jodit.js'
+import { MultiLineEditor as multiline } from './multiline.js'
 import { MultipleEditor as multiple } from './multiple.js'
 import { MultiSelectEditor as multiselect } from './multiselect.js'
 import { NullEditor } from './null.js'
@@ -59,6 +60,7 @@ export const editors = {
   integer,
   ip,
   jodit,
+  multiline,
   multiple,
   multiselect,
   null: NullEditor,
