@@ -60,6 +60,10 @@ export class ObjectEditor extends AbstractEditor {
     super.disable()
     if (this.editors) {
       Object.values(this.editors).forEach(e => {
+        let option = e.schema.options
+        if (option && option.ignore === 'readOnly') {
+          return
+        }
         if (e.isActive()) {
           e.disable(alwaysDisabled)
         }
