@@ -8,6 +8,10 @@
 
 - 新增 multiline 类型，表现为支持多行指定类型的文本域，用于快速生成数组（支持 字符串、数字、布尔 三种类型组成数组）
 - array 类型的 uniqueItems 增强功能（支持用 xxx@ 的形式来检测对应字段为 array 类型内的重复项）
+- array/table 类型支持使用 items.readOnly 字段来设置单个项的只读模式
+  - 支持函数：按条件判断禁用；布尔：直接全局禁用
+  - 支持使用 options.ignore = 'readOnly' 来设置特定项忽略只读模式
+
 
 ### Changed
 

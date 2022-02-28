@@ -1108,6 +1108,46 @@ let schema2 = {
 
 `uniqueItems: ['name', 'foo.bar', 'list@']` 分别表明数组单个项的 name 属性不能重复；数组单个项的 foo 属性（也为对象组成的数组），其子项的 bar 在总数组范围内不能重复；数组单个项的 list 属性（也为数组），其子项在总数组范围内不能重复。
 
+#### readOnly 属性
+
+Press 针对 array/table 类型提供一个 readOnly 属性，可以设置单个项的只读状态，用于固定内置项避免被修改的场景。
+
+通过 `items.readOnly` 来设置单个项的只读状态，支持使用函数或者布尔值。
+1. 函数：按条件判断禁用（符合条件的单个项无法修改，并且无法排序和删除）,当前项作为第一个参数默认传入
+2. 布尔：直接全局禁用（所有子项都无法修改、排序和删除，并且不允许添加新项）
+
+另外还支持使用 `options.ignore = 'readOnly'` 来设置特定项忽略只读模式
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'table',
+    uniqueItems: 'name',
+    items: {
+        type: 'object',
+        readOnly: (target) => {
+            return preset.includes(target.name);
+        },
+        properties: {
+            name: {
+                type: 'string'
+            },
+            id: {
+                type: 'string'
+            }，
+            enable: {
+                type: 'boolean',
+                format: 'toggle',
+                options: {
+                    // enable 属性不受 readOnly 状态的影响
+                    ignore: 'readOnly'
+                }
+            }
+        }
+    }
+};
+```
+
 #### compareThanPrev 属性
 
 Press 针对 array 类型提供一个可以指定数组元素的某个属性必须比相邻元素的大或者小的校验功能。这个特性一般用于设定连续区间。
