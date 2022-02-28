@@ -395,19 +395,26 @@ export class ArrayEditor extends AbstractEditor {
   setReadOnly(target, value) {
     if (this.schema.items) {
       let isReadOnly = this.schema.items.readOnly
-      if (isReadOnly && typeof isReadOnly === 'function') {
-        if (typeof value !== 'undefined') {
-          const controlsHolder = target.title_controls || target.array_controls
+      if (isReadOnly) {
+      // readOnly 属性为函数表示按条件判断，仅禁用符合的子项；为布尔值表示全面禁用（包括添加按钮）
+      if (typeof isReadOnly === 'function' && typeof value !== 'undefined') {
           let result = isReadOnly(value)
-          if (result) {
-            target.disable()
-            controlsHolder.style.display = 'none'
-          } else {
-            target.enable()
-            controlsHolder.style.display = ''
-          }
+          this.toggleController(target, result)
+        } else if (typeof isReadOnly === 'boolean') {
+          this.toggleController(target, isReadOnly)
         }
       }
+    }
+  }
+
+  toggleController(target, result) {
+    const controlsHolder = target.title_controls || target.array_controls
+    if (result) {
+      target.disable()
+      controlsHolder.style.display = 'none'
+    } else {
+      target.enable()
+      controlsHolder.style.display = ''
     }
   }
 
@@ -471,8 +478,14 @@ export class ArrayEditor extends AbstractEditor {
         this.value[i] = editor.getValue()
       })
 
+      let isReadOnly = this.schema.items.readOnly
       if (!this.collapsed && this.setupButtons(minItems)) {
-        this.controls.style.display = 'inline-block'
+        // readOnly 属性为布尔值表示全面禁用（包括添加按钮）
+        if (typeof isReadOnly === 'boolean' && isReadOnly) {
+          this.controls.style.display = 'none'
+        } else {
+          this.controls.style.display = 'inline-block'
+        }
       } else {
         this.controls.style.display = 'none'
       }
