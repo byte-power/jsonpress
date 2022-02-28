@@ -236,22 +236,14 @@ export class TableEditor extends ArrayEditor {
     /* TODO: sortable */
   }
 
-  setReadOnly(target, value) {
-    if (this.schema.items) {
-      let isReadOnly = this.schema.items.readOnly
-      if (isReadOnly && typeof isReadOnly === 'function') {
-        if (typeof value !== 'undefined') {
-          const controlsHolder = target.table_controls_more
-          let result = isReadOnly(value)
-          if (result) {
-            target.disable()
-            controlsHolder.style.display = 'none'
-          } else {
-            target.enable()
-            controlsHolder.style.display = ''
-          }
-        }
-      }
+  toggleController(target, result) {
+    const controlsHolder = target.table_controls_more
+    if (result) {
+      target.disable()
+      this.setVisibility(controlsHolder, false)
+    } else {
+      target.enable()
+      this.setVisibility(controlsHolder, false)
     }
   }
 

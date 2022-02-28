@@ -411,10 +411,10 @@ export class ArrayEditor extends AbstractEditor {
     const controlsHolder = target.title_controls || target.array_controls
     if (result) {
       target.disable()
-      controlsHolder.style.display = 'none'
+      this.setVisibility(controlsHolder, false)
     } else {
       target.enable()
-      controlsHolder.style.display = ''
+      this.setVisibility(controlsHolder, false)
     }
   }
 
