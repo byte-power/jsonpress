@@ -414,7 +414,7 @@ export class ArrayEditor extends AbstractEditor {
       this.setVisibility(controlsHolder, false)
     } else {
       target.enable()
-      this.setVisibility(controlsHolder, false)
+      this.setVisibility(controlsHolder, true)
     }
   }
 

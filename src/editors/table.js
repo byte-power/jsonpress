@@ -243,7 +243,7 @@ export class TableEditor extends ArrayEditor {
       this.setVisibility(controlsHolder, false)
     } else {
       target.enable()
-      this.setVisibility(controlsHolder, false)
+      this.setVisibility(controlsHolder, true)
     }
   }
 
