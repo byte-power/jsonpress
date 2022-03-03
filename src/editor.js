@@ -301,7 +301,13 @@ export class AbstractEditor {
       /* if description element exists, insert the link before */
       if (typeof this.description !== 'undefined') this.description.parentNode.insertBefore(this.link_holder, this.description)
       /* otherwise just insert link at bottom of container */
-      else this.container.appendChild(this.link_holder)
+      else {
+          if (this.control) {
+            this.control.appendChild(this.link_holder)
+          } else {
+            this.container.appendChild(this.link_holder)
+          }
+    }
       if (this.schema.links) {
         for (let i = 0; i < this.schema.links.length; i++) {
           this.addLink(this.getLink(this.schema.links[i]))
@@ -406,6 +412,15 @@ export class AbstractEditor {
         link.textContent = rel || url
         media.setAttribute('src', url)
       })
+    } else if (type === 'info') {
+        holder = this.theme.getInfoButton('')
+        holder.style.display = 'none'
+        this.link_watchers.push(vars => {
+            const text = data.getMedia(vars.self)
+            if (text) holder.style.display = ''
+            holder.firstChild.textContent = text
+          })
+
     /* Text links or blank link */
     } else {
       link = holder = this.theme.getBlockLink()

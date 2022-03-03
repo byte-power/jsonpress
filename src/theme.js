@@ -624,7 +624,7 @@ export class AbstractTheme {
   }
 
   getLinksHolder () {
-    const el = document.createElement('div')
+    const el = document.createElement('span')
     return el
   }
 
