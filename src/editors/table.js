@@ -1,5 +1,5 @@
 import { ArrayEditor } from './array.js'
-import { extend, trigger } from '../utilities.js'
+import { extend, trigger, getProp } from '../utilities.js'
 let currentHoverTarget;
 const removeHoverClass = function () {
     if (currentHoverTarget) {
@@ -306,7 +306,12 @@ export class TableEditor extends ArrayEditor {
     this.setVisibility(this.remove_all_rows_button, display3)
 
     const controlsNeeded = display1 || display2 || display3
-    this.setVisibility(this.controls, controlsNeeded)
+    let isReadOnly = getProp(this, 'schema.items.readOnly')
+    if (typeof isReadOnly === 'boolean' && isReadOnly) {
+      this.setVisibility(this.controls, false)
+    } else {
+      this.setVisibility(this.controls, controlsNeeded)
+    }
   }
 
   refreshValue () {
