@@ -420,7 +420,6 @@ export class AbstractEditor {
             if (text) holder.style.display = ''
             holder.firstChild.textContent = text
           })
-
     /* Text links or blank link */
     } else {
       link = holder = this.theme.getBlockLink()
@@ -430,8 +429,11 @@ export class AbstractEditor {
 
       /* When a watched field changes, update the url */
       this.link_watchers.push(vars => {
-        const url = href(vars)
+        let url = href(vars)
         const rel = relTemplate(vars)
+        if (type === 'download') {
+            url = data.getMedia(vars.self)
+        }
         if (url) holder.style.display = ''
         holder.setAttribute('href', url)
         holder.textContent = rel || url
