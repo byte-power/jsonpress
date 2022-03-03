@@ -1,5 +1,5 @@
 import { AbstractEditor } from '../editor.js'
-import { extend, trigger } from '../utilities.js'
+import { extend, trigger, getProp } from '../utilities.js'
 import rules from './array.css.js'
 
 const tabsFormat = ['tabs','tabs-top']
@@ -393,16 +393,14 @@ export class ArrayEditor extends AbstractEditor {
   }
 
   setReadOnly(target, value) {
-    if (this.schema.items) {
-      let isReadOnly = this.schema.items.readOnly
-      if (isReadOnly) {
+    let isReadOnly = getProp(this, 'schema.items.readOnly')
+    if (isReadOnly) {
       // readOnly 属性为函数表示按条件判断，仅禁用符合的子项；为布尔值表示全面禁用（包括添加按钮）
       if (typeof isReadOnly === 'function' && typeof value !== 'undefined') {
-          let result = isReadOnly(value)
-          this.toggleController(target, result)
-        } else if (typeof isReadOnly === 'boolean') {
-          this.toggleController(target, isReadOnly)
-        }
+        let result = isReadOnly(value)
+        this.toggleController(target, result)
+      } else if (typeof isReadOnly === 'boolean') {
+        this.toggleController(target, isReadOnly)
       }
     }
   }
@@ -478,7 +476,7 @@ export class ArrayEditor extends AbstractEditor {
         this.value[i] = editor.getValue()
       })
 
-      let isReadOnly = this.schema.items.readOnly
+      let isReadOnly = getProp(this, 'schema.items.readOnly')
       if (!this.collapsed && this.setupButtons(minItems)) {
         // readOnly 属性为布尔值表示全面禁用（包括添加按钮）
         if (typeof isReadOnly === 'boolean' && isReadOnly) {
