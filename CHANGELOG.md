@@ -11,12 +11,13 @@
 - array/table 类型支持使用 items.readOnly 字段来设置单个项的只读模式
   - 支持函数：按条件判断禁用；布尔：直接全局禁用
   - 支持使用 options.ignore = 'readOnly' 来设置特定项忽略只读模式
-
+- links 类型增强功能：
+  - 当 links.mediaType = 'info' 时，渲染为一个图标，同时可以使用 getMedia 方法返回一个文本内容，用于 hover 时展示动态信息
+  - 当 links.mediaType = 'download' 时，渲染为一个下载链接，同时可以使用 getMedia 方法返回一个文本内容，用于渲染动态下载文件内容
 
 ### Changed
 
 - 当设置 input_width 时，单元格内的 input 父级元素也设置对应值，以避免不生效
-- 当 links.mediaType = 'info' 时，渲染为一个图标，同时可以使用 getMedia 方法返回一个文本内容，用于 hover 时展示动态信息
 
 ### Fixed
 
