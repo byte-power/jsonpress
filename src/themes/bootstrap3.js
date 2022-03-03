@@ -111,6 +111,7 @@ export class bootstrap3Theme extends AbstractTheme {
     tooltip.style.width = '30em'
     tooltip.style.maxHeight = '25em'
     tooltip.style.position = 'absolute'
+    tooltip.style.zIndex = 1
     tooltip.style.overflowWrap = 'break-word'
     tooltip.textContent = text
     icon.onmouseover = () => {
