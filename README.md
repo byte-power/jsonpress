@@ -99,8 +99,38 @@ let schema = {
         {
             rel: 'Download File',
             href: '/documents/{{self}}',
-            // 下列属性也可以设置为字符串形式
+            // 表示该链接为下载链接，也可以设置为字符串形式，表示为下载文件名
             download: true
+        }
+    ]
+};
+```
+
+Press 针对下载功能进行了增强，用于支持根据当前字段的值返回动态内容的文件下载功能。
+
+设置 `mediaType` 为 _download_ 即可启用该增强模式，同时使用 `download` 来约定下载文件的名称，使用 `getMedia` 方法来根据当前字段动态处理下载文件的内容并返回。
+
+```javascript
+let schema = {
+    title: 'File',
+    type: 'string',
+    links: [
+        {
+            rel: 'Download File',
+            // href 设置为空
+            href: '',
+            // 开启下载增强模式
+            mediaType: 'download',
+            // 设置下载文件名（self 表示当前字段的值）
+            download: '{{self}}.json',
+            // 返回文件内容的函数，默认传入参数为当前字段的值
+            getMedia: target => {
+                if (target && this.blackList[target]) {
+                    let fileContent = JSON.stringify(this.blackList[target]);
+                    return 'data:application/file;charset=utf-8,' + encodeURI(fileContent);
+                }
+                return '';
+            }
         }
     ]
 };
@@ -110,12 +140,41 @@ let schema = {
 
 ```javascript
 let schema = {
-    title: 'Video filename',
+    title: 'Video',
     type: 'string',
     links: [
         {
             href: '/videos/{{self}}.mp4',
             mediaType: 'video/mp4'
+        }
+    ]
+};
+```
+
+#### 显示文本弹窗
+
+Press 针对 `links` 还提供了另外一项增强功能--文本弹窗，用于展示根据当前字段值动态返回的文本内容。
+
+设置 `mediaType` 为 _info_ 即可启用该增强模式，同时使用 `getMedia` 方法来根据当前字段动态处理文本内容并返回。
+
+```javascript
+let schema = {
+    title: 'Description',
+    type: 'string',
+    links: [
+        {
+            rel: 'Show More',
+            // href 设置为空
+            href: '',
+            // 开启文本弹窗模式
+            mediaType: 'info',
+            // 返回文本信息的函数，默认传入参数为当前字段的值
+            getMedia: target => {
+                if (target) {
+                    return this.textMap[target];
+                }
+                return '';
+            }
         }
     ]
 };
@@ -1838,7 +1897,7 @@ let schema = {
 
 所有支持使用自定义表达式的地方，都会包括两个属性 `item` 和 `i`，表示数组的元素和它们的索引（以 0 开始）。
 
-另外，针对 `enumSource` 关键字，Press 新增 sourceFormat 字段，支持内部设定一个处理方法，用于对 source 设置的数据进行再次处理和加工。
+另外，针对 `enumSource` 关键字，Press 新增 `sourceFormat` 字段，支持内部设定一个处理方法，用于对 source 设置的数据进行再次处理和加工。
 
 ```javascript
 let schema = {
