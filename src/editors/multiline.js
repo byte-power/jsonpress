@@ -18,6 +18,9 @@ export class MultiLineEditor extends StringEditor {
       this.value = value.join('\n')
       this.input.value = this.value
     }
+
+    const changed = this.getValue() !== value
+    this.onChange(changed)
   }
 
   getValue() {
