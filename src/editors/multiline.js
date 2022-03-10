@@ -28,7 +28,7 @@ export class MultiLineEditor extends StringEditor {
       return undefined
     }
     if (!this.value) {
-      return undefined
+      return []
     }
 
     let realValue = this.value
