@@ -239,7 +239,7 @@ export class TableEditor extends ArrayEditor {
   toggleController(target, result) {
     const controlsHolder = target.table_controls_more
     if (result) {
-      target.disable()
+      target.disable(true)
       this.setVisibility(controlsHolder, false)
     } else {
       target.enable()

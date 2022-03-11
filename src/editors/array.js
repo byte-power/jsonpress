@@ -408,7 +408,7 @@ export class ArrayEditor extends AbstractEditor {
   toggleController(target, result) {
     const controlsHolder = target.title_controls || target.array_controls
     if (result) {
-      target.disable()
+      target.disable(true)
       this.setVisibility(controlsHolder, false)
     } else {
       target.enable()
