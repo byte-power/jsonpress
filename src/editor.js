@@ -24,6 +24,7 @@ export class AbstractEditor {
     this.formname = options.formname || this.path.replace(/\.([^.]+)/g, '[$1]')
 
     this.parent = options.parent
+    this.realParent = options.realParent
     this.order = options.order
     this.key = this.parent !== undefined ? this.path.split('.').slice(this.parent.path.split('.').length).join('.') : this.path
 
@@ -639,6 +640,7 @@ export class AbstractEditor {
   isRequired () {
     if (typeof this.schema.required === 'boolean') return this.schema.required
     else if (this.parent && this.parent.schema && Array.isArray(this.parent.schema.required)) return this.parent.schema.required.includes(this.key)
+    else if (this.realParent && this.realParent.schema && Array.isArray(this.realParent.schema.required)) return this.realParent.schema.required.includes(this.key)
     else if (this.jsoneditor.options.required_by_default) return true
     else return false
   }

@@ -107,6 +107,7 @@ export class MultipleEditor extends AbstractEditor {
       container: holder,
       path: this.path,
       parent: this,
+      realParent: this.parent,
       order: i,
       required: true
     })
