@@ -477,15 +477,14 @@ export class ArrayEditor extends AbstractEditor {
       })
 
       let isReadOnly = getProp(this, 'schema.items.readOnly')
-      if (!this.collapsed && this.setupButtons(minItems)) {
+      let hasBtn = this.setupButtons(minItems)
+      if (!this.collapsed && hasBtn) {
         // readOnly 属性为布尔值表示全面禁用（包括添加按钮）
         if (typeof isReadOnly === 'boolean' && isReadOnly) {
           this.controls.style.display = 'none'
         } else {
           this.controls.style.display = 'inline-block'
         }
-      } else {
-        this.controls.style.display = 'none'
       }
     }
     this.serialized = JSON.stringify(this.value)
