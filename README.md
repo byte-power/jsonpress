@@ -1591,7 +1591,7 @@ let schema = {
 
 -   单个键值对：表明依赖项的值为期望值即生效。
 -   单个键值对，但是值为数组：表明依赖项的值为数组元素之一即生效。
--   多个键值对，但是值只能为基础类型，不能为数组：表明当多个依赖项都分别满足期望值时才生效。
+-   多个键值对：表明当多个依赖项都分别满足期望值时才生效。
 
 ```javascript
 let schema = {
@@ -1625,11 +1625,11 @@ let schema = {
     },
     depender3: {
         type: 'string',
-        description: 'show when fieldOne is bar and fieldTwo is b',
+        description: 'show when fieldOne is bar or cool and fieldTwo is b',
         options: {
             dependencies: {
-                fieldTwo: 'b',
-                fieldOne: 'bar'
+                fieldOne: ['bar', 'cool'],
+                fieldTwo: 'b'
             }
         }
     }
