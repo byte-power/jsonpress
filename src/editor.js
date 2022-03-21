@@ -170,6 +170,10 @@ export class AbstractEditor {
       })
     } else if (typeof choices === 'object') {
       if (typeof value !== 'object') {
+        if (hasOwnProperty(choices, 'not')) {
+          this.dependenciesFulfilled = choices.not !== value
+          return
+        }
         this.dependenciesFulfilled = choices === value
       } else {
         Object.keys(choices).some(key => {
