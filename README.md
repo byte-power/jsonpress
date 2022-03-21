@@ -1154,7 +1154,7 @@ let schema2 = {
                     rewards: {
                         type: 'array',
                         items: {
-                            type: 'string',
+                            type: 'string'
                         }
                     }
                 }
@@ -1172,6 +1172,7 @@ let schema2 = {
 Press 针对 array/table 类型提供一个 readOnly 属性，可以设置单个项的只读状态，用于固定内置项避免被修改的场景。
 
 通过 `items.readOnly` 来设置单个项的只读状态，支持使用函数或者布尔值。
+
 1. 函数：按条件判断禁用（符合条件的单个项无法修改，并且无法排序和删除）,当前项作为第一个参数默认传入
 2. 布尔：直接全局禁用（所有子项都无法修改、排序和删除，并且不允许添加新项）
 
@@ -1292,6 +1293,28 @@ editor.on('deleteAllRows', editor => {
     console.log('deleteAllRows', editor);
 });
 ```
+
+#### multiline 类型
+
+Press 针对 array 数据新增了 multiline 类型，其表现为支持多行指定类型的文本域，用于快速生成数组（支持 字符串、数字、布尔 三种类型组成数组）
+
+当 `format` 为 _multiline_ 时，可以启用这种类型，它渲染为文本域形式，通过换行支持输入多个项。
+
+另外可以通过 `options.multiType` 选项来设置数组的组成元素类型，用于校验和最终生成值。支持 number、string、boolean 三种类型
+
+> 注：`type` 为 _string_ 而不是 _array_
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'multiline',
+    options: {
+        multiType: 'number'
+    }
+};
+```
+
+另外需要注意的是，当该字段为必填项时，其默认值（或者值为空时）返回为空数组 [] 否则返回 undefined
 
 ### object
 
@@ -1917,7 +1940,7 @@ let schema = {
             }
         ]
     }
-}
+};
 ```
 
 #### 回调函数
