@@ -1659,6 +1659,29 @@ let schema = {
 };
 ```
 
+另外，针对 `dependencies` 关键字，Press 增强了其功能，支持使用 not 字段来设置依赖值，表明依赖项为非设定值时生效。
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'string',
+        enum: ['foo', 'bar', 'cool'],
+        default: 'foo'
+    },
+    depender: {
+        type: 'string',
+        description: 'show when fieldOne is not bar',
+        options: {
+            dependencies: {
+                fieldOne: {
+                    not: 'bar'
+                }
+            }
+        }
+    }
+};
+```
+
 ### 自定义依赖
 
 上述规则可以满足大部分常见场景的需求，但是还不够灵活。所以编辑器还提供了一系列关键字的组合来提供更多可能。
