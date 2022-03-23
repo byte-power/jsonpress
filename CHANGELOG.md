@@ -8,6 +8,8 @@
 
 -   增强 dependencies 功能：
     -   支持使用 not 字段来设置依赖值，表明依赖项为非设定值时生效
+-   增强 pattern 功能：
+    -   增加 patternValidate 字段，用于提供一个根据条件判断并设置 pattern 是否生效的方法
 
 ## [1.1.3-beta.16] - 2022-03-18
 
