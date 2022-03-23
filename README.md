@@ -507,6 +507,19 @@ let schema = {
 };
 ```
 
+Press 针对 `pattern` 字段提供一个辅助字段 `patternValidate` ，用于提供一个根据条件判断并设置 pattern 是否生效的方法，默认传入参数为当前字段的值，返回布尔值，表明是否生效。
+
+```javascript
+let schema = {
+    type: 'string',
+    pattern: '^(?!_)\\w+$',
+    patternValidate: target => {
+        // 当前字段值不等于 float 时，正则生效
+        return target !== 'float';
+    }
+};
+```
+
 #### textarea
 
 当 `format` 为 _textarea_ 时，渲染为文本域形式，可以支持输入大段文字。
