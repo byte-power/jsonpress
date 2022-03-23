@@ -295,6 +295,12 @@ export class Validator {
       },
       /* `pattern` */
       pattern (schema, value, path) {
+        if (schema.patternValidate) {
+          let valid = schema.patternValidate(value)
+          if (!valid) {
+            return []
+          }
+        }
         if (!(new RegExp(schema.pattern)).test(value)) {
           return [{
             path,
