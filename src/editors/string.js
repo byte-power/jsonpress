@@ -44,6 +44,11 @@ export class StringEditor extends AbstractEditor {
     if (initial) this.is_dirty = false
     else if (this.jsoneditor.options.show_errors === 'change') this.is_dirty = true
 
+    // 当字段带 newOnly 属性表明只能新建不能编辑
+    if (!this.is_dirty && this.schema.newOnly) {
+      this.disable(true);
+    }
+
     if (this.adjust_height) this.adjust_height(this.input)
 
     /* Bubble this setValue to parents if the value changed */
