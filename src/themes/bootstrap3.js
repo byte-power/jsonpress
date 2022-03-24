@@ -1,5 +1,4 @@
 import { AbstractTheme } from '../theme.js'
-import { closest } from '../utilities'
 import rules from './bootstrap3.css.js'
 
 export class bootstrap3Theme extends AbstractTheme {
@@ -115,14 +114,14 @@ export class bootstrap3Theme extends AbstractTheme {
     tooltip.style.overflowWrap = 'break-word'
     tooltip.textContent = text
     icon.onmouseover = () => {
-      let dialog = closest(icon, '.el-dialog__body')
+      let dialog = this.closest(icon, '.el-dialog__body')
       if (dialog) {
         dialog.style.overflow = 'initial'
       }
       tooltip.style.display = 'block'
     }
     icon.onmouseleave = () => {
-      let dialog = closest(icon, '.el-dialog__body')
+      let dialog = this.closest(icon, '.el-dialog__body')
       if (dialog) {
         dialog.style.overflow = 'auto'
       }
