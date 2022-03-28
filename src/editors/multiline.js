@@ -4,7 +4,7 @@ import { typeMap } from '../utilities.js'
 export class MultiLineEditor extends StringEditor {
   preBuild() {
     super.preBuild()
-    this.options.input_width = '98%'
+    this.options.input_width = this.options.input_width || '98%'
     this.options.format = 'textarea'
     this.options.multiType = this.options.multiType || 'string'
     this.key = this.realParent !== undefined ? this.path.split('.').slice(this.realParent.path.split('.').length).join('.') : this.key
@@ -15,7 +15,7 @@ export class MultiLineEditor extends StringEditor {
   }
 
   setValue(value) {
-    if (value) {
+    if (value && Array.isArray(value)) {
       this.value = value.join('\n')
       this.input.value = this.value
     }
