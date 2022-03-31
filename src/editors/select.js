@@ -329,8 +329,9 @@ export class SelectEditor extends AbstractEditor {
 
       /* If the previous value is still in the new select options */
       /* or if global option "enum_source_value_auto_select" is true, stick with it */
+      let autoSelect = getProp(this, 'jsoneditor.options.enum_source_value_auto_select')
       let autoRefresh = getProp(this, 'schema.options.auto_refresh')
-      if (selectOptions.includes(prevValue) || this.jsoneditor.options.enum_source_value_auto_select === true || !autoRefresh) {
+      if (selectOptions.includes(prevValue) || autoSelect === true || (autoSelect === undefined && !autoRefresh)) {
         this.input.value = prevValue
         this.value = prevValue
         /* Otherwise, set the value to the first select option */
