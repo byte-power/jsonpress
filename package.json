@@ -2,7 +2,7 @@
   "name": "@byte-power/json-press",
   "title": "JSONPress",
   "description": "JSON Schema based editor",
-  "version": "1.1.3-beta.21",
+  "version": "1.0.22",
   "main": "dist/jsonpress.js",
   "author": {
     "name": "lizux"
@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "pub": "npm version minor",
-    "push": "npm version prerelease --preid beta --no-git-tag-version",
+    "push": "npm version patch",
     "prepare": "npm run build",
     "clean": "find ./src -name *.css.js -type f -delete",
     "build": "webpack --config config/webpack.prod.js --progress --profile --bail",
@@ -35,7 +35,7 @@
     "serve-test": "http-server --p 9001",
     "docker-test": "docker-compose run --rm node npm install && docker-compose run --rm node npm run build && docker-compose up -d && docker-compose ps && docker-compose exec node codeceptjs -c /repo/tests/codeceptjs/codecept.json run-multiple basic:chrome --invert --grep '@optional'",
     "preversion": "npm run test-headless",
-    "postversion": "git push && git push --tags && npm publish ./ --tag beta --access public",
+    "postversion": "git push && git push --tags && npm publish ./ --access public",
     "winserver": "cd tests && start cmd /c npm run serve-test .",
     "cp:test": "codeceptjs run --steps --invert --grep  @optional",
     "cp:testmocha": "codeceptjs run --steps --reporter mochawesome --invert --grep  @optional",
