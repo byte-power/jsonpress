@@ -219,8 +219,8 @@ let schema = {
 let schema = {
     type: 'object',
     properties: {
-        name: {type: 'string'},
-        age: {type: 'integer'}
+        name: { type: 'string' },
+        age: { type: 'integer' }
     },
     defaultProperties: ['name']
 };
@@ -475,6 +475,7 @@ let schema = {
         pattern: '^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$', // 正则表达式模板
         required: true, // 该字段为必填项，此设置也可以放入父级对象 required 字段（形式为数组，值为当前字段名）
         readOnly: true, // 该字段为只读模式
+        newOnly: true, // 该字段为新建模式，新建无值时可以编辑，保存后有值不能编辑
         // 可以通过 options 关键字传入一些定制化的设定
         options: {
             exclude: true, // 设置该字段不包括在最终值内，此选项为 Press 新增特性
@@ -1341,7 +1342,7 @@ object 编辑区也是编辑器的重要组成部分之一。该编辑区除了�
 let schema = {
     type: 'object',
     properties: {
-        name: {type: 'string'}
+        name: { type: 'string' }
     }
 };
 ```
@@ -1671,7 +1672,7 @@ let schema = {
 };
 ```
 
-另外，针对 `dependencies` 关键字，Press 提供了增强功能，支持使用 not 字段来设置依赖值，表明依赖项为非设定值时生效。
+另外，针对 `dependencies` 关键字，Press 提供了增强功能，支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
 
 ```javascript
 let schema = {
@@ -1978,6 +1979,29 @@ let schema = {
 };
 ```
 
+另外，针对依赖 `watch` 属性的 `enumSource` 关键字，Press 新增 `options.auto_refresh` 属性，用于设定该字段为动态刷新模式，假如 watch 依赖项已经删除选中值，则校验不通过，无法保存，避免生成无效值。
+
+```javascript
+let schema = {
+    select_input: {
+        type: 'string',
+        watch: {
+            target: 'occasionItem.action_name'
+        },
+        enumSource: [
+            {
+                source: 'target',
+                title: '{{item.name}}',
+                value: '{{item.value}}'
+            }
+        ],
+        options: {
+            auto_refresh: true
+        }
+    }
+};
+```
+
 #### 回调函数
 
 对于 `enumSource` 的 _title、value、filter_ 等属性，也支持使用回调函数来处理渲染数据，以代替模板表达式。
@@ -2129,8 +2153,8 @@ let schema = {
         title: 'Child',
         headerTemplate: '{{ i1 }} - {{ self.name }} (age {{ self.age }})',
         properties: {
-            name: {type: 'string'},
-            age: {type: 'integer'}
+            name: { type: 'string' },
+            age: { type: 'integer' }
         }
     }
 };
