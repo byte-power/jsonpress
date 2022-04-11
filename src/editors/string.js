@@ -312,7 +312,9 @@ export class StringEditor extends AbstractEditor {
     }
     if (this.imask_instance && this.dependenciesFulfilled && this.options.imask.returnUnmasked) {
       return this.imask_instance.unmaskedValue
-    } return super.getValue()
+    }
+    let val = super.getValue()
+    return val && val.trim()
   }
 
   enable () {
