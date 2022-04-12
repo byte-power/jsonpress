@@ -339,6 +339,7 @@ export class SchemaLoader {
     }
   }
 
+  // todo: 合并规则比较怪异，需研究
   extendSchemas (obj1, obj2) {
     obj1 = extend({}, obj1)
     obj2 = extend({}, obj2)
