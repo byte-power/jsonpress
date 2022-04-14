@@ -120,13 +120,14 @@ export class AbstractEditor {
     const previousStatus = this.dependenciesFulfilled
     this.dependenciesFulfilled = true
 
-    Object.keys(deps).forEach(dependency => {
+    let final = Object.keys(deps).every(dependency => {
       let path = this.path.split('.')
       path[path.length - 1] = dependency
       path = path.join('.')
       const choices = deps[dependency]
-      this.checkDependency(path, choices)
+      return this.checkDependency(path, choices)
     })
+    this.dependenciesFulfilled = final
 
     if (this.dependenciesFulfilled !== previousStatus) {
       this.notify()
@@ -195,6 +196,7 @@ export class AbstractEditor {
         this.dependenciesFulfilled = this.dependenciesFulfilled && (!value || value.length === 0)
       }
     }
+    return this.dependenciesFulfilled
   }
 
   setContainer (container) {
