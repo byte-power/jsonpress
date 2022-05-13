@@ -2,13 +2,15 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
-## [1.1.5-beta.2] - 2022-04-
+## [1.1.5-beta.2] - 2022-05-
 
 ### Changed
 
 - 增强 dependencies 功能：
 
   - 对于多项 dependencies 规则，使用 ‘and’ 而非 ‘or’ 的逻辑计算方式
+
+- 添加 options.transform_json 字段，支持对 Edit JSON 对话框的 save 行为进行相应数据转换
 
 ## [1.1.5-beta.1] - 2022-04-11
 
