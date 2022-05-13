@@ -864,7 +864,10 @@ export class ObjectEditor extends AbstractEditor {
     if (!this.editjson_holder) return
 
     try {
-      const json = JSON.parse(this.editjson_textarea.value)
+      let json = JSON.parse(this.editjson_textarea.value)
+      if (this.jsoneditor.options.transform_json) {
+          json = this.jsoneditor.options.transform_json(json)
+      }
       this.setValue(json)
       this.hideEditJSON()
       this.onChange(true)
