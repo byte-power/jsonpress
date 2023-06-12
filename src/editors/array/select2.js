@@ -30,6 +30,9 @@ export class ArraySelect2Editor extends MultiSelectEditor {
       /* New items are allowed if option "tags" is true and items type is "string" */
       this.newEnumAllowed = options.tags = !!options.tags && this.schema.items && this.schema.items.type === 'string'
 
+	  if (options.relativeToParent) {
+		options.dropdownParent = this.input.parentNode
+	  }
       this.select2_instance = window.jQuery(this.input).select2(options)
       this.select2v4 = hasOwnProperty(this.select2_instance.select2, 'amd')
 
