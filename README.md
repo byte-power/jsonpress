@@ -2103,6 +2103,8 @@ JSONEditor.defaults.callbacks.template = {
 
 2. 元素的 schema 内控件类型和联动项的取值有关联
 
+    > 注：当有多个依赖项时，不支持都是数组的情况！
+
     如下：当 kind = custom 时，name 为文本输入框；当 kind = preset 时，name 为下拉选择框
 
     ```javascript
