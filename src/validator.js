@@ -343,8 +343,8 @@ export class Validator {
                             path,
                             property: 'pattern',
                             message:
-                                schema.options && schema.options.patternmessage
-                                    ? schema.options.patternmessage
+                                schema.options && schema.options.pattern_message
+                                    ? schema.options.pattern_message
                                     : this.translate('error_pattern', [schema.pattern])
                         }
                     ]
