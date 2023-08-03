@@ -104,7 +104,7 @@ export class StringEditor extends AbstractEditor {
                 this.input_type = 'range'
                 let min = this.schema.minimum || 0
                 let max = this.schema.maximum || Math.max(100, min + 1)
-                let step = 1
+                let step = this.schema.step || 1
                 if (this.schema.multipleOf) {
                     if (min % this.schema.multipleOf)
                         min = Math.ceil(min / this.schema.multipleOf) * this.schema.multipleOf
