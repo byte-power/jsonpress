@@ -1,5 +1,5 @@
 import { ArrayEditor } from './array.js'
-import { extend, trigger, getProp } from '../utilities.js'
+import { extend, trigger, getProp, hasOwnProperty } from '../utilities.js'
 let currentHoverTarget
 const removeHoverClass = function () {
     if (currentHoverTarget) {
@@ -39,7 +39,9 @@ export class TableEditor extends ArrayEditor {
         this.item_default = itemSchema.default || null
         this.item_has_child_editors = itemSchema.properties || itemSchema.items
         this.width = 12
-        this.array_controls_top = this.options.array_controls_top || this.jsoneditor.options.array_controls_top
+        this.array_controls_top = hasOwnProperty(this.options, 'array_controls_top')
+            ? this.options.array_controls_top
+            : this.jsoneditor.options.array_controls_top
         super.preBuild()
     }
 
