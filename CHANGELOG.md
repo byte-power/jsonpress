@@ -2,6 +2,12 @@
 
 > 注：1.1 作为 beta 分支和 1.0 版本并行开发，会同步合并主分支的功能和修改
 
+## [1.1.6-beta.4] - 2023-10-25
+
+### Fixed
+
+-   修复 array/table 类型使用 options.array_controls_top 字段设置无效的问题
+
 ## [1.1.6-beta.3] - 2023-08-04
 
 ### Fixed
