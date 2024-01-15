@@ -331,7 +331,8 @@ export class ArrayEditor extends AbstractEditor {
             if (!row.tab) return
 
             if (refreshHeaders) {
-                row.tab_text.textContent = row.getHeaderText()
+                row.tab_text.textContent = row.getHeaderText(true)
+                row.tab_text.title = row.tab_text.textContent
             } else if (row.tab === this.active_tab) {
                 this.theme.markTabActive(row)
             } else {
