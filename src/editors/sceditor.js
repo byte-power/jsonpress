@@ -1,17 +1,17 @@
-import { StringEditor } from './string.js'
-import { extend } from '../utilities.js'
+import {StringEditor} from './string.js';
+import {extend} from '../utilities.js';
 
 export class ScEditor extends StringEditor {
     setValue(value, initial, fromTemplate) {
-        const res = super.setValue(value, initial, fromTemplate)
-        if (res !== undefined && res.changed && this.sceditor_instance) this.sceditor_instance.val(res.value)
+        const res = super.setValue(value, initial, fromTemplate);
+        if (res !== undefined && res.changed && this.sceditor_instance) this.sceditor_instance.val(res.value);
     }
 
     build() {
-        this.options.format = 'textarea' /* Force format into "textarea" */
-        super.build()
-        this.input_type = this.schema.format /* Restore original format */
-        this.input.setAttribute('data-schemaformat', this.input_type)
+        this.options.format = 'textarea'; /* Force format into "textarea" */
+        super.build();
+        this.input_type = this.schema.format; /* Restore original format */
+        this.input.setAttribute('data-schemaformat', this.input_type);
     }
 
     afterInputReady() {
@@ -35,47 +35,47 @@ export class ScEditor extends StringEditor {
                         element: this.input
                     }
                 )
-            )
+            );
 
-            const instance = window.sceditor.instance(this.input)
+            const instance = window.sceditor.instance(this.input);
 
             if (instance === undefined) {
-                window.sceditor.create(this.input, options) /* Create doesn't return instance. */
+                window.sceditor.create(this.input, options); /* Create doesn't return instance. */
             }
 
-            this.sceditor_instance = instance || window.sceditor.instance(this.input)
+            this.sceditor_instance = instance || window.sceditor.instance(this.input);
 
             /* Listen for changes */
             this.sceditor_instance.blur(() => {
-                this.value = this.sceditor_instance.val()
-                this.sceditor_instance.updateOriginal()
-                this.is_dirty = true
-                this.onChange(true)
-            })
+                this.value = this.sceditor_instance.val();
+                this.sceditor_instance.updateOriginal();
+                this.is_dirty = true;
+                this.onChange(true);
+            });
 
-            this.theme.afterInputReady(this.input)
-        } else super.afterInputReady() /* Library not loaded, so just treat this as a string */
+            this.theme.afterInputReady(this.input);
+        } else super.afterInputReady(); /* Library not loaded, so just treat this as a string */
     }
 
     getNumColumns() {
-        return 6
+        return 6;
     }
 
     enable() {
-        if (!this.always_disabled && this.sceditor_instance) this.sceditor_instance.readOnly(false)
-        super.enable()
+        if (!this.always_disabled && this.sceditor_instance) this.sceditor_instance.readOnly(false);
+        super.enable();
     }
 
     disable(alwaysDisabled) {
-        if (this.sceditor_instance) this.sceditor_instance.readOnly(true)
-        super.disable(alwaysDisabled)
+        if (this.sceditor_instance) this.sceditor_instance.readOnly(true);
+        super.disable(alwaysDisabled);
     }
 
     destroy() {
         if (this.sceditor_instance) {
-            this.sceditor_instance.destroy()
-            this.sceditor_instance = null
+            this.sceditor_instance.destroy();
+            this.sceditor_instance = null;
         }
-        super.destroy()
+        super.destroy();
     }
 }

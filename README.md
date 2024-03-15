@@ -219,8 +219,8 @@ let schema = {
 let schema = {
     type: 'object',
     properties: {
-        name: { type: 'string' },
-        age: { type: 'integer' }
+        name: {type: 'string'},
+        age: {type: 'integer'}
     },
     defaultProperties: ['name']
 };
@@ -794,7 +794,9 @@ let schema = {
     options: {
         autocomplete: {
             search: function search(input) {
-                let url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + encodeURI(input);
+                let url =
+                    'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' +
+                    encodeURI(input);
 
                 return new Promise(function (resolve) {
                     if (input.length < 3) {
@@ -1344,7 +1346,7 @@ object 编辑区也是编辑器的重要组成部分之一。该编辑区除了�
 let schema = {
     type: 'object',
     properties: {
-        name: { type: 'string' }
+        name: {type: 'string'}
     }
 };
 ```
@@ -2157,8 +2159,8 @@ let schema = {
         title: 'Child',
         headerTemplate: '{{ i1 }} - {{ self.name }} (age {{ self.age }})',
         properties: {
-            name: { type: 'string' },
-            age: { type: 'integer' }
+            name: {type: 'string'},
+            age: {type: 'integer'}
         }
     }
 };

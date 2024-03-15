@@ -1,21 +1,21 @@
-import { SelectEditor } from './select.js'
-import { extend, hasOwnProperty } from '../utilities.js'
+import {SelectEditor} from './select.js';
+import {extend, hasOwnProperty} from '../utilities.js';
 
 export class Select2Editor extends SelectEditor {
     setValue(value, initial) {
         if (this.select2_instance) {
-            if (initial) this.is_dirty = false
-            else if (this.jsoneditor.options.show_errors === 'change') this.is_dirty = true
+            if (initial) this.is_dirty = false;
+            else if (this.jsoneditor.options.show_errors === 'change') this.is_dirty = true;
 
-            const sanitized = this.updateValue(value) /* Sets this.value to sanitized value */
+            const sanitized = this.updateValue(value); /* Sets this.value to sanitized value */
 
-            this.input.value = sanitized
+            this.input.value = sanitized;
 
-            if (this.select2v4) this.select2_instance.val(sanitized).trigger('change')
-            else this.select2_instance.select2('val', sanitized)
+            if (this.select2v4) this.select2_instance.val(sanitized).trigger('change');
+            else this.select2_instance.select2('val', sanitized);
 
-            this.onChange(true)
-        } else super.setValue(value, initial)
+            this.onChange(true);
+        } else super.setValue(value, initial);
     }
 
     afterInputReady() {
@@ -25,91 +25,91 @@ export class Select2Editor extends SelectEditor {
             const options = this.expandCallbacks(
                 'select2',
                 extend({}, this.defaults.options.select2 || {}, this.options.select2 || {})
-            )
+            );
 
             /* New items are allowed if option "tags" is true and type is "string" */
-            this.newEnumAllowed = options.tags = !!options.tags && this.schema.type === 'string'
+            this.newEnumAllowed = options.tags = !!options.tags && this.schema.type === 'string';
 
-            this.select2_instance = window.jQuery(this.input).select2(options)
-            this.select2v4 = hasOwnProperty(this.select2_instance.select2, 'amd')
+            this.select2_instance = window.jQuery(this.input).select2(options);
+            this.select2v4 = hasOwnProperty(this.select2_instance.select2, 'amd');
 
             /* Create change handler */
             this.selectChangeHandler = () => {
-                const value = this.select2v4 ? this.select2_instance.val() : this.select2_instance.select2('val')
-                this.updateValue(value)
-                this.onChange(true)
-            }
+                const value = this.select2v4 ? this.select2_instance.val() : this.select2_instance.select2('val');
+                this.updateValue(value);
+                this.onChange(true);
+            };
 
             /* Add event handler. */
             /* Note: Must use the "on()" method and not addEventListener() */
-            this.select2_instance.on('change', this.selectChangeHandler)
-            this.select2_instance.on('select2-blur', this.selectChangeHandler)
+            this.select2_instance.on('change', this.selectChangeHandler);
+            this.select2_instance.on('select2-blur', this.selectChangeHandler);
         }
-        super.afterInputReady()
+        super.afterInputReady();
     }
 
     updateValue(value) {
-        let sanitized = this.enum_values[0]
-        value = this.typecast(value || '')
+        let sanitized = this.enum_values[0];
+        value = this.typecast(value || '');
         if (!this.enum_values.includes(value)) {
             if (this.newEnumAllowed) {
-                sanitized = this.addNewOption(value) ? value : sanitized
+                sanitized = this.addNewOption(value) ? value : sanitized;
             }
-        } else sanitized = value
-        this.value = sanitized
-        return sanitized
+        } else sanitized = value;
+        this.value = sanitized;
+        return sanitized;
     }
 
     addNewOption(value) {
-        const sanitized = this.typecast(value)
-        let res = false
-        let optionTag
+        const sanitized = this.typecast(value);
+        let res = false;
+        let optionTag;
 
         if (!this.enum_values.includes(sanitized) && sanitized !== '') {
             /* Add to list of valid enum values */
-            this.enum_options.push(`${sanitized}`)
-            this.enum_display.push(`${sanitized}`)
-            this.enum_values.push(sanitized)
+            this.enum_options.push(`${sanitized}`);
+            this.enum_display.push(`${sanitized}`);
+            this.enum_values.push(sanitized);
             /* Update Schema enum to prevent triggering error */
             /* "Value must be one of the enumerated values" */
-            this.schema.enum.push(sanitized)
+            this.schema.enum.push(sanitized);
 
-            optionTag = this.input.querySelector(`option[value="${sanitized}"]`)
+            optionTag = this.input.querySelector(`option[value="${sanitized}"]`);
             if (optionTag) {
                 /* Remove data attribute to make option tag permanent. */
-                optionTag.removeAttribute('data-select2-tag')
+                optionTag.removeAttribute('data-select2-tag');
             } else {
-                this.input.appendChild(new Option(sanitized, sanitized, false, false)).trigger('change')
+                this.input.appendChild(new Option(sanitized, sanitized, false, false)).trigger('change');
             }
 
-            res = true
+            res = true;
         }
-        return res
+        return res;
     }
 
     enable() {
         if (!this.always_disabled) {
             if (this.select2_instance) {
-                if (this.select2v4) this.select2_instance.prop('disabled', false)
-                else this.select2_instance.select2('enable', true)
+                if (this.select2v4) this.select2_instance.prop('disabled', false);
+                else this.select2_instance.select2('enable', true);
             }
         }
-        super.enable()
+        super.enable();
     }
 
     disable(alwaysDisabled) {
         if (this.select2_instance) {
-            if (this.select2v4) this.select2_instance.prop('disabled', true)
-            else this.select2_instance.select2('enable', false)
+            if (this.select2v4) this.select2_instance.prop('disabled', true);
+            else this.select2_instance.select2('enable', false);
         }
-        super.disable(alwaysDisabled)
+        super.disable(alwaysDisabled);
     }
 
     destroy() {
         if (this.select2_instance) {
-            this.select2_instance.select2('destroy')
-            this.select2_instance = null
+            this.select2_instance.select2('destroy');
+            this.select2_instance = null;
         }
-        super.destroy()
+        super.destroy();
     }
 }

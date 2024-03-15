@@ -1,31 +1,31 @@
-import { SelectEditor } from './select.js'
+import {SelectEditor} from './select.js';
 
 export class RadioEditor extends SelectEditor {
     preBuild() {
-        super.preBuild()
+        super.preBuild();
     }
 
     build() {
-        this.label = ''
+        this.label = '';
         if (!this.options.compact)
-            this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
+            this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired());
         if (this.schema.description)
-            this.description = this.theme.getFormInputDescription(this.schema.description, this.options)
-        if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.options.infoText)
-        if (this.options.compact) this.container.classList.add('compact')
+            this.description = this.theme.getFormInputDescription(this.schema.description, this.options);
+        if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.options.infoText);
+        if (this.options.compact) this.container.classList.add('compact');
 
-        this.radioContainer = document.createElement('div')
+        this.radioContainer = document.createElement('div');
 
-        this.radioGroup = []
+        this.radioGroup = [];
 
         const radioInputEventhandler = e => {
-            this.setValue(e.currentTarget.value)
-            this.onChange(true)
-        }
+            this.setValue(e.currentTarget.value);
+            this.onChange(true);
+        };
         if (!this.isRequired()) {
-            this.enum_display.shift()
-            this.enum_options.shift()
-            this.enum_values.shift()
+            this.enum_display.shift();
+            this.enum_options.shift();
+            this.enum_values.shift();
         }
 
         for (let i = 0; i < this.enum_values.length; i++) {
@@ -34,84 +34,84 @@ export class RadioEditor extends SelectEditor {
                 name: this.formname,
                 id: `${this.formname}[${i}]`,
                 value: this.enum_values[i]
-            })
+            });
 
             /* Set custom attributes on input element. Parameter is array of protected keys. Empty array if none. */
-            this.setInputAttributes(['id', 'value', 'name'])
+            this.setInputAttributes(['id', 'value', 'name']);
 
-            this.input.addEventListener('change', radioInputEventhandler, false)
-            this.radioGroup.push(this.input)
+            this.input.addEventListener('change', radioInputEventhandler, false);
+            this.radioGroup.push(this.input);
 
             /* form-label for radio elements */
-            const radioLabel = this.theme.getFormRadioLabel(this.enum_display[i])
-            radioLabel.htmlFor = this.input.id
+            const radioLabel = this.theme.getFormRadioLabel(this.enum_display[i]);
+            radioLabel.htmlFor = this.input.id;
 
             const control = this.theme.getFormRadioControl(
                 radioLabel,
                 this.input,
                 !!(this.options.layout === 'horizontal' || this.options.compact)
-            )
+            );
 
-            this.radioContainer.appendChild(control)
+            this.radioContainer.appendChild(control);
         }
 
         if (this.schema.readOnly || this.schema.readonly) {
-            this.disable(true)
+            this.disable(true);
         }
 
-        const radioContainerWrapper = this.theme.getContainer()
-        radioContainerWrapper.appendChild(this.radioContainer)
-        radioContainerWrapper.dataset.containerFor = 'radio'
+        const radioContainerWrapper = this.theme.getContainer();
+        radioContainerWrapper.appendChild(this.radioContainer);
+        radioContainerWrapper.dataset.containerFor = 'radio';
 
-        this.input = radioContainerWrapper
+        this.input = radioContainerWrapper;
 
-        this.control = this.theme.getFormControl(this.label, radioContainerWrapper, this.description, this.infoButton)
-        this.container.appendChild(this.control)
+        this.control = this.theme.getFormControl(this.label, radioContainerWrapper, this.description, this.infoButton);
+        this.container.appendChild(this.control);
 
         /* Any special formatting that needs to happen after the input is added to the dom */
         window.requestAnimationFrame(() => {
-            if (this.input.parentNode) this.afterInputReady()
-        })
+            if (this.input.parentNode) this.afterInputReady();
+        });
     }
 
     enable() {
         if (!this.always_disabled) {
             for (let i = 0; i < this.radioGroup.length; i++) {
-                this.radioGroup[i].disabled = false
+                this.radioGroup[i].disabled = false;
             }
-            this.radioContainer.classList.remove('readonly')
-            super.enable()
+            this.radioContainer.classList.remove('readonly');
+            super.enable();
         }
     }
 
     disable(alwaysDisabled) {
-        if (alwaysDisabled) this.always_disabled = true
+        if (alwaysDisabled) this.always_disabled = true;
         for (let i = 0; i < this.radioGroup.length; i++) {
-            this.radioGroup[i].disabled = true
+            this.radioGroup[i].disabled = true;
         }
-        this.radioContainer.classList.add('readonly')
-        super.disable()
+        this.radioContainer.classList.add('readonly');
+        super.disable();
     }
 
     destroy() {
         if (this.radioContainer.parentNode && this.radioContainer.parentNode.parentNode)
-            this.radioContainer.parentNode.parentNode.removeChild(this.radioContainer.parentNode)
-        if (this.label && this.label.parentNode) this.label.parentNode.removeChild(this.label)
-        if (this.description && this.description.parentNode) this.description.parentNode.removeChild(this.description)
-        super.destroy()
+            this.radioContainer.parentNode.parentNode.removeChild(this.radioContainer.parentNode);
+        if (this.label && this.label.parentNode) this.label.parentNode.removeChild(this.label);
+        if (this.description && this.description.parentNode) this.description.parentNode.removeChild(this.description);
+        super.destroy();
     }
 
     getNumColumns() {
-        return 2
+        return 2;
     }
 
     setValue(val) {
         for (let i = 0; i < this.radioGroup.length; i++) {
             if (this.radioGroup[i].value === val) {
-                this.radioGroup[i].checked = true
-                this.value = val
-                this.onChange()
-                break
+                this.radioGroup[i].checked = true;
+                this.value = val;
+                this.onChange();
+                break;
             }
         }
     }

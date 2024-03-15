@@ -1,27 +1,27 @@
-import { resolvers } from './resolvers.js'
+import {resolvers} from './resolvers.js';
 
 /* default theme */
-const theme = 'html'
+const theme = 'html';
 
 /* default template engine */
-const template = 'default'
+const template = 'default';
 
 /* Global callback list */
-const callbacks = {}
+const callbacks = {};
 
-const themes = {}
-const templates = {}
-const iconlibs = {}
-const editors = {}
-const languages = {}
+const themes = {};
+const templates = {};
+const iconlibs = {};
+const editors = {};
+const languages = {};
 // eslint-disable-next-line camelcase
-const custom_validators = []
+const custom_validators = [];
 
 /* Translation strings and default languages */
 // eslint-disable-next-line camelcase
-const default_language = 'en'
+const default_language = 'en';
 // eslint-disable-next-line camelcase
-const language = default_language
+const language = default_language;
 
 languages.en = {
     /**
@@ -351,39 +351,39 @@ languages.en = {
      * Warning when deleting a node
      */
     button_delete_node_warning: 'Are you sure you want to remove this node?'
-}
+};
 
 /* Default per-editor options */
 Object.entries(editors).forEach(([i, editor]) => {
-    editors[i].options = editor.options || {}
-})
+    editors[i].options = editor.options || {};
+});
 
 /* Default upload handler */
 function upload(type, file, cbs) {
     // eslint-disable-next-line no-console
-    console.log('Upload handler required for upload editor')
+    console.log('Upload handler required for upload editor');
 }
 
 /* String translate function */
 function translate(key, variables) {
-    const lang = defaults.languages[defaults.language]
-    if (!lang) throw new Error(`Unknown language ${defaults.language}`)
+    const lang = defaults.languages[defaults.language];
+    if (!lang) throw new Error(`Unknown language ${defaults.language}`);
 
-    let string = lang[key] || defaults.languages[default_language][key] || key
+    let string = lang[key] || defaults.languages[default_language][key] || key;
 
     if (variables) {
         for (let i = 0; i < variables.length; i++) {
-            string = string.replace(new RegExp(`\\{\\{${i}}}`, 'g'), variables[i])
+            string = string.replace(new RegExp(`\\{\\{${i}}}`, 'g'), variables[i]);
         }
     }
 
-    return string
+    return string;
 }
 
 /* Text element translate function */
 
 function translateProperty(text, variables) {
-    return text
+    return text;
 }
 
 /* Default options when initializing JSON Editor */
@@ -395,7 +395,7 @@ const options = {
     prompt_before_delete: true,
     use_default_values: true,
     max_depth: 0
-}
+};
 
 /* This assignment was previously in index.js but makes more sense here */
 export const defaults = {
@@ -414,4 +414,4 @@ export const defaults = {
     language,
     translate,
     translateProperty
-}
+};

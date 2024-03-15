@@ -5,67 +5,67 @@ Edtended handling of  oolor type fields.
 Has optional support for using https://github.com/Sphinxxxx/vanilla-picker.
 
 */
-import { StringEditor } from './string.js'
-import { extend } from '../utilities.js'
+import {StringEditor} from './string.js';
+import {extend} from '../utilities.js';
 
 export class ColorEditor extends StringEditor {
     postBuild() {
         if (window.Picker) {
-            this.input.type = 'text'
+            this.input.type = 'text';
         }
-        this.input.style.padding = '3px'
-        this.inputWrap = document.createElement('div')
-        this.inputWrap.classList.add('color-container')
-        this.input.parentNode.insertBefore(this.inputWrap, this.input)
-        this.inputWrap.appendChild(this.input)
+        this.input.style.padding = '3px';
+        this.inputWrap = document.createElement('div');
+        this.inputWrap.classList.add('color-container');
+        this.input.parentNode.insertBefore(this.inputWrap, this.input);
+        this.inputWrap.appendChild(this.input);
     }
 
     setValue(value, initial, fromTemplate) {
-        const res = super.setValue(value, initial, fromTemplate)
+        const res = super.setValue(value, initial, fromTemplate);
         if (this.picker_instance && this.picker_instance.domElement && res && res.changed) {
-            this.picker_instance.setColor(res.value, true)
+            this.picker_instance.setColor(res.value, true);
         }
-        return res
+        return res;
     }
 
     getNumColumns() {
-        return 2
+        return 2;
     }
 
     afterInputReady() {
-        super.afterInputReady()
-        this.createPicker(true)
+        super.afterInputReady();
+        this.createPicker(true);
     }
 
     disable() {
-        super.disable()
+        super.disable();
         if (this.picker_instance && this.picker_instance.domElement) {
             /* Disable picker cursor dragging */
-            this.picker_instance.domElement.style.pointerEvents = 'none'
+            this.picker_instance.domElement.style.pointerEvents = 'none';
             /* Disable picker buttons */
-            const buttons = this.picker_instance.domElement.querySelectorAll('button')
+            const buttons = this.picker_instance.domElement.querySelectorAll('button');
             for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true
+                buttons[i].disabled = true;
             }
         }
     }
 
     enable() {
-        super.enable()
+        super.enable();
         if (this.picker_instance && this.picker_instance.domElement) {
             /* Enable picker cursor dragging */
-            this.picker_instance.domElement.style.pointerEvents = 'auto'
+            this.picker_instance.domElement.style.pointerEvents = 'auto';
             /* Enable picker buttons */
-            const buttons = this.picker_instance.domElement.querySelectorAll('button')
+            const buttons = this.picker_instance.domElement.querySelectorAll('button');
             for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = false
+                buttons[i].disabled = false;
             }
         }
     }
 
     destroy() {
-        this.createPicker(false)
-        super.destroy()
+        this.createPicker(false);
+        super.destroy();
     }
 
     /* helper functions */
@@ -90,36 +90,36 @@ export class ColorEditor extends StringEditor {
                             parent: this.inputWrap
                         }
                     )
-                )
+                );
 
                 const updateHandler = color => {
-                    const format = this.picker_instance.settings.editorFormat
-                    const isAlpha = this.picker_instance.settings.alpha
+                    const format = this.picker_instance.settings.editorFormat;
+                    const isAlpha = this.picker_instance.settings.alpha;
                     this.setValue(
                         format === 'hex'
                             ? isAlpha
                                 ? color.hex
                                 : color.hex.slice(0, 7)
                             : color[`${format + (isAlpha ? 'a' : '')}String`]
-                    )
-                }
-                if (!options.popup && typeof options.onChange !== 'function') options.onChange = updateHandler
-                else if (options.popup && typeof options.onDone !== 'function') options.onDone = updateHandler
+                    );
+                };
+                if (!options.popup && typeof options.onChange !== 'function') options.onChange = updateHandler;
+                else if (options.popup && typeof options.onDone !== 'function') options.onDone = updateHandler;
 
-                this.picker_instance = new window.Picker(options)
+                this.picker_instance = new window.Picker(options);
                 /* this.picker_instance.openHandler() */
                 if (!options.popup) {
                     /* use inline colorPicker */
-                    this.input.style.display = 'none'
-                    this.theme.afterInputReady(this.picker_instance.domElement)
+                    this.input.style.display = 'none';
+                    this.theme.afterInputReady(this.picker_instance.domElement);
                 }
             }
         } else {
             /* destroy vanilla-picker */
             if (this.picker_instance) {
-                this.picker_instance.destroy()
-                this.picker_instance = null
-                this.input.style.display = ''
+                this.picker_instance.destroy();
+                this.picker_instance = null;
+                this.input.style.display = '';
             }
         }
     }
