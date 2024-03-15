@@ -112,7 +112,8 @@ export class bootstrap3Theme extends AbstractTheme {
         tooltip.style.position = 'absolute'
         tooltip.style.zIndex = 1
         tooltip.style.overflowWrap = 'break-word'
-        tooltip.textContent = text
+        tooltip.style.lineHeight = 1.5
+        tooltip.innerHTML = this.addLinebreak(text)
         icon.onmouseover = () => {
             let dialog = this.closest(icon, '.el-dialog__body')
             if (dialog) {
