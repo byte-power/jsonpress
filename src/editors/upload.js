@@ -19,6 +19,7 @@ export class UploadEditor extends AbstractEditor {
             extend(
                 {},
                 {
+                    dependencies: this.options.dependencies || '',
                     title: 'Browse',
                     icon: '',
                     auto_upload: false /* Trigger file upload button automatically */,
@@ -297,7 +298,7 @@ export class UploadEditor extends AbstractEditor {
 
         if (this.options.auto_upload) {
             uploadButton.dispatchEvent(new window.MouseEvent('click'));
-            this.preview.removeChild(uploadButton);
+            uploadButton.parentNode.removeChild(uploadButton);
         }
     }
 
