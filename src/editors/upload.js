@@ -221,17 +221,27 @@ export class UploadEditor extends AbstractEditor {
 
     afterInputReady() {
         if (this.value) {
-            const img = document.createElement('img');
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '100px';
-            img.onload = event => {
-                this.preview.appendChild(img);
-            };
-            img.onerror = error => {
-                // eslint-disable-next-line no-console
-                console.error('upload error', error, error.currentTarget);
-            };
-            img.src = this.container.querySelector('a').href;
+            if (this.schema.format === 'fileContent') {
+                const anchor = document.createElement('a');
+                anchor.innerText = 'Download';
+                anchor.classList.add('hi-btn-download');
+                anchor.onclick = () => {
+                    this.options.download_handler(this.value);
+                };
+                this.control.appendChild(anchor);
+            } else {
+                const img = document.createElement('img');
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '100px';
+                img.onload = event => {
+                    this.preview.appendChild(img);
+                };
+                img.onerror = error => {
+                    // eslint-disable-next-line no-console
+                    console.error('upload error', error, error.currentTarget);
+                };
+                img.src = this.container.querySelector('a').href;
+            }
         }
         this.theme.afterInputReady(this.input);
     }

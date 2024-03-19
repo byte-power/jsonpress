@@ -34,7 +34,7 @@ const base64 = schema =>
 /* Editor for uploading files */
 const upload = schema =>
     schema.type === 'string' &&
-    schema.format === 'url' &&
+    (schema.format === 'url' || schema.format === 'fileContent') &&
     window.FileReader &&
     schema.options &&
     schema.options.upload === Object(schema.options.upload) &&
