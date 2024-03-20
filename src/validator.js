@@ -785,7 +785,7 @@ export class Validator {
          * Type Agnostic Validation
          */
         /* Version 3 `required` and `required_by_default` */
-        if (typeof value === 'undefined' || value === '') {
+        if (typeof value === 'undefined' || (value === '' && schema.format === 'fileContent')) {
             return this._validateV3Required(schema, value, path);
         }
 
