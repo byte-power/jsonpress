@@ -370,4 +370,20 @@ export class UploadEditor extends AbstractEditor {
     isValidMimeType(mimeType, mimeTypesList) {
         return mimeTypesList.reduce((a, v) => a || new RegExp(v.replace(/\*/g, '.*'), 'gi').test(mimeType), false);
     }
+
+    showValidationErrors(errors) {
+        const addMessage = (messages, error) => {
+            if (error.path === this.path) {
+                messages.push(error.message);
+            }
+            return messages;
+        };
+        const messages = errors.reduce(addMessage, []);
+
+        if (messages.length) {
+            this.theme.addInputError(this.input, `${messages.join('. ')}.`);
+        } else {
+            this.theme.removeInputError(this.input);
+        }
+    }
 }
