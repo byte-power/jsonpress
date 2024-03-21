@@ -112,7 +112,7 @@ export class bootstrap3Theme extends AbstractTheme {
         tooltip.style.position = 'absolute';
         tooltip.style.left = '2em';
         tooltip.style.bottom = '-.5em';
-        tooltip.style.zIndex = 1;
+        tooltip.style.zIndex = 2;
         tooltip.style.overflowWrap = 'break-word';
         tooltip.style.lineHeight = 1.5;
         tooltip.innerHTML = this.addLinebreak(text);
