@@ -120,9 +120,9 @@ export class TableEditor extends ArrayEditor {
         this.addControls();
     }
 
-    onChildEditorChange(editor) {
+    onChildEditorChange(editor, temp, hideValidation) {
         this.refreshValue();
-        super.onChildEditorChange();
+        super.onChildEditorChange(null, null, hideValidation);
     }
 
     getItemDefault() {
@@ -506,7 +506,7 @@ export class TableEditor extends ArrayEditor {
             const editor = this.addRow();
             this.refreshValue();
             this.refreshRowButtons();
-            this.onChange(true);
+            this.onChange(true, null, true);
             this.jsoneditor.trigger('addRow', editor);
         });
         this.controls.appendChild(button);

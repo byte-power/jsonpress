@@ -169,10 +169,10 @@ export class ArrayEditor extends AbstractEditor {
         this.addControls();
     }
 
-    onChildEditorChange(editor) {
+    onChildEditorChange(editor, temp, hideValidation) {
         this.refreshValue();
         this.refreshTabs(true);
-        super.onChildEditorChange(editor);
+        super.onChildEditorChange(editor, null, hideValidation);
     }
 
     getItemTitle() {
@@ -768,7 +768,7 @@ export class ArrayEditor extends AbstractEditor {
             this.active_tab = this.rows[i].tab;
             this.refreshTabs();
             this.refreshValue();
-            this.onChange(true);
+            this.onChange(true, null, true);
             this.jsoneditor.trigger('addRow', editor);
         });
         this.controls.appendChild(button);

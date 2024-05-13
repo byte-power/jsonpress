@@ -103,16 +103,12 @@ export class JSONEditor {
                 if (hasOwnProperty(this.options, 'startval')) this.root.setValue(this.options.startval);
 
                 this.validation_results = this.validator.validate(this.root.getValue());
-                // 初始化时不再校验
-                // this.root.showValidationErrors(this.validation_results)
                 this.ready = true;
 
                 /* Fire ready event asynchronously */
                 window.requestAnimationFrame(() => {
                     if (!this.ready) return;
-                    // 初始化时不再校验
-                    // this.validation_results = this.validator.validate(this.root.getValue())
-                    // this.root.showValidationErrors(this.validation_results)
+                    this.validation_results = this.validator.validate(this.root.getValue());
                     this.trigger('ready');
                     this.trigger('change');
                 });
@@ -256,7 +252,7 @@ export class JSONEditor {
         return new editorClass(options, JSONEditor.defaults, depthCounter);
     }
 
-    onChange(currentChanged) {
+    onChange(currentChanged, hideValidation) {
         if (!this.ready) return;
 
         if (this.firing_change) return;
@@ -271,11 +267,13 @@ export class JSONEditor {
 
             // 值改动时，仅校验当前改动项，而非全局
             if (this.options.show_errors !== 'never') {
-                this.root.showValidationErrors(this.validation_results, currentChanged);
-                // 改动时延时校验，避免渲染结果错位的问题
-                setTimeout(() => {
-                    this.root && this.root.showValidationErrors(this.validation_results, currentChanged);
-                });
+                // 如果 hideValidate 为 true 时，值改动时仅生成校验信息但不显示（用于 array 添加项时）
+                if (!hideValidation) {
+                    // 改动时延时校验，避免渲染结果错位的问题
+                    setTimeout(() => {
+                        this.root && this.root.showValidationErrors(this.validation_results, currentChanged);
+                    });
+                }
             } else {
                 this.root.showValidationErrors([]);
             }

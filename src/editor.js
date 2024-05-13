@@ -38,23 +38,23 @@ export class AbstractEditor {
         this.registerDependencies();
     }
 
-    onChildEditorChange(editor, currentChanged) {
-        this.onChange(true, currentChanged);
+    onChildEditorChange(editor, currentChanged, hideValidation) {
+        this.onChange(true, currentChanged, hideValidation);
     }
 
     notify() {
         if (this.path) this.jsoneditor.notifyWatchers(this.path);
     }
 
-    change(currentChanged) {
-        if (this.parent) this.parent.onChildEditorChange(this, currentChanged);
-        else if (this.jsoneditor) this.jsoneditor.onChange(currentChanged);
+    change(currentChanged, hideValidation) {
+        if (this.parent) this.parent.onChildEditorChange(this, currentChanged, hideValidation);
+        else if (this.jsoneditor) this.jsoneditor.onChange(currentChanged, hideValidation);
     }
 
-    onChange(bubble, currentChanged) {
+    onChange(bubble, currentChanged, hideValidation) {
         this.notify();
         if (this.watch_listener) this.watch_listener();
-        if (bubble) this.change(currentChanged);
+        if (bubble) this.change(currentChanged, hideValidation);
     }
 
     register() {
