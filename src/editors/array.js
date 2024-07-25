@@ -398,7 +398,8 @@ export class ArrayEditor extends AbstractEditor {
         /* Set the active tab */
         const row = this.rows.find(row => row.tab === this.active_tab);
         let newActiveTab = typeof row !== 'undefined' ? row.tab : null;
-        if (!newActiveTab && this.rows.length) newActiveTab = this.rows[0].tab;
+        let activeIndex = this.options.reverse === true ? this.rows.length - 1 : 0;
+        if (!newActiveTab && this.rows.length) newActiveTab = this.rows[activeIndex].tab;
 
         this.active_tab = newActiveTab;
 
