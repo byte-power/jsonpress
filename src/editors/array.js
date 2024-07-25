@@ -122,7 +122,7 @@ export class ArrayEditor extends AbstractEditor {
             }
             this.error_holder = document.createElement('div');
             this.container.appendChild(this.error_holder);
-            let isReversed = this.options.sort === 'reverse';
+            let isReversed = this.options.reverse === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
@@ -632,7 +632,7 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveUpButton(i, holder) {
-        let realClassName = this.options.sort === 'reverse' ? 'movedown' : 'moveup';
+        let realClassName = this.options.reverse === true ? 'movedown' : 'moveup';
         const button = this.getButton(
             '',
             this.schema.format === 'tabs-top' ? 'moveleft' : realClassName,
@@ -667,7 +667,7 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveDownButton(i, holder) {
-        let realClassName = this.options.sort === 'reverse' ? 'moveup' : 'movedown';
+        let realClassName = this.options.reverse === true ? 'moveup' : 'movedown';
         const button = this.getButton(
             '',
             this.schema.format === 'tabs-top' ? 'moveright' : realClassName,
