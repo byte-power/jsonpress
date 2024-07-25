@@ -201,10 +201,11 @@ export class bootstrap3Theme extends AbstractTheme {
         input.controlgroup.classList.remove('has-error');
     }
 
-    getTabHolder(propertyName) {
+    getTabHolder(propertyName, isReversed) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
-        el.innerHTML = `<ul class='col-md-2 nav nav-pills nav-stacked' id='${pName}' role='tablist'></ul><div class='col-md-10 tab-content well well-small'  id='${pName}'></div>`;
+        let realClassName = isReversed ? 'hi-reverse-list' : '';
+        el.innerHTML = `<ul class='col-md-2 nav nav-pills nav-stacked ${realClassName}' id='${pName}-nav' role='tablist'></ul><div class='col-md-10 tab-content well well-small ${realClassName}' id='${pName}-content'></div>`;
         return el;
     }
 

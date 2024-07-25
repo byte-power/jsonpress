@@ -122,6 +122,7 @@ export class ArrayEditor extends AbstractEditor {
             }
             this.error_holder = document.createElement('div');
             this.container.appendChild(this.error_holder);
+            let isReversed = this.options.sort === 'reverse';
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
@@ -134,7 +135,8 @@ export class ArrayEditor extends AbstractEditor {
             } else if (this.schema.format === 'tabs') {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
-                this.tabs_holder = this.theme.getTabHolder(this.getValidId(this.getItemTitle()));
+                let title = this.getValidId(this.getItemTitle());
+                this.tabs_holder = this.theme.getTabHolder(title, isReversed);
                 this.container.appendChild(this.tabs_holder);
                 this.row_holder = this.theme.getTabContentHolder(this.tabs_holder);
 
@@ -630,9 +632,10 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveUpButton(i, holder) {
+        let realClassName = this.options.sort === 'reverse' ? 'movedown' : 'moveup';
         const button = this.getButton(
             '',
-            this.schema.format === 'tabs-top' ? 'moveleft' : 'moveup',
+            this.schema.format === 'tabs-top' ? 'moveleft' : realClassName,
             'button_move_up_title'
         );
         button.classList.add('moveup', 'json-editor-btntype-move');
@@ -664,9 +667,10 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveDownButton(i, holder) {
+        let realClassName = this.options.sort === 'reverse' ? 'moveup' : 'movedown';
         const button = this.getButton(
             '',
-            this.schema.format === 'tabs-top' ? 'moveright' : 'movedown',
+            this.schema.format === 'tabs-top' ? 'moveright' : realClassName,
             'button_move_down_title'
         );
         button.classList.add('movedown', 'json-editor-btntype-move');
