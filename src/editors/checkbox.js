@@ -57,7 +57,15 @@ export class CheckboxEditor extends AbstractEditor {
             e.preventDefault();
             e.stopPropagation();
             this.value = e.currentTarget.checked;
-            this.onChange(true);
+            const currentChanged =
+                this.key === '_collapsed'
+                    ? {
+                          schema: this.schema,
+                          value: e.currentTarget.value,
+                          path: this.path
+                      }
+                    : null;
+            this.onChange(true, currentChanged);
         });
 
         this.container.appendChild(this.control);

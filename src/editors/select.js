@@ -239,7 +239,15 @@ export class SelectEditor extends AbstractEditor {
 
         /* Store new value and propogate change event */
         this.value = newVal;
-        this.onChange(true);
+        const currentChanged =
+            this.key === '_collapsed'
+                ? {
+                      schema: this.schema,
+                      value: this.value,
+                      path: this.path
+                  }
+                : null;
+        this.onChange(true, currentChanged);
     }
 
     onWatchedFieldChange() {
