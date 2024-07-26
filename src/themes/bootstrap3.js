@@ -201,14 +201,17 @@ export class bootstrap3Theme extends AbstractTheme {
         input.controlgroup.classList.remove('has-error');
     }
 
-    getTabHolder(propertyName, isReversed) {
+    getTabHolder(propertyName, isReversed, isCollapsedBtn) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
         let realClassName = isReversed ? 'hi-reverse-list' : '';
         let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
         let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
+        let moreDiv = isCollapsedBtn
+            ? `<div class="hi-more-wrap"><ul class='nav nav-pills nav-stacked ${realClassName}'></ul><a href class="hi-more-toggle-btn">${arrowDown} Expand</a></div>`
+            : '';
         el.innerHTML = `<div class='col-md-2'><ul class='nav nav-pills nav-stacked ${realClassName}' id='${pName}-nav' role='tablist'>
-        </ul><div class="hi-more-wrap"><ul class='nav nav-pills nav-stacked ${realClassName}'></ul><a href class="hi-more-toggle-btn"> ${arrowDown} Expand</a></div></div><div class='col-md-10 tab-content well well-small ${realClassName}' id='${pName}-content'></div>`;
+        </ul>${moreDiv}</div><div class='col-md-10 tab-content well well-small ${realClassName}' id='${pName}-content'></div>`;
         return el;
     }
 
