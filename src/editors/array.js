@@ -122,7 +122,7 @@ export class ArrayEditor extends AbstractEditor {
             }
             this.error_holder = document.createElement('div');
             this.container.appendChild(this.error_holder);
-            let isReversed = this.options.reverse === true;
+            let isReversed = this.options.reversed === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
@@ -398,7 +398,7 @@ export class ArrayEditor extends AbstractEditor {
         /* Set the active tab */
         const row = this.rows.find(row => row.tab === this.active_tab);
         let newActiveTab = typeof row !== 'undefined' ? row.tab : null;
-        let activeIndex = this.options.reverse === true ? this.rows.length - 1 : 0;
+        let activeIndex = this.options.reversed === true ? this.rows.length - 1 : 0;
         if (!newActiveTab && this.rows.length) newActiveTab = this.rows[activeIndex].tab;
 
         this.active_tab = newActiveTab;
@@ -633,7 +633,7 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveUpButton(i, holder) {
-        let realClassName = this.options.reverse === true ? 'movedown' : 'moveup';
+        let realClassName = this.options.reversed === true ? 'movedown' : 'moveup';
         const button = this.getButton(
             '',
             this.schema.format === 'tabs-top' ? 'moveleft' : realClassName,
@@ -668,7 +668,7 @@ export class ArrayEditor extends AbstractEditor {
     }
 
     _createMoveDownButton(i, holder) {
-        let realClassName = this.options.reverse === true ? 'moveup' : 'movedown';
+        let realClassName = this.options.reversed === true ? 'moveup' : 'movedown';
         const button = this.getButton(
             '',
             this.schema.format === 'tabs-top' ? 'moveright' : realClassName,
