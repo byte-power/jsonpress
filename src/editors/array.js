@@ -123,6 +123,7 @@ export class ArrayEditor extends AbstractEditor {
             this.error_holder = document.createElement('div');
             this.container.appendChild(this.error_holder);
             let isReversed = this.options.reversed === true;
+            let isCollapsedBtn = this.options.showCollapsedBtn === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
@@ -136,7 +137,21 @@ export class ArrayEditor extends AbstractEditor {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
                 let title = this.getValidId(this.getItemTitle());
-                this.tabs_holder = this.theme.getTabHolder(title, isReversed);
+                this.tabs_holder = this.theme.getTabHolder(title, isReversed, isCollapsedBtn);
+                if (isCollapsedBtn) {
+                    let btn = this.tabs_holder.querySelector('.hi-more-toggle-btn');
+                    let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+                    let arrowUp = isFirefox ? '&#8593;' : '&#11014;';
+                    let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
+                    btn.addEventListener('click', evt => {
+                        evt.preventDefault();
+                        evt.target.parentNode.classList.toggle('hi-more-wrap-expand');
+                        evt.target.innerHTML = evt.target.parentNode.classList.contains('hi-more-wrap-expand')
+                            ? arrowUp + ' Collapse'
+                            : arrowDown + ' Expand';
+                    });
+                }
+
                 this.container.appendChild(this.tabs_holder);
                 this.row_holder = this.theme.getTabContentHolder(this.tabs_holder);
 
@@ -171,10 +186,23 @@ export class ArrayEditor extends AbstractEditor {
         this.addControls();
     }
 
-    onChildEditorChange(editor, temp, hideValidation) {
+    onChildEditorChange(editor, currentChanged, hideValidation) {
         this.refreshValue();
         this.refreshTabs(true);
         super.onChildEditorChange(editor, null, hideValidation);
+        if (currentChanged && this.options.showCollapsedBtn === true) {
+            const paths = currentChanged.path.split('.').filter(Boolean);
+            if (paths.pop() === '_collapsed') {
+                let index = paths.pop();
+                if (parseInt(index) > -1) {
+                    if (editor.value && editor.value._collapsed) {
+                        this.theme.addTabMore(this.tabs_holder, this.rows[index].tab);
+                    } else {
+                        this.theme.addTab(this.tabs_holder, this.rows[index].tab);
+                    }
+                }
+            }
+        }
     }
 
     getItemTitle() {
@@ -525,7 +553,11 @@ export class ArrayEditor extends AbstractEditor {
                 this.theme.addTopTab(this.tabs_holder, this.rows[i].tab);
             } else {
                 this.rows[i].tab = this.theme.getTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                this.theme.addTab(this.tabs_holder, this.rows[i].tab);
+                if (value && value._collapsed) {
+                    this.theme.addTabMore(this.tabs_holder, this.rows[i].tab);
+                } else {
+                    this.theme.addTab(this.tabs_holder, this.rows[i].tab);
+                }
             }
             this.rows[i].tab.addEventListener('click', e => {
                 this.active_tab = this.rows[i].tab;
