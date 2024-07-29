@@ -198,7 +198,7 @@ export class ArrayEditor extends AbstractEditor {
                     if (editor.value && editor.value._collapsed) {
                         this.theme.addTabMore(this.tabs_holder, this.rows[index].tab);
                     } else {
-                        this.theme.addTab(this.tabs_holder, this.rows[index].tab);
+                        this.theme.addTab(this.tabs_holder, this.rows[index].tab, true);
                     }
                 }
             }

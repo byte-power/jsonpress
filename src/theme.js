@@ -599,8 +599,25 @@ export class AbstractTheme {
         }
     }
 
-    addTab(holder, tab) {
-        holder.children[0].children[0].appendChild(tab);
+    addTab(holder, tab, isRestore) {
+        let parent = holder.children[0].children[0];
+        if (isRestore) {
+            let currentIndex = parseInt(tab.firstChild.getAttribute('aria-controls').match(/\d+$/)[0], 10);
+
+            let childrenArray = Array.from(parent.children);
+            let prevIndex = childrenArray.findIndex(item => {
+                let index = parseInt(item.firstChild.getAttribute('aria-controls').match(/\d+$/)[0], 10);
+                return index > currentIndex;
+            });
+
+            if (prevIndex === -1) {
+                parent.appendChild(tab);
+            } else {
+                parent.insertBefore(tab, parent.children[prevIndex]);
+            }
+        } else {
+            parent.appendChild(tab);
+        }
     }
 
     addTabMore(holder, tab) {
@@ -608,7 +625,7 @@ export class AbstractTheme {
     }
 
     addTopTab(holder, tab) {
-        holder.children[0].children[0].appendChild(tab);
+        holder.children[0].appendChild(tab);
     }
 
     getBlockLink() {
