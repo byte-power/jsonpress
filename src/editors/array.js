@@ -553,7 +553,7 @@ export class ArrayEditor extends AbstractEditor {
                 this.theme.addTopTab(this.tabs_holder, this.rows[i].tab);
             } else {
                 this.rows[i].tab = this.theme.getTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed) {
+                if (value && value._collapsed && this.options.showCollapsedBtn === true) {
                     this.theme.addTabMore(this.tabs_holder, this.rows[i].tab);
                 } else {
                     this.theme.addTab(this.tabs_holder, this.rows[i].tab);
