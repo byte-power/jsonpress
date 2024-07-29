@@ -215,10 +215,11 @@ export class bootstrap3Theme extends AbstractTheme {
         return el;
     }
 
-    getTopTabHolder(propertyName) {
+    getTopTabHolder(propertyName, isReversed) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
-        el.innerHTML = `<ul class='nav nav-tabs' id='${pName}' role='tablist'></ul><div class='tab-content well well-small'  id='${pName}'></div>`;
+        let realClassName = isReversed ? 'hi-top-reverse-list' : '';
+        el.innerHTML = `<ul class='nav nav-tabs ${realClassName}' id='${pName}' role='tablist'></ul><div class='tab-content well well-small'  id='${pName}'></div>`;
         return el;
     }
 

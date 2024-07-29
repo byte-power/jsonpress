@@ -128,7 +128,7 @@ export class ArrayEditor extends AbstractEditor {
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
-                this.tabs_holder = this.theme.getTopTabHolder(this.getValidId(this.getItemTitle()));
+                this.tabs_holder = this.theme.getTopTabHolder(this.getValidId(this.getItemTitle()), isReversed);
                 this.container.appendChild(this.tabs_holder);
                 this.row_holder = this.theme.getTopTabContentHolder(this.tabs_holder);
 
@@ -666,9 +666,10 @@ export class ArrayEditor extends AbstractEditor {
 
     _createMoveUpButton(i, holder) {
         let realClassName = this.options.reversed === true ? 'movedown' : 'moveup';
+        let realTopClassName = this.options.reversed === true ? 'moveright' : 'moveleft';
         const button = this.getButton(
             '',
-            this.schema.format === 'tabs-top' ? 'moveleft' : realClassName,
+            this.schema.format === 'tabs-top' ? realTopClassName : realClassName,
             'button_move_up_title'
         );
         button.classList.add('moveup', 'json-editor-btntype-move');
@@ -701,9 +702,10 @@ export class ArrayEditor extends AbstractEditor {
 
     _createMoveDownButton(i, holder) {
         let realClassName = this.options.reversed === true ? 'moveup' : 'movedown';
+        let realTopClassName = this.options.reversed === true ? 'moveleft' : 'moveright';
         const button = this.getButton(
             '',
-            this.schema.format === 'tabs-top' ? 'moveright' : realClassName,
+            this.schema.format === 'tabs-top' ? realTopClassName : realClassName,
             'button_move_down_title'
         );
         button.classList.add('movedown', 'json-editor-btntype-move');
