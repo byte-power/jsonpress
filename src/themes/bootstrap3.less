@@ -328,12 +328,28 @@ ul.hi-reverse-list {
     display: flex;
     flex-direction: column-reverse;
 }
-ul.hi-top-reverse-list {
+.hi-top-list,
+.hi-top-reverse-list {
+    position: relative;
+}
+.hi-top-reverse-list ul {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
-.hi-more-wrap ul li {
+.hi-top-list .hi-more-toggle-btn,
+.hi-top-reverse-list .hi-more-toggle-btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2;
+    text-decoration: none;
+}
+.hi-more-wrap ul li,
+li.hi-more-collapsed {
     display: none;
 }
 .hi-more-wrap-expand ul li {

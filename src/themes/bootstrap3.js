@@ -218,8 +218,10 @@ export class bootstrap3Theme extends AbstractTheme {
     getTopTabHolder(propertyName, isReversed) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
-        let realClassName = isReversed ? 'hi-top-reverse-list' : '';
-        el.innerHTML = `<ul class='nav nav-tabs ${realClassName}' id='${pName}' role='tablist'></ul><div class='tab-content well well-small'  id='${pName}'></div>`;
+        let realClassName = isReversed ? 'hi-top-reverse-list' : 'hi-top-list';
+        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+        let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
+        el.innerHTML = `<div class="${realClassName}"><ul class='nav nav-tabs' id='${pName}' role='tablist'></ul><a href class="hi-more-toggle-btn">${arrowDown} Expand</a></div><div class='tab-content well well-small'  id='${pName}'></div>`;
         return el;
     }
 

@@ -625,7 +625,7 @@ export class AbstractTheme {
     }
 
     addTopTab(holder, tab) {
-        holder.children[0].appendChild(tab);
+        holder.children[0].children[0].appendChild(tab);
     }
 
     getBlockLink() {
