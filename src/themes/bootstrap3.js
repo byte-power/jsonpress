@@ -204,6 +204,7 @@ export class bootstrap3Theme extends AbstractTheme {
     getTabHolder(propertyName, isReversed, isCollapsedBtn) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
+        el.classList.add('hi-tab-holder');
         let realClassName = isReversed ? 'hi-reverse-list' : '';
         let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
         let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
