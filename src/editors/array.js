@@ -129,6 +129,10 @@ export class ArrayEditor extends AbstractEditor {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
                 this.tabs_holder = this.theme.getTopTabHolder(this.getValidId(this.getItemTitle()), isReversed);
+                if (isCollapsedBtn) {
+                    this.addExpandBtnEvent();
+                }
+
                 this.container.appendChild(this.tabs_holder);
                 this.row_holder = this.theme.getTopTabContentHolder(this.tabs_holder);
 
@@ -139,17 +143,7 @@ export class ArrayEditor extends AbstractEditor {
                 let title = this.getValidId(this.getItemTitle());
                 this.tabs_holder = this.theme.getTabHolder(title, isReversed, isCollapsedBtn);
                 if (isCollapsedBtn) {
-                    let btn = this.tabs_holder.querySelector('.hi-more-toggle-btn');
-                    let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
-                    let arrowUp = isFirefox ? '&#8593;' : '&#11014;';
-                    let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
-                    btn.addEventListener('click', evt => {
-                        evt.preventDefault();
-                        evt.target.parentNode.classList.toggle('hi-more-wrap-expand');
-                        evt.target.innerHTML = evt.target.parentNode.classList.contains('hi-more-wrap-expand')
-                            ? arrowUp + ' Collapse'
-                            : arrowDown + ' Expand';
-                    });
+                    this.addExpandBtnEvent();
                 }
 
                 this.container.appendChild(this.tabs_holder);
@@ -186,20 +180,43 @@ export class ArrayEditor extends AbstractEditor {
         this.addControls();
     }
 
+    addExpandBtnEvent() {
+        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+        let arrowUp = isFirefox ? '&#8593;' : '&#11014;';
+        let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
+        let btn = this.tabs_holder.querySelector('.hi-more-toggle-btn');
+        btn.addEventListener('click', evt => {
+            evt.preventDefault();
+            evt.target.parentNode.classList.toggle('hi-more-wrap-expand');
+            evt.target.innerHTML = evt.target.parentNode.classList.contains('hi-more-wrap-expand')
+                ? arrowUp + ' Collapse'
+                : arrowDown + ' Expand';
+        });
+    }
+
     onChildEditorChange(editor, currentChanged, hideValidation) {
         this.refreshValue();
         this.refreshTabs(true);
         super.onChildEditorChange(editor, null, hideValidation);
-        if (currentChanged && this.options.showCollapsedBtn === true) {
-            const paths = currentChanged.path.split('.').filter(Boolean);
-            if (paths.pop() === '_collapsed') {
-                let index = paths.pop();
-                if (parseInt(index) > -1) {
-                    if (editor.value && editor.value._collapsed) {
-                        this.theme.addTabMore(this.tabs_holder, this.rows[index].tab);
-                    } else {
-                        this.theme.addTab(this.tabs_holder, this.rows[index].tab, true);
-                    }
+
+        if (!tabsFormat.includes(this.schema.format) || !currentChanged || this.options.showCollapsedBtn !== true) {
+            return;
+        }
+        const paths = currentChanged.path.split('.').filter(Boolean);
+        if (paths.pop() !== '_collapsed') {
+            return;
+        }
+        const index = parseInt(paths.pop(), 10);
+        if (index > -1) {
+            const tab = this.rows[index].tab;
+            const isCollapsed = editor.value && editor.value._collapsed;
+            if (this.schema.format === 'tabs-top') {
+                tab.classList.toggle('hi-more-collapsed', isCollapsed);
+            } else {
+                if (isCollapsed) {
+                    this.theme.addTabMore(this.tabs_holder, tab);
+                } else {
+                    this.theme.addTab(this.tabs_holder, tab, true);
                 }
             }
         }
@@ -548,12 +565,17 @@ export class ArrayEditor extends AbstractEditor {
             this.rows[i].tab_text = document.createElement('span');
             const isTabs = tabsFormat.includes(this.schema.format);
             this.rows[i].tab_text.textContent = this.rows[i].getHeaderText(isTabs);
+            let isCollapsedBtn = this.options.showCollapsedBtn === true;
+
             if (this.schema.format === 'tabs-top') {
                 this.rows[i].tab = this.theme.getTopTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
+                if (value && value._collapsed && isCollapsedBtn) {
+                    this.rows[i].tab.classList.add('hi-more-collapsed');
+                }
                 this.theme.addTopTab(this.tabs_holder, this.rows[i].tab);
             } else {
                 this.rows[i].tab = this.theme.getTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed && this.options.showCollapsedBtn === true) {
+                if (value && value._collapsed && isCollapsedBtn) {
                     this.theme.addTabMore(this.tabs_holder, this.rows[i].tab);
                 } else {
                     this.theme.addTab(this.tabs_holder, this.rows[i].tab);
