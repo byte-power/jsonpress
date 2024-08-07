@@ -1,5 +1,11 @@
 # 版本说明
 
+## [1.1.6-beta.12] - 2024-08-07
+
+### Changed
+
+-   针对 array 类型，支持使用 options.showCollapsedBtn 字段来设置是否启用 tab 导航列表的折叠功能和按钮显示
+
 ## [1.1.6-beta.11] - 2024-07-26
 
 ### Changed
