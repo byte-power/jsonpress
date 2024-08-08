@@ -123,13 +123,13 @@ export class ArrayEditor extends AbstractEditor {
             this.error_holder = document.createElement('div');
             this.container.appendChild(this.error_holder);
             let isReversed = this.options.reversed === true;
-            let isCollapsedBtn = this.options.showCollapsedBtn === true;
+            let isTabCollapsed = this.options.tabCollapsed === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
                 this.tabs_holder = this.theme.getTopTabHolder(this.getValidId(this.getItemTitle()), isReversed);
-                if (isCollapsedBtn) {
+                if (isTabCollapsed) {
                     this.addExpandBtnEvent();
                 }
 
@@ -141,8 +141,8 @@ export class ArrayEditor extends AbstractEditor {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
                 let title = this.getValidId(this.getItemTitle());
-                this.tabs_holder = this.theme.getTabHolder(title, isReversed, isCollapsedBtn);
-                if (isCollapsedBtn) {
+                this.tabs_holder = this.theme.getTabHolder(title, isReversed, isTabCollapsed);
+                if (isTabCollapsed) {
                     this.addExpandBtnEvent();
                 }
 
@@ -199,7 +199,7 @@ export class ArrayEditor extends AbstractEditor {
         this.refreshTabs(true);
         super.onChildEditorChange(editor, null, hideValidation);
 
-        if (!tabsFormat.includes(this.schema.format) || !currentChanged || this.options.showCollapsedBtn !== true) {
+        if (!tabsFormat.includes(this.schema.format) || !currentChanged || this.options.tabCollapsed !== true) {
             return;
         }
         const paths = currentChanged.path.split('.').filter(Boolean);
@@ -565,17 +565,17 @@ export class ArrayEditor extends AbstractEditor {
             this.rows[i].tab_text = document.createElement('span');
             const isTabs = tabsFormat.includes(this.schema.format);
             this.rows[i].tab_text.textContent = this.rows[i].getHeaderText(isTabs);
-            let isCollapsedBtn = this.options.showCollapsedBtn === true;
+            let isTabCollapsed = this.options.tabCollapsed === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.rows[i].tab = this.theme.getTopTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed && isCollapsedBtn) {
+                if (value && value._collapsed && isTabCollapsed) {
                     this.rows[i].tab.classList.add('hi-more-collapsed');
                 }
                 this.theme.addTopTab(this.tabs_holder, this.rows[i].tab);
             } else {
                 this.rows[i].tab = this.theme.getTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed && isCollapsedBtn) {
+                if (value && value._collapsed && isTabCollapsed) {
                     this.theme.addTabMore(this.tabs_holder, this.rows[i].tab);
                 } else {
                     this.theme.addTab(this.tabs_holder, this.rows[i].tab);
