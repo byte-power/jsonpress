@@ -128,7 +128,11 @@ export class ArrayEditor extends AbstractEditor {
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
-                this.tabs_holder = this.theme.getTopTabHolder(this.getValidId(this.getItemTitle()), isReversed);
+                this.tabs_holder = this.theme.getTopTabHolder(
+                    this.getValidId(this.getItemTitle()),
+                    isReversed,
+                    isTabCollapsed
+                );
                 if (isTabCollapsed) {
                     this.addExpandBtnEvent();
                 }
