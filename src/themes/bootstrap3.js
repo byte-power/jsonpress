@@ -201,29 +201,23 @@ export class bootstrap3Theme extends AbstractTheme {
         input.controlgroup.classList.remove('has-error');
     }
 
-    getTabHolder(propertyName, isReversed, isCollapsedBtn) {
+    getTabHolder(propertyName, isReversed) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
         el.classList.add('hi-tab-holder');
         let baseClass = 'hi-tab-nav';
         let realClassName = isReversed ? baseClass + ' hi-reverse-list' : baseClass;
-        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
-        let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
-        let moreDiv = isCollapsedBtn ? `<a href class="hi-more-toggle-btn">${arrowDown} Expand</a>` : '';
         el.innerHTML = `<div class='col-md-2 ${realClassName}'><ul class='nav nav-pills nav-stacked' id='${pName}-nav' role='tablist'>
-        </ul>${moreDiv}</div><div class='col-md-10 tab-content well well-small ${realClassName}' id='${pName}-content'></div>`;
+        </ul></div><div class='col-md-10 tab-content well well-small ${realClassName}' id='${pName}-content'></div>`;
         return el;
     }
 
-    getTopTabHolder(propertyName, isReversed, isCollapsedBtn) {
+    getTopTabHolder(propertyName, isReversed) {
         const pName = typeof propertyName === 'undefined' ? '' : propertyName;
         const el = document.createElement('div');
         let baseClass = 'hi-tab-nav hi-top-nav';
         let realClassName = isReversed ? baseClass + ' hi-reverse-list' : baseClass;
-        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
-        let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
-        let moreDiv = isCollapsedBtn ? `<a href class="hi-more-toggle-btn">${arrowDown} Expand</a>` : '';
-        el.innerHTML = `<div class="${realClassName}"><ul class='nav nav-tabs' id='${pName}' role='tablist'></ul>${moreDiv}</div><div class='tab-content well well-small'  id='${pName}'></div>`;
+        el.innerHTML = `<div class="${realClassName}"><ul class='nav nav-tabs' id='${pName}' role='tablist'></ul></div><div class='tab-content well well-small'  id='${pName}'></div>`;
         return el;
     }
 

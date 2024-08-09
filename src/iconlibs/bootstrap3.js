@@ -3,6 +3,7 @@ import {AbstractIconLib} from '../iconlib.js';
 const iconPrefix = 'glyphicon glyphicon-';
 const mapping = {
     collapse: 'chevron-down',
+    collapse_reverse: 'chevron-up',
     expand: 'chevron-right',
     delete: 'trash',
     edit: 'pencil',

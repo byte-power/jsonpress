@@ -214,15 +214,7 @@ export class ArrayEditor extends AbstractEditor {
         if (index > -1) {
             const tab = this.rows[index].tab;
             const isCollapsed = editor.value && editor.value._collapsed;
-            if (this.schema.format === 'tabs-top') {
-                tab.classList.toggle('hi-more-collapsed', isCollapsed);
-            } else {
-                if (isCollapsed) {
-                    this.theme.addTabMore(this.tabs_holder, tab);
-                } else {
-                    this.theme.addTab(this.tabs_holder, tab, true);
-                }
-            }
+            tab.classList.toggle('hi-more-collapsed', isCollapsed);
         }
     }
 
@@ -573,17 +565,13 @@ export class ArrayEditor extends AbstractEditor {
 
             if (this.schema.format === 'tabs-top') {
                 this.rows[i].tab = this.theme.getTopTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed && isTabCollapsed) {
-                    this.rows[i].tab.classList.add('hi-more-collapsed');
-                }
                 this.theme.addTopTab(this.tabs_holder, this.rows[i].tab);
             } else {
                 this.rows[i].tab = this.theme.getTab(this.rows[i].tab_text, this.getValidId(this.rows[i].path));
-                if (value && value._collapsed && isTabCollapsed) {
-                    this.theme.addTabMore(this.tabs_holder, this.rows[i].tab);
-                } else {
-                    this.theme.addTab(this.tabs_holder, this.rows[i].tab);
-                }
+                this.theme.addTab(this.tabs_holder, this.rows[i].tab);
+            }
+            if (value && value._collapsed && isTabCollapsed) {
+                this.rows[i].tab.classList.add('hi-more-collapsed');
             }
             this.rows[i].tab.addEventListener('click', e => {
                 this.active_tab = this.rows[i].tab;
