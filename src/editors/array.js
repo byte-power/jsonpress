@@ -134,7 +134,7 @@ export class ArrayEditor extends AbstractEditor {
                     isTabCollapsed
                 );
                 if (isTabCollapsed) {
-                    this.addExpandBtnEvent();
+                    this._createExpandButton();
                 }
 
                 this.container.appendChild(this.tabs_holder);
@@ -147,7 +147,7 @@ export class ArrayEditor extends AbstractEditor {
                 let title = this.getValidId(this.getItemTitle());
                 this.tabs_holder = this.theme.getTabHolder(title, isReversed, isTabCollapsed);
                 if (isTabCollapsed) {
-                    this.addExpandBtnEvent();
+                    this._createExpandButton();
                 }
 
                 this.container.appendChild(this.tabs_holder);
@@ -182,20 +182,6 @@ export class ArrayEditor extends AbstractEditor {
 
         /* Add controls */
         this.addControls();
-    }
-
-    addExpandBtnEvent() {
-        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
-        let arrowUp = isFirefox ? '&#8593;' : '&#11014;';
-        let arrowDown = isFirefox ? '&#8595;' : '&#11015;';
-        let btn = this.tabs_holder.querySelector('.hi-more-toggle-btn');
-        btn.addEventListener('click', evt => {
-            evt.preventDefault();
-            evt.target.parentNode.classList.toggle('hi-more-wrap-expand');
-            evt.target.innerHTML = evt.target.parentNode.classList.contains('hi-more-wrap-expand')
-                ? arrowUp + ' Collapse'
-                : arrowDown + ' Expand';
-        });
     }
 
     onChildEditorChange(editor, currentChanged, hideValidation) {
@@ -610,6 +596,26 @@ export class ArrayEditor extends AbstractEditor {
         this.setReadOnly(this.rows[i], value);
 
         return this.rows[i];
+    }
+
+    _createExpandButton() {
+        const argsExpand = ['Expand', 'expand', 'button_expand'];
+        const argsCollapse = ['Collapse', 'collapse_reverse', 'button_collapse'];
+
+        let parent = this.tabs_holder.querySelector('.hi-tab-nav');
+        let btn = this.getButton(...argsExpand);
+        parent.classList.add('hi-more-wrap-expand');
+        parent.appendChild(btn);
+
+        this.navCollapsed = true;
+        btn.addEventListener('click', evt => {
+            evt.preventDefault();
+            let isExpanded = !this.navCollapsed;
+            let args = isExpanded ? argsExpand : argsCollapse;
+            this.setButtonText(evt.currentTarget, ...args);
+            evt.currentTarget.parentNode.classList.toggle('hi-more-wrap-expand', isExpanded);
+            this.navCollapsed = isExpanded;
+        });
     }
 
     _createDeleteButton(i, holder) {
