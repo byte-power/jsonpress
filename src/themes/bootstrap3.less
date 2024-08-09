@@ -327,41 +327,35 @@ td > .hi-toggle-wrap .toggle-label {
 .hi-tab-holder > div:first-child {
     padding-left: 0;
 }
-ul.hi-reverse-list {
-    display: flex;
-    flex-direction: column-reverse;
-}
-.hi-top-list,
-.hi-top-reverse-list {
+
+.hi-top-nav {
     position: relative;
     padding-right: 75px;
 }
-.hi-top-reverse-list ul {
+.hi-reverse-list ul {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.hi-top-nav.hi-reverse-list ul {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
     flex-wrap: wrap;
 }
-.hi-top-list .hi-more-toggle-btn,
-.hi-top-reverse-list .hi-more-toggle-btn {
-    position: absolute;
-    right: 0;
-    bottom: 4px;
+.hi-tab-nav .hi-more-toggle-btn {
     font-size: 16px;
     font-weight: bold;
     line-height: 2;
     text-decoration: none;
 }
-.hi-more-wrap ul li,
+.hi-top-nav .hi-more-toggle-btn {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+}
 li.hi-more-collapsed {
     display: none;
 }
 .hi-more-wrap-expand ul li {
     display: block !important;
-}
-.hi-more-wrap .hi-more-toggle-btn {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 2;
-    text-decoration: none;
 }
