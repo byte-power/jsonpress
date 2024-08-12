@@ -606,8 +606,8 @@ export class ArrayEditor extends AbstractEditor {
         let btn = this.getButton(...argsExpand);
         parent.classList.add('hi-more-wrap-expand');
         parent.appendChild(btn);
-
         this.navCollapsed = true;
+
         btn.addEventListener('click', evt => {
             evt.preventDefault();
             let isExpanded = !this.navCollapsed;
