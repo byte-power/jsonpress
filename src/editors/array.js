@@ -697,21 +697,27 @@ export class ArrayEditor extends AbstractEditor {
         button.addEventListener('click', e => {
             e.preventDefault();
             e.stopPropagation();
-            const i = e.currentTarget.getAttribute('data-i') * 1;
+            const i = +e.currentTarget.getAttribute('data-i');
 
             if (i <= 0) return;
             const rows = this.getValue();
-            const tmp = rows[i - 1];
-            rows[i - 1] = rows[i];
-            rows[i] = tmp;
+
+            const currentRow = this.rows[i];
+            const previousRow = this.rows[i - 1];
+            let hasCollapsed = currentRow.tab.classList.contains('hi-more-collapsed');
+            let targetHasCollapsed = previousRow.tab.classList.contains('hi-more-collapsed');
+
+            [rows[i - 1], rows[i]] = [rows[i], rows[i - 1]];
+            previousRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
+            currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
 
             this.setValue(rows);
-            this.active_tab = this.rows[i - 1].tab;
+            this.active_tab = previousRow.tab;
             this.refreshTabs();
 
             this.onChange(true);
 
-            this.jsoneditor.trigger('moveRow', this.rows[i - 1]);
+            this.jsoneditor.trigger('moveRow', previousRow);
         });
 
         if (holder) {
@@ -733,20 +739,26 @@ export class ArrayEditor extends AbstractEditor {
         button.addEventListener('click', e => {
             e.preventDefault();
             e.stopPropagation();
-            const i = e.currentTarget.getAttribute('data-i') * 1;
+            const i = +e.currentTarget.getAttribute('data-i');
 
             const rows = this.getValue();
             if (i >= rows.length - 1) return;
-            const tmp = rows[i + 1];
-            rows[i + 1] = rows[i];
-            rows[i] = tmp;
+
+            const currentRow = this.rows[i];
+            const nextRow = this.rows[i + 1];
+            let hasCollapsed = currentRow.tab.classList.contains('hi-more-collapsed');
+            let targetHasCollapsed = nextRow.tab.classList.contains('hi-more-collapsed');
+
+            [rows[i + 1], rows[i]] = [rows[i], rows[i + 1]];
+            nextRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
+            currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
 
             this.setValue(rows);
-            this.active_tab = this.rows[i + 1].tab;
+            this.active_tab = nextRow.tab;
             this.refreshTabs();
             this.onChange(true);
 
-            this.jsoneditor.trigger('moveRow', this.rows[i + 1]);
+            this.jsoneditor.trigger('moveRow', nextRow);
         });
 
         if (holder) {
