@@ -592,6 +592,10 @@ export class ObjectEditor extends AbstractEditor {
             if (!this.options.compact) {
                 this.container.appendChild(this.title);
                 this.container.appendChild(this.controls);
+                if (this.options.infoText) {
+                    this.infoButton = this.theme.getInfoButton(this.options.infoText);
+                    this.container.appendChild(this.infoButton);
+                }
             }
             this.container.classList.add('je-object__container');
 
