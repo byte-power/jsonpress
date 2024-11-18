@@ -704,12 +704,19 @@ export class ArrayEditor extends AbstractEditor {
 
             const currentRow = this.rows[i];
             const previousRow = this.rows[i - 1];
-            let hasCollapsed = currentRow.tab.classList.contains('hi-more-collapsed');
-            let targetHasCollapsed = previousRow.tab.classList.contains('hi-more-collapsed');
+            let hasCollapsed = false;
+            let targetHasCollapsed = false;
+            if (this.tabs_holder) {
+                hasCollapsed = currentRow.tab.classList.contains('hi-more-collapsed');
+                targetHasCollapsed = previousRow.tab.classList.contains('hi-more-collapsed');
+            }
 
             [rows[i - 1], rows[i]] = [rows[i], rows[i - 1]];
-            previousRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
-            currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
+
+            if (this.tabs_holder) {
+                previousRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
+                currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
+            }
 
             this.setValue(rows);
             this.active_tab = previousRow.tab;
