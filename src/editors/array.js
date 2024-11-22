@@ -124,6 +124,7 @@ export class ArrayEditor extends AbstractEditor {
             this.container.appendChild(this.error_holder);
             let isReversed = this.options.reversed === true;
             let isTabCollapsed = this.options.tabCollapsed === true;
+            let isWideTab = this.options.tabWide === true;
 
             if (this.schema.format === 'tabs-top') {
                 this.controls = this.theme.getHeaderButtonHolder();
@@ -141,7 +142,7 @@ export class ArrayEditor extends AbstractEditor {
                 this.controls = this.theme.getHeaderButtonHolder();
                 this.title.appendChild(this.controls);
                 let title = this.getValidId(this.getItemTitle());
-                this.tabs_holder = this.theme.getTabHolder(title, isReversed);
+                this.tabs_holder = this.theme.getTabHolder(title, isReversed, isWideTab);
                 if (isTabCollapsed) {
                     this._createExpandButton();
                 }
