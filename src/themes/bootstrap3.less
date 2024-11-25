@@ -26,8 +26,14 @@ div[data-container-for='radio'] label {
 .form-control:focus {
     box-shadow: 0 6px 8px -4px rgba(102, 175, 233, 0.6);
 }
+input[type='range'].form-control {
+    padding-left: 0;
+    padding-right: 0;
+}
+input[type='range'].form-control:focus {
+    box-shadow: none;
+}
 .btn {
-    line-height: 1.1;
     .glyphicon {
         top: 2px;
     }
@@ -131,6 +137,17 @@ div[data-schemapath='root'] {
 }
 .json-editor-btn-delete {
     color: red;
+}
+.json-editor-btn-expand {
+    border-radius: 0;
+}
+.nav-pills[role='tablist'] > li > a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.input-group {
+    z-index: 1;
 }
 
 /* 定制样式 */
@@ -309,4 +326,43 @@ td > .hi-toggle-wrap .toggle-label {
             padding: 7px 20px;
         }
     }
+}
+.hi-tab-holder > div:first-child {
+    padding-left: 0;
+}
+
+.hi-top-nav {
+    position: relative;
+    padding-right: 75px;
+}
+.hi-reverse-list ul {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.hi-top-nav.hi-reverse-list ul {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+.hi-tab-nav .hi-more-toggle-btn {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2;
+    text-decoration: none;
+}
+.hi-top-nav .hi-more-toggle-btn {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+}
+.hi-tab-nav li {
+    font-weight: bold;
+}
+.hi-tab-nav li.hi-more-collapsed {
+    font-style: italic;
+    font-weight: normal;
+}
+.hi-more-wrap-expand li.hi-more-collapsed {
+    display: none;
 }

@@ -4,7 +4,7 @@ export const nunjucksTemplate = () => {
     return {
         compile(template) {
             let instance = window.nunjucks.compile(template);
-            return (view) => instance.render(view);
+            return view => instance.render(view);
         }
     };
 };
