@@ -481,7 +481,7 @@ let schema = {
         // 可以通过 options 关键字传入一些定制化的设定
         options: {
             exclude: true, // 设置该字段不包括在最终值内，此选项为 Press 新增特性
-            patternmessage: '只能输入数字', // 当外部使用 pattern 进行正则校验时，可以在此定义更易理解的提示，避免直接暴露正则表达式给用户
+            pattern_message: '只能输入数字', // 当外部使用 pattern 进行正则校验时，可以在此定义更易理解的提示，避免直接暴露正则表达式给用户
             inputAttributes: {
                 placeholder: 'your name here...',
                 class: 'form-control'
