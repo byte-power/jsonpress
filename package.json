@@ -21,6 +21,7 @@
         "editor"
     ],
     "scripts": {
+        "warning": "发布正式版本时，记得移除 postversion 里 --tag beta",
         "pub": "npm version minor",
         "push": "npm version prerelease --preid beta --no-git-tag-version",
         "prepare": "npm run build",
