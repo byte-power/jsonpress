@@ -77,7 +77,7 @@ export class Validator {
                     return !nopass.length;
                 });
                 if (!valid) {
-                    return invalids[0];
+                    return invalids[invalids.length - 1];
                 }
                 return [];
             },
