@@ -109,7 +109,7 @@ export class bootstrap3Theme extends AbstractTheme {
         tooltip.style.padding = '.5rem 1rem';
         tooltip.style['border-radius'] = '.25rem';
         tooltip.style.width = '35em';
-        tooltip.style.maxHeight = '25em';
+        tooltip.style.maxHeight = '65em';
         tooltip.style.position = 'absolute';
         tooltip.style.left = '2em';
         tooltip.style.bottom = '-.5em';
