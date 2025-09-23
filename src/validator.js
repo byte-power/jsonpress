@@ -29,6 +29,9 @@ export class Validator {
             },
             enum(schema, value, path) {
                 const stringified = JSON.stringify(value);
+                if (schema.isCustomEnum) {
+                    return [];
+                }
                 const valid = schema.enum.some(e => stringified === JSON.stringify(e));
                 if (!valid) {
                     return [
