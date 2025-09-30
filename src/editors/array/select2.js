@@ -37,7 +37,7 @@ export class ArraySelect2Editor extends MultiSelectEditor {
 
             /* New items are allowed if option "tags" is true and items type is "string" */
             this.newEnumAllowed = options.tags =
-                !!options.tags && this.schema.items && this.schema.items.type === 'string';
+                !!options.tags && this.schema && this.schema.items && this.schema.items.type === 'string';
 
             if (options.relativeToParent) {
                 options.dropdownParent = this.input.parentNode;
