@@ -47,8 +47,11 @@ export class ArraySelect2Editor extends MultiSelectEditor {
 
             this.selectChangeHandler = () => {
                 const value = this.select2v4 ? this.select2_instance.val() : this.select2_instance.select2('val');
-                this.updateValue(value);
-                this.onChange(true);
+                // 添加延迟，确保值已更新，避免被 multiselect 中同名事件覆盖为旧值
+                setTimeout(() => {
+                    this.updateValue(value);
+                    this.onChange(true);
+                }, 100);
             };
 
             /* Add event handler. */
