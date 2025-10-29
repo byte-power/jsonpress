@@ -176,9 +176,9 @@ export class AbstractEditor {
             if (typeof value !== 'object') {
                 if (hasOwnProperty(choices, 'not')) {
                     this.dependenciesFulfilled = choices.not !== value;
-                    return;
+                } else {
+                    this.dependenciesFulfilled = choices === value;
                 }
-                this.dependenciesFulfilled = choices === value;
             } else if (Array.isArray(value) && hasOwnProperty(choices, 'has')) {
                 this.dependenciesFulfilled = value.includes(choices.has);
             } else {
