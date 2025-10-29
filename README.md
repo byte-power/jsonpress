@@ -1690,7 +1690,37 @@ let schema = {
 };
 ```
 
-另外，针对 `dependencies` 关键字，Press 提供了增强功能，支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
+另外，针对 `dependencies` 关键字，Press 提供了增强功能。
+
+一、支持使用 `has` 字段来设置依赖值，表明依赖项(值为数组)包含设定值时生效。
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'array',
+        format: 'checkbox',
+        uniqueItems: true,
+        minItems: 1,
+        items: {
+            type: 'string',
+            enum: ['foo', 'bar', 'cool']
+        }
+    },
+    depender: {
+        type: 'string',
+        description: 'show when fieldOne include bar',
+        options: {
+            dependencies: {
+                fieldOne: {
+                    has: 'bar'
+                }
+            }
+        }
+    }
+};
+```
+
+二、支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
 
 ```javascript
 let schema = {
