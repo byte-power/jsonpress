@@ -112,10 +112,11 @@ export class bootstrap3Theme extends AbstractTheme {
         tooltip.style.maxHeight = '65em';
         tooltip.style.position = 'absolute';
         tooltip.style.left = '2em';
-        tooltip.style.bottom = '-.5em';
+        tooltip.style.top = '50%';
+        tooltip.style.transform = 'translateY(-50%)';
         tooltip.style.zIndex = 2;
         tooltip.style.overflowWrap = 'break-word';
-        tooltip.style.lineHeight = 1.5;
+        tooltip.style.lineHeight = 1.4;
         tooltip.innerHTML = this.addLinebreak(text);
         icon.onmouseover = () => {
             let dialog = this.closest(icon, '.el-dialog__body');
