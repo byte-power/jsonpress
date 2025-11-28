@@ -495,10 +495,11 @@ export class ArrayEditor extends AbstractEditor {
         return controlsNeeded.some(e => e);
     }
 
-    refreshValue(force) {
+    refreshValue(force, isFull = false) {
         const oldi = this.value ? this.value.length : 0;
         /* Get the value for this editor */
-        this.value = this.rows.map(editor => editor.getValue());
+        /* When isFull is true, preserve fields with options.exclude (used in copy/move operations) */
+        this.value = this.rows.map(editor => editor.getValue(isFull));
 
         if (oldi !== this.value.length || force) {
             /* If we currently have minItems items in the array */
@@ -517,7 +518,8 @@ export class ArrayEditor extends AbstractEditor {
                 }
 
                 /* Get the value for this editor */
-                this.value[i] = editor.getValue();
+                /* When isFull is true, preserve fields with options.exclude */
+                this.value[i] = editor.getValue(isFull);
             });
 
             let isReadOnly = getProp(this, 'schema.items.readOnly');
@@ -661,18 +663,21 @@ export class ArrayEditor extends AbstractEditor {
         button.classList.add('copy', 'json-editor-btntype-copy');
         button.setAttribute('data-i', i);
         button.addEventListener('click', e => {
+            this.refreshValue(false, true);
             const value = this.getValue();
             e.preventDefault();
             e.stopPropagation();
             const i = e.currentTarget.getAttribute('data-i') * 1;
 
-            value.forEach((row, j) => {
+            // Create a deep copy to avoid reference issues
+            const valueCopy = JSON.parse(JSON.stringify(value));
+            valueCopy.forEach((row, j) => {
                 if (j === i) {
-                    value.push(row);
+                    valueCopy.push(JSON.parse(JSON.stringify(row)));
                 }
             });
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.refreshValue(true);
             this.onChange(true);
         });
@@ -697,7 +702,10 @@ export class ArrayEditor extends AbstractEditor {
             const i = +e.currentTarget.getAttribute('data-i');
 
             if (i <= 0) return;
+
+            this.refreshValue(false, true);
             const rows = this.getValue();
+            const rowsCopy = JSON.parse(JSON.stringify(rows));
 
             const currentRow = this.rows[i];
             const previousRow = this.rows[i - 1];
@@ -708,14 +716,14 @@ export class ArrayEditor extends AbstractEditor {
                 targetHasCollapsed = previousRow.tab.classList.contains('hi-more-collapsed');
             }
 
-            [rows[i - 1], rows[i]] = [rows[i], rows[i - 1]];
+            [rowsCopy[i - 1], rowsCopy[i]] = [rowsCopy[i], rowsCopy[i - 1]];
 
             if (this.tabs_holder) {
                 previousRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
                 currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
             }
 
-            this.setValue(rows);
+            this.setValue(rowsCopy);
             this.active_tab = previousRow.tab;
             this.refreshTabs();
 
@@ -745,8 +753,10 @@ export class ArrayEditor extends AbstractEditor {
             e.stopPropagation();
             const i = +e.currentTarget.getAttribute('data-i');
 
+            this.refreshValue(false, true);
             const rows = this.getValue();
             if (i >= rows.length - 1) return;
+            const rowsCopy = JSON.parse(JSON.stringify(rows));
 
             const currentRow = this.rows[i];
             const nextRow = this.rows[i + 1];
@@ -757,14 +767,14 @@ export class ArrayEditor extends AbstractEditor {
                 targetHasCollapsed = nextRow.tab.classList.contains('hi-more-collapsed');
             }
 
-            [rows[i + 1], rows[i]] = [rows[i], rows[i + 1]];
+            [rowsCopy[i + 1], rowsCopy[i]] = [rowsCopy[i], rowsCopy[i + 1]];
 
             if (this.tabs_holder) {
                 nextRow.tab.classList.toggle('hi-more-collapsed', hasCollapsed);
                 currentRow.tab.classList.toggle('hi-more-collapsed', targetHasCollapsed);
             }
 
-            this.setValue(rows);
+            this.setValue(rowsCopy);
             this.active_tab = nextRow.tab;
             this.refreshTabs();
             this.onChange(true);
