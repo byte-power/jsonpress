@@ -1159,9 +1159,13 @@ export class ObjectEditor extends AbstractEditor {
         super.destroy();
     }
 
-    getValue() {
+    getValue(isFull = false) {
         if (!this.dependenciesFulfilled) {
             return undefined;
+        }
+        // If isFull is true, refresh value with isFull parameter to ensure we get complete data
+        if (isFull) {
+            this.refreshValue(isFull);
         }
         const result = super.getValue();
         const isEmpty = obj =>
@@ -1176,7 +1180,8 @@ export class ObjectEditor extends AbstractEditor {
                 ) {
                     delete result[key];
                 }
-                if (this.editors[key].options.exclude) {
+                // if isFull is true, return the full value
+                if (this.editors[key].options.exclude && !isFull) {
                     delete result[key];
                 }
             });
@@ -1184,7 +1189,7 @@ export class ObjectEditor extends AbstractEditor {
         return result;
     }
 
-    refreshValue() {
+    refreshValue(isFull = false) {
         this.value = {};
 
         if (!this.editors) {
@@ -1193,7 +1198,8 @@ export class ObjectEditor extends AbstractEditor {
 
         Object.keys(this.editors).forEach(i => {
             if (this.editors[i].isActive()) {
-                this.value[i] = this.editors[i].getValue();
+                // Pass isFull parameter to child editors to preserve exclude fields when needed
+                this.value[i] = this.editors[i].getValue(isFull);
             }
         });
 
