@@ -377,11 +377,14 @@ export class TableEditor extends ArrayEditor {
             }
 
             const j = e.currentTarget.getAttribute('data-i') * 1;
+
+            this.refreshValue(true);
             const value = this.getValue();
+            const valueCopy = JSON.parse(JSON.stringify(value));
 
-            value.splice(j, 1);
+            valueCopy.splice(j, 1);
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.onChange(true);
             this.jsoneditor.trigger('deleteRow', this.rows[j]);
         });

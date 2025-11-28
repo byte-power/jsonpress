@@ -630,7 +630,11 @@ export class ArrayEditor extends AbstractEditor {
             }
 
             const i = e.currentTarget.getAttribute('data-i') * 1;
-            const newval = this.getValue().filter((row, j) => j !== i);
+
+            this.refreshValue(false, true);
+            const value = this.getValue();
+            const valueCopy = JSON.parse(JSON.stringify(value));
+            const newval = valueCopy.filter((row, j) => j !== i);
             let newActiveTab = null;
 
             const editor = this.rows[i];
