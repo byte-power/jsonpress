@@ -1,5 +1,13 @@
 # 版本说明
 
+## [1.1.7-beta.9] - 2025-11-28
+
+### Fixed
+
+- 优化有 options.exclude 属性的字段的取值方法
+    - 修改 ObjectEditor.getValue()，添加 isFull 参数，当为 true 时不删除 exclude 字段
+    - 在数组的复制、移动操作中，使用 isFull = true 获取完整值，避免值不完整产生 bug
+
 ## [1.1.7-beta.8] - 2025-11-28
 
 ### Changed
