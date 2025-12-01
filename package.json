@@ -22,7 +22,7 @@
     ],
     "scripts": {
         "warning": "发布 beta 版本使用 push 命令；发布正式版本使用 pub 命令，发布正式版本时，记得移除 postversion 命令里 --tag beta",
-        "pub": "npm version minor",
+        "pub": "npm version patch",
         "push": "npm version prerelease --preid beta --no-git-tag-version",
         "prepare": "npm run build",
         "clean": "find ./src -name *.css.js -type f -delete",
