@@ -1,8 +1,59 @@
 # 版本说明
 
-## [1.1.6] - 2024-11-26
+## [1.1.7-beta.10] - 2025-11-28
 
-合并到主分支，发布正式版
+### Fixed
+
+- 优化有 options.exclude 属性的字段的取值方法
+    - 修改 ObjectEditor.getValue()，添加 isFull 参数，当为 true 时不删除 exclude 字段
+    - 在数组的复制、移动操作中，使用 isFull = true 获取完整值，避免值不完整产生 bug
+
+## [1.1.7-beta.8] - 2025-11-28
+
+### Changed
+
+- 增强 dependencies 功能：支持使用 not 字段来设置依赖值，值可设置为数组，表明依赖项和所有设定值都不符合时生效
+
+## [1.1.7-beta.7] - 2025-11-07
+
+### Fixed
+
+- infoText 弹出层显示效果优化
+
+## [1.1.7-beta.6] - 2025-10-29
+
+### Added
+
+- 增强 dependencies 功能：
+    - 支持使用 has 字段来设置依赖值，表明依赖项(值为数组)包含设定值时生效
+
+### Fixed
+
+- 修复 dependencies 功能：支持使用 not 字段来设置依赖值，表明依赖项为非设定值时生效
+
+## [1.1.7-beta.5] - 2025-10-10
+
+### Fixed
+
+- 修复 select2 组件在创建自定义选项时，使用回车提交，看似上屏，实际未正确更新新选项的 bug
+
+## [1.1.7-beta.4] - 2025-09-23
+
+### Added
+
+- 针对 array 类型，当使用 enum 项时，可以设置 isCustomEnum 为 true，用于支持自定义候选项，避免校验
+
+## [1.1.7-beta.3] - 2025-09-15
+
+### Fixed
+
+- infoText 弹出层显示效果优化（避免被 select2 控件遮挡）
+
+## [1.1.7-beta.2] - 2025-04-08
+
+### Fixed
+
+- 修复针对 anyOf 类型，校验不通过时，未显示正确的校验信息的 bug
 
 ## [1.1.6-beta.16] - 2024-11-22
 
@@ -138,17 +189,16 @@
 
 ### Changed
 
--   增强 dependencies 功能：
+- 增强 dependencies 功能：
+    - 对于多项 dependencies 规则，使用 ‘and’ 而非 ‘or’ 的逻辑计算方式
 
-    -   对于多项 dependencies 规则，使用 ‘and’ 而非 ‘or’ 的逻辑计算方式
-
--   添加 options.transform_json 字段，支持对 Edit JSON 对话框的 save 行为进行相应数据转换
+- 添加 options.transform_json 字段，支持对 Edit JSON 对话框的 save 行为进行相应数据转换
 
 ## [1.1.5-beta.1] - 2022-04-11
 
 ### Fixed
 
--   string 类型保存时默认移除前后空格
+- string 类型保存时默认移除前后空格
 
 ## [1.1.4] - 2022-04-08
 
