@@ -97,6 +97,7 @@ export class bootstrap3Theme extends AbstractTheme {
         icon.style.padding = '.25rem';
         icon.style.marginLeft = '.5em';
         icon.style.position = 'relative';
+        icon.style.zIndex = 2001;
         icon.style.display = 'inline-block';
 
         const tooltip = document.createElement('span');
@@ -107,14 +108,15 @@ export class bootstrap3Theme extends AbstractTheme {
         tooltip.style.color = '#FAFAFA';
         tooltip.style.padding = '.5rem 1rem';
         tooltip.style['border-radius'] = '.25rem';
-        tooltip.style.width = '30em';
-        tooltip.style.maxHeight = '25em';
+        tooltip.style.width = '35em';
+        tooltip.style.maxHeight = '65em';
         tooltip.style.position = 'absolute';
         tooltip.style.left = '2em';
-        tooltip.style.bottom = '-.5em';
+        tooltip.style.top = '50%';
+        tooltip.style.transform = 'translateY(-50%)';
         tooltip.style.zIndex = 2;
         tooltip.style.overflowWrap = 'break-word';
-        tooltip.style.lineHeight = 1.5;
+        tooltip.style.lineHeight = 1.4;
         tooltip.innerHTML = this.addLinebreak(text);
         icon.onmouseover = () => {
             let dialog = this.closest(icon, '.el-dialog__body');

@@ -37,7 +37,7 @@ export class ArraySelect2Editor extends MultiSelectEditor {
 
             /* New items are allowed if option "tags" is true and items type is "string" */
             this.newEnumAllowed = options.tags =
-                !!options.tags && this.schema.items && this.schema.items.type === 'string';
+                !!options.tags && this.schema && this.schema.items && this.schema.items.type === 'string';
 
             if (options.relativeToParent) {
                 options.dropdownParent = this.input.parentNode;
@@ -47,8 +47,11 @@ export class ArraySelect2Editor extends MultiSelectEditor {
 
             this.selectChangeHandler = () => {
                 const value = this.select2v4 ? this.select2_instance.val() : this.select2_instance.select2('val');
-                this.updateValue(value);
-                this.onChange(true);
+                // 添加延迟，确保值已更新，避免被 multiselect 中同名事件覆盖为旧值
+                setTimeout(() => {
+                    this.updateValue(value);
+                    this.onChange(true);
+                }, 100);
             };
 
             /* Add event handler. */

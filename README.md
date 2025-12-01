@@ -319,35 +319,35 @@ let schema = {
 
 ### 基础类型
 
--   string
--   boolean
--   number
--   integer
--   array
--   object
--   info
--   button
+- string
+- boolean
+- number
+- integer
+- array
+- object
+- info
+- button
 
 ### 扩展格式
 
--   textarea (基于 string 扩展)
--   date (基于 string 扩展)
--   time (基于 string 扩展)
--   datetime-local (基于 string 扩展)
--   color (基于 string 扩展)
--   starrating (基于 string 扩展)
--   hidden (基于 string 扩展)
--   uuid (基于 string 扩展)
--   signature (基于 string 扩展)
--   range (基于 number 扩展)
--   rating (基于 integer 扩展)
--   checkbox (基于 boolean 扩展)
--   grid (基于 object 扩展)
--   table (基于 array 扩展)
--   tabs (基于 array 扩展)
--   radio (基于 string/number/integer + enum 扩展，即单选)
--   checkbox (基于 array + enum 扩展，即多选)
--   select2 (基于 enum 扩展，单选多选都支持)
+- textarea (基于 string 扩展)
+- date (基于 string 扩展)
+- time (基于 string 扩展)
+- datetime-local (基于 string 扩展)
+- color (基于 string 扩展)
+- starrating (基于 string 扩展)
+- hidden (基于 string 扩展)
+- uuid (基于 string 扩展)
+- signature (基于 string 扩展)
+- range (基于 number 扩展)
+- rating (基于 integer 扩展)
+- checkbox (基于 boolean 扩展)
+- grid (基于 object 扩展)
+- table (基于 array 扩展)
+- tabs (基于 array 扩展)
+- radio (基于 string/number/integer + enum 扩展，即单选)
+- checkbox (基于 array + enum 扩展，即多选)
+- select2 (基于 enum 扩展，单选多选都支持)
 
 ### 汇总
 
@@ -557,9 +557,9 @@ let schema = {
 当需要输入日期或时间类的字符串值时，可以使用 `format` 来指定相应的格式。
 编辑器共提供了 3 种类型：
 
--   date，渲染为日期选择框，返回值为 ‘YYYY-MM-DD’ 格式
--   time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
--   datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
+- date，渲染为日期选择框，返回值为 ‘YYYY-MM-DD’ 格式
+- time，渲染为时间选择框，返回值为 ‘HH:MM’ 格式
+- datetime-local，渲染为日期+时间选择框，返回值为 ‘YYYY-MM-DD HH:MM’ 格式
 
 通过 `options.flatpickr` 中设置相关属性，可以启用第三方控件 [flatpickr](https://github.com/flatpickr/flatpickr)，并支持传入其原生配置。
 
@@ -590,8 +590,8 @@ Press 针对 datetime 类型额外实现了对象依赖限制功能：可以指�
 
 通过 `relativeTo` 属性来描述规则：
 
--   通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
--   通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
+- 通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
+- 通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
 
 ```javascript
 let schema = {
@@ -672,19 +672,18 @@ let schema = {
 
 启用方法：
 
--   首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
--   在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数。该回调函数有三个参数 _path, file, callback_。
-
-    -   path：上传控件对应的路径字段。它支持绝对路径
-    -   file：上传控件选中的文件
-    -   callback：回调对象（提供了 success、failure、updateProgress 方法）
-        -   success：成功的回调方法，用于给控件对应的字段赋值
-        -   failure：失败的回调方法，用于控件显示错误提示信息
-        -   updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
+- 首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
+- 在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数。该回调函数有三个参数 _path, file, callback_。
+    - path：上传控件对应的路径字段。它支持绝对路径
+    - file：上传控件选中的文件
+    - callback：回调对象（提供了 success、failure、updateProgress 方法）
+        - success：成功的回调方法，用于给控件对应的字段赋值
+        - failure：失败的回调方法，用于控件显示错误提示信息
+        - updateProgress：上传进度的回调方法，用于控件实时渲染进度提示
 
     也可以设置该属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#upload)的对应部分
 
--   可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
+- 可以通过 `links` 关键字设置上传成功后的回显：默认是显示文件完整路径，可以用 `rel` 为 _view_ 来仅显示 view 字样的链接
 
 ```javascript
 let schema = {
@@ -748,9 +747,9 @@ let schema = {
 
 hidden 控件实现有两种方法：
 
--   通过 `format` 关键字设置为 _hidden_ 实现，字段输入控件不在界面显示，但是字段标题 label 还会渲染
--   通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不在界面显示，但是最终 JSON 值包含该字段值
--   通过 `options.exclude` 属性设置为 _true_ 实现，整个字段不包含在最终 JSON 值，此选项为 Press 新增特性
+- 通过 `format` 关键字设置为 _hidden_ 实现，字段输入控件不在界面显示，但是字段标题 label 还会渲染
+- 通过 `options.hidden` 属性设置为 _true_ 实现，整个字段不在界面显示，但是最终 JSON 值包含该字段值
+- 通过 `options.exclude` 属性设置为 _true_ 实现，整个字段不包含在最终 JSON 值，此选项为 Press 新增特性
 
 ```javascript
 let schema = {
@@ -779,13 +778,13 @@ let schema = {
 
 启用方法：
 
--   首先设置 `format` 为 _autocomplete_，同时通过 `options.autocomplete` 设置相关属性，即可启用一个带自动完成的输入控件。
--   在相关属性内，
-    -   使用 `search` 关键字指定一个搜索函数并异步返回结果。该回调函数有一个参数，表示当前输入值；
-    -   使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到备选下拉框。该回调函数有两个参数，分别表示单个备选结果及其相关属性；
-    -   使用 `getResultValue` 关键字指定一个函数处理选中项并返回结果用于渲染。该回调函数有一个参数，表示当前选中值；
-    -   使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
--   也可以设置上述属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#autocomplete)的对应部分
+- 首先设置 `format` 为 _autocomplete_，同时通过 `options.autocomplete` 设置相关属性，即可启用一个带自动完成的输入控件。
+- 在相关属性内，
+    - 使用 `search` 关键字指定一个搜索函数并异步返回结果。该回调函数有一个参数，表示当前输入值；
+    - 使用 `renderResult` 关键字指定一个函数处理上述返回结果并渲染到备选下拉框。该回调函数有两个参数，分别表示单个备选结果及其相关属性；
+    - 使用 `getResultValue` 关键字指定一个函数处理选中项并返回结果用于渲染。该回调函数有一个参数，表示当前选中值；
+    - 使用 `autoSelect` 关键字设置是否自动选择列表第一个项。
+- 也可以设置上述属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#autocomplete)的对应部分
 
 ```javascript
 let schema = {
@@ -855,30 +854,30 @@ let schema = {
 
 支持格式如下：
 
--   c
--   cpp (alias for c++)
--   csharp
--   css
--   less
--   sass
--   scss
--   dart
--   golang
--   html
--   ini
--   java
--   javascript
--   json
--   lua
--   makefile
--   php
--   python
--   ruby
--   sql
--   pgsql
--   mysql
--   xml
--   yaml
+- c
+- cpp (alias for c++)
+- csharp
+- css
+- less
+- sass
+- scss
+- dart
+- golang
+- html
+- ini
+- java
+- javascript
+- json
+- lua
+- makefile
+- php
+- python
+- ruby
+- sql
+- pgsql
+- mysql
+- xml
+- yaml
 
 同时 还能通过 `options.ace` 传入 Ace Editor 的原生支持选项
 
@@ -924,9 +923,9 @@ let schema = {
 
 正常情况下，通过枚举数组定义的下拉选项的显示值就是实际值。假如下拉选项的显示值和实际值不相同，而是一一映射关系，可以使用 `enumSource` 属性来完成这种特殊需求。
 
--   通过 `source` 关键字可以指定一个对象数组作为枚举备选项，对象中可以分别描述显示值和实际值。
--   通过 `title` 关键字定义枚举项的显示文本，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
--   通过 `value` 关键字定义枚举项的值，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
+- 通过 `source` 关键字可以指定一个对象数组作为枚举备选项，对象中可以分别描述显示值和实际值。
+- 通过 `title` 关键字定义枚举项的显示文本，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
+- 通过 `value` 关键字定义枚举项的值，支持模板语法，其中用 item 代指对象数组中的数组元素自身。
 
 ```javascript
 let schema = {
@@ -994,8 +993,8 @@ let schema = {
 
 通过 `relativeTo` 属性来描述规则：
 
--   通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
--   通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于等于目标对象，'greater' 表明大于等于目标对象。
+- 通过 `path` 关键字可以指定当前项的对比目标的路径。它支持绝对路径和相对路径。
+- 通过 `limit` 关键字设置当前项相对于对比目标的规则。它支持两个值：'less' 表明小于等于目标对象，'greater' 表明大于等于目标对象。
 
 #### 结合 enum 属性
 
@@ -1029,10 +1028,10 @@ let schema = {
 array 作为 JSON 数据的重要组成类型，相应的，数组编辑区也占据了编辑器的大量篇幅（包括界面、代码等等）。
 除了默认形式，另外还提供了 _table_ 和 _tabs_ 两种 format 形式来编辑数组。
 
--   默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
--   table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
--   tabs: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
--   tabs-top: 同上，只是改为顶页签。
+- 默认: 数组元素从上到下，垂直排列分布，适合元素数量少时。
+- table: 用表格的形式展示数组元素，适合元素数量多且元素为对象且属性少的情况。
+- tabs: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
+- tabs-top: 同上，只是改为顶页签。
 
 ```javascript
 let schema = {
@@ -1231,8 +1230,8 @@ Press 针对 array 类型提供一个可以指定数组元素的某个属性必�
 
 通过 `compareThanPrev` 属性来描述规则：
 
--   通过 `path` 关键字可以指定数组元素内的属性。
--   通过 `limit` 关键字设置当前元素相对于前一个元素同名属性的比较规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
+- 通过 `path` 关键字可以指定数组元素内的属性。
+- 通过 `limit` 关键字设置当前元素相对于前一个元素同名属性的比较规则。它支持两个值：'less' 表明小于目标对象，'greater' 表明大于目标对象。
 
 ```javascript
 let schema = {
@@ -1292,6 +1291,21 @@ let schema = {
 };
 ```
 
+另外，为了支持特殊场景下，需要手动输入的需求(需和 select2 组件进行配合)，Press 新增了 `isCustomEnum` 属性，这样就可以避免对 enum 有效性进行校验，从而实现手动输入候选项的功能
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'select2',
+    uniqueItems: true,
+    items: {
+        type: 'string',
+        isCustomEnum：true,
+        enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown']
+    }
+};
+```
+
 #### array 事件
 
 编辑器针对 array 的元素常见操作（增加、删除、移动）都提供了对应的钩子函数便于做相应的处理。
@@ -1337,10 +1351,10 @@ let schema = {
 
 object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。它通过 `format` 关键字来设定。
 
--   默认: 每个子属性单独占据一行。
--   grid: 多个子属性并排在一行显示，每个子属性可以通过 _grid_columns_ 选项来设置宽度，然后 每行会尽可能占满 12 格后换行，所以该布局不能保证子属性的显示顺序和代码一致。
--   grid-strict: 同上，但是每个子属性会严格按照 _grid_columns_ 显示，不会自动扩展。同时支持通过 _grid_break_ 选项来设置手动换行。
--   categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 `basicCategoryTitle` 属性进行自定义）。
+- 默认: 每个子属性单独占据一行。
+- grid: 多个子属性并排在一行显示，每个子属性可以通过 _grid_columns_ 选项来设置宽度，然后 每行会尽可能占满 12 格后换行，所以该布局不能保证子属性的显示顺序和代码一致。
+- grid-strict: 同上，但是每个子属性会严格按照 _grid_columns_ 显示，不会自动扩展。同时支持通过 _grid_break_ 选项来设置手动换行。
+- categories: 通过顶页签形式对子属性进行分组，每个对象或数组属性对应一个页签（页签标题来自对象或数组的标题），剩余的其他属性为一个页签（标题默认为 Basic，可以通过 `basicCategoryTitle` 属性进行自定义）。
 
 ```javascript
 let schema = {
@@ -1446,9 +1460,9 @@ button 类型提供了按钮控件形式，一般用于获取当前编辑器的�
 
 启用方法：
 
--   首先设置 `type` 为 _button_，同时通过 `options.button` 中设置相关属性，即可启用一个按钮控件。
--   在相关属性内，使用 `action` 关键字指定一个函数用于按钮点击调用，该函数有一个参数，表示当前事件；使用 `validated` 关键字设置是否校验数据有效后才让按钮生效。
--   也可以设置 `action` 属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#button)的对应部分
+- 首先设置 `type` 为 _button_，同时通过 `options.button` 中设置相关属性，即可启用一个按钮控件。
+- 在相关属性内，使用 `action` 关键字指定一个函数用于按钮点击调用，该函数有一个参数，表示当前事件；使用 `validated` 关键字设置是否校验数据有效后才让按钮生效。
+- 也可以设置 `action` 属性为函数名称，然后通过全局统一定义管理回调函数，请参考[集成指南](./docs/integration_guide.md#button)的对应部分
 
 > 注：当为 button 时，该字段默认为 required
 
@@ -1471,10 +1485,10 @@ let schema = {
 
 编辑器支持使用 anyOf、oneOf 和 allOf 关键字来描述复杂的 schema 校验规则和机制。
 
--   anyOf: 满足任意一个子 schema
--   oneOf: 满足且仅满足一个子 schema
--   allOf: 满足所有子 schema
--   not: 不满足 schema
+- anyOf: 满足任意一个子 schema
+- oneOf: 满足且仅满足一个子 schema
+- allOf: 满足所有子 schema
+- not: 不满足 schema
 
 ```javascript
 let schema = {
@@ -1629,9 +1643,9 @@ let schema = {
 
 `dependencies` 的值是 map 形式的键值对，用来描述要监控的字段和期望值。它的值支持三种形式：
 
--   单个键值对：表明依赖项的值为期望值即生效。
--   单个键值对，但是值为数组：表明依赖项的值为数组元素之一即生效。
--   多个键值对：表明当多个依赖项都分别满足期望值时才生效。
+- 单个键值对：表明依赖项的值为期望值即生效。
+- 单个键值对，但是值为数组：表明依赖项的值为数组元素之一即生效。
+- 多个键值对：表明当多个依赖项都分别满足期望值时才生效。
 
 ```javascript
 let schema = {
@@ -1676,7 +1690,37 @@ let schema = {
 };
 ```
 
-另外，针对 `dependencies` 关键字，Press 提供了增强功能，支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
+另外，针对 `dependencies` 关键字，Press 提供了增强功能。
+
+一、支持使用 `has` 字段来设置依赖值，表明依赖项(值为数组)包含设定值时生效。
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'array',
+        format: 'checkbox',
+        uniqueItems: true,
+        minItems: 1,
+        items: {
+            type: 'string',
+            enum: ['foo', 'bar', 'cool']
+        }
+    },
+    depender: {
+        type: 'string',
+        description: 'show when fieldOne include bar',
+        options: {
+            dependencies: {
+                fieldOne: {
+                    has: 'bar'
+                }
+            }
+        }
+    }
+};
+```
+
+二、支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
 
 ```javascript
 let schema = {
@@ -1760,11 +1804,11 @@ let schema = {
 
 引入第三方模板配置支持两种方式：
 
--   全局默认值形式
+- 全局默认值形式
 
 `JSONEditor.defaults.options.template = "nunjucks"`
 
--   实例化传参形式
+- 实例化传参形式
 
 ```javascript
 const editor = new JSONEditor(element, {
@@ -2061,12 +2105,12 @@ JSONEditor.defaults.callbacks.template = {
 
 增强功能列表：
 
--   假如 anyOf 下所有元素都有 dependencies 属性的情况下，
-    -   隐藏 anyOf 原生切换控件，通过激活 dependencies 对应项来实现切换（同时隐藏 anyOf 标题）
-    -   实现激活 dependencies 对应项时，同时重置 anyOf 当前激活项的值
-    -   初始化时修改内部参数，避免联动的输入控件不能正确渲染为对应的项和值
-    -   统一初始化 anyOf 的项，避免切换时无初始项无法渲染
-    -   仅按 anyOf 当前激活项的规则进行校验，而非按 anyOf 所有规则校验
+- 假如 anyOf 下所有元素都有 dependencies 属性的情况下，
+    - 隐藏 anyOf 原生切换控件，通过激活 dependencies 对应项来实现切换（同时隐藏 anyOf 标题）
+    - 实现激活 dependencies 对应项时，同时重置 anyOf 当前激活项的值
+    - 初始化时修改内部参数，避免联动的输入控件不能正确渲染为对应的项和值
+    - 统一初始化 anyOf 的项，避免切换时无初始项无法渲染
+    - 仅按 anyOf 当前激活项的规则进行校验，而非按 anyOf 所有规则校验
 
 通过上述的改造，Press 组件支持以下应用场景：
 

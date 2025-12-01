@@ -175,10 +175,16 @@ export class AbstractEditor {
         } else if (typeof choices === 'object') {
             if (typeof value !== 'object') {
                 if (hasOwnProperty(choices, 'not')) {
-                    this.dependenciesFulfilled = choices.not !== value;
-                    return;
+                    if (Array.isArray(choices.not)) {
+                        this.dependenciesFulfilled = !choices.not.includes(value);
+                    } else {
+                        this.dependenciesFulfilled = choices.not !== value;
+                    }
+                } else {
+                    this.dependenciesFulfilled = choices === value;
                 }
-                this.dependenciesFulfilled = choices === value;
+            } else if (Array.isArray(value) && hasOwnProperty(choices, 'has')) {
+                this.dependenciesFulfilled = value.includes(choices.has);
             } else {
                 Object.keys(choices).some(key => {
                     if (!hasOwnProperty(choices, key)) {

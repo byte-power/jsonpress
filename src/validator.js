@@ -29,6 +29,9 @@ export class Validator {
             },
             enum(schema, value, path) {
                 const stringified = JSON.stringify(value);
+                if (schema.isCustomEnum) {
+                    return [];
+                }
                 const valid = schema.enum.some(e => stringified === JSON.stringify(e));
                 if (!valid) {
                     return [
@@ -59,11 +62,11 @@ export class Validator {
                 // 当 anyOf 是联动关系时，仅校验当前激活项，而非所有
                 let current = this.jsoneditor.getEditor(path);
                 let realSchema = this.jsoneditor.expandSchema(schema);
+                let currentSchema = current && schema.anyOf[current.type];
                 let hasDependency = realSchema.anyOf.some(item => {
                     return item.options && item.options.dependencies;
                 });
                 if (hasDependency && current) {
-                    let currentSchema = schema.anyOf[current.type];
                     let result = this._validateSchema(currentSchema, value, path);
                     return result;
                 }
@@ -72,12 +75,14 @@ export class Validator {
                 const valid = schema.anyOf.some(e => {
                     let nopass = this._validateSchema(e, value, path);
                     if (nopass.length) {
-                        invalids.push(nopass);
+                        if (!current || currentSchema.title === e.title) {
+                            invalids.push(nopass);
+                        }
                     }
                     return !nopass.length;
                 });
                 if (!valid) {
-                    return invalids[0];
+                    return invalids[invalids.length - 1];
                 }
                 return [];
             },

@@ -314,12 +314,13 @@ export class TableEditor extends ArrayEditor {
         }
     }
 
-    refreshValue() {
+    refreshValue(isFull = false) {
         this.value = [];
 
         this.rows.forEach((editor, i) => {
             /* Get the value for this editor */
-            this.value[i] = editor.getValue();
+            /* When isFull is true, preserve fields with options.exclude (used in copy/move operations) */
+            this.value[i] = editor.getValue(isFull);
         });
         this.serialized = JSON.stringify(this.value);
     }
@@ -376,11 +377,14 @@ export class TableEditor extends ArrayEditor {
             }
 
             const j = e.currentTarget.getAttribute('data-i') * 1;
+
+            this.refreshValue(true);
             const value = this.getValue();
+            const valueCopy = JSON.parse(JSON.stringify(value));
 
-            value.splice(j, 1);
+            valueCopy.splice(j, 1);
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.onChange(true);
             this.jsoneditor.trigger('deleteRow', this.rows[j]);
         });
@@ -396,11 +400,15 @@ export class TableEditor extends ArrayEditor {
             e.preventDefault();
             e.stopPropagation();
             const j = e.currentTarget.getAttribute('data-i') * 1;
+
+            this.refreshValue(true);
             const value = this.getValue();
+            // Create a deep copy to avoid reference issues
+            const valueCopy = JSON.parse(JSON.stringify(value));
 
-            value.splice(j + 1, 0, value[j]);
+            valueCopy.splice(j + 1, 0, JSON.parse(JSON.stringify(valueCopy[j])));
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.onChange(true);
             this.jsoneditor.trigger('copyRow', this.rows[j + 1]);
         });
@@ -418,11 +426,14 @@ export class TableEditor extends ArrayEditor {
             removeHoverClass();
 
             const j = e.currentTarget.getAttribute('data-i') * 1;
+
+            this.refreshValue(true);
             const value = this.getValue();
+            const valueCopy = JSON.parse(JSON.stringify(value));
 
-            value.splice(j - 1, 0, value.splice(j, 1)[0]);
+            valueCopy.splice(j - 1, 0, valueCopy.splice(j, 1)[0]);
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.onChange(true);
             this.jsoneditor.trigger('moveRow', this.rows[j - 1]);
         });
@@ -440,11 +451,14 @@ export class TableEditor extends ArrayEditor {
             removeHoverClass();
 
             const j = e.currentTarget.getAttribute('data-i') * 1;
+
+            this.refreshValue(true);
             const value = this.getValue();
+            const valueCopy = JSON.parse(JSON.stringify(value));
 
-            value.splice(j + 1, 0, value.splice(j, 1)[0]);
+            valueCopy.splice(j + 1, 0, valueCopy.splice(j, 1)[0]);
 
-            this.setValue(value);
+            this.setValue(valueCopy);
             this.onChange(true);
             this.jsoneditor.trigger('moveRow', this.rows[j + 1]);
         });
