@@ -242,6 +242,21 @@ let schema = {
 
 > infoText 说明支持用 \n 来实现换行；这是 Press 新增特性。
 
+> infoText 说明支持传入 url 来点击图标打开指定网址；这是 Press 新增特性。
+
+```javascript
+let schema = {
+    type: 'string',
+    title: 'Name',
+    options: {
+        infoText: {
+            content: 'More info',
+            url: 'http://www.go.com'
+        }
+    }
+};
+```
+
 ## 路径描述
 
 在 schema 的书写过程中，对元素的路径描述是一个常用的功能，在某些场景下发挥重要的作用，包括校验规则和依赖联动项等等。
