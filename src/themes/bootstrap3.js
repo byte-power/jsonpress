@@ -91,7 +91,13 @@ export class bootstrap3Theme extends AbstractTheme {
         return el;
     }
 
-    getInfoButton(text) {
+    getInfoButton(info) {
+        let text = info;
+        let url = '';
+        if (typeof info !== 'string') {
+            text = info.content;
+            url = info.url;
+        }
         const icon = document.createElement('span');
         icon.classList.add('glyphicon', 'glyphicon-info-sign');
         icon.style.padding = '.25rem';
@@ -132,6 +138,12 @@ export class bootstrap3Theme extends AbstractTheme {
             }
             tooltip.style.display = 'none';
         };
+        if (url) {
+            icon.style.cursor = 'pointer';
+            icon.onclick = () => {
+                window.open(url, '_blank');
+            };
+        }
 
         icon.appendChild(tooltip);
 
