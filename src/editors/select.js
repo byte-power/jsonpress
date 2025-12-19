@@ -6,12 +6,13 @@ export class SelectEditor extends AbstractEditor {
         /* Sanitize value before setting it */
         let sanitized = this.typecast(value);
 
-        /* For initial load on non-required fields without explicit default value */
-        if (initial && !this.isRequired() && typeof this.schema.default === 'undefined') {
-            /* Always use undefined for non-required fields without explicit default */
-            sanitized = undefined;
-        } else if (this.enum_options.length > 0 && !this.enum_values.includes(sanitized)) {
-            /* If value is not in enum list, use first option */
+        const haveToUseDefaultValue =
+            !!this.jsoneditor.options.use_default_values || typeof this.schema.default !== 'undefined';
+
+        if (
+            (this.enum_options.length > 0 && !this.enum_values.includes(sanitized)) ||
+            (initial && !this.isRequired() && !haveToUseDefaultValue)
+        ) {
             sanitized = this.enum_values[0];
         }
 

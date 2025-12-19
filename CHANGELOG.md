@@ -1,5 +1,12 @@
 # 版本说明
 
+## [1.2.2-beta.3] - 2025-12-19
+
+### Fixed
+
+- 修复 enumSource 字段值变更后的清空逻辑
+    - 优化 SelectEditor.onWatchedFieldChange()，当依赖的枚举值变更且当前值不在新列表中时，自动清空该值
+
 ## [1.2.2-beta.2] - 2025-12-09
 
 ### Changed
