@@ -372,9 +372,14 @@ export class SelectEditor extends AbstractEditor {
                 this.input.value = prevValue;
                 this.value = prevValue;
             } else {
-                /* Otherwise, set the value to undefined (empty value) */
-                this.value = undefined;
-                this.input.value = 'undefined'; // Use string 'undefined' for HTML select element
+                if (this.schema.options.clear_value) {
+                    /* Otherwise, set the value to undefined (empty value) */
+                    this.value = undefined;
+                    this.input.value = 'undefined'; // Use string 'undefined' for HTML select element
+                } else {
+                    this.input.value = selectOptions[0];
+                    this.value = this.typecast(selectOptions[0] || '');
+                }
                 if (this.parent && !this.watchLoop) this.parent.onChildEditorChange(this);
                 else this.jsoneditor.onChange();
                 this.jsoneditor.notifyWatchers(this.path);
