@@ -54,6 +54,8 @@ export class SelectEditor extends AbstractEditor {
         else if (this.schema.type === 'number') return 1 * value || 0;
         else if (this.schema.type === 'integer') return Math.floor(value * 1 || 0);
         else if (this.schema.enum && value === undefined) return undefined;
+        /* Handle 'undefined' string for enumSource */
+        if (value === undefined) return undefined;
         return `${value}`;
     }
 
@@ -369,10 +371,10 @@ export class SelectEditor extends AbstractEditor {
             ) {
                 this.input.value = prevValue;
                 this.value = prevValue;
-                /* Otherwise, set the value to the first select option */
             } else {
-                this.input.value = selectOptions[0];
-                this.value = this.typecast(selectOptions[0] || '');
+                /* Otherwise, set the value to undefined (empty value) */
+                this.value = undefined;
+                this.input.value = 'undefined'; // Use string 'undefined' for HTML select element
                 if (this.parent && !this.watchLoop) this.parent.onChildEditorChange(this);
                 else this.jsoneditor.onChange();
                 this.jsoneditor.notifyWatchers(this.path);
