@@ -126,7 +126,9 @@ export class MultipleEditor extends AbstractEditor {
             if (this.editors[i].title) {
                 this.editors[i].title.style.display = 'none';
             } else if (this.editors[i].header) {
-                this.editors[i].header.style.display = 'none';
+                if (!this.editors[i].schema?.options?.showHeader) {
+                    this.editors[i].header.style.display = 'none';
+                }
             }
         }
 
