@@ -118,6 +118,9 @@ export function getRelativePath(relativePath, currentPath, editor) {
         return '';
     }
     let selfRoot = self.theme.closest(self.container, `[data-schemaid="${first}"]`);
+    if (!selfRoot) {
+        return '';
+    }
     let adjustedPath = `${selfRoot.getAttribute('data-schemapath')}.${pathParts.join('.')}`;
     return adjustedPath;
 }

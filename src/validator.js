@@ -221,6 +221,9 @@ export class Validator {
             },
             relativeTo(schema, value, path) {
                 let relEditor = getRelativeEditor(schema.relativeTo, path, this.jsoneditor);
+                if (!relEditor) {
+                    return [];
+                }
                 let target = relEditor.getValue();
                 if (target) {
                     if (schema.relativeTo.limit === 'less' && target < value) {
