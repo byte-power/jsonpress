@@ -1,5 +1,21 @@
 # 版本说明
 
+## [1.2.2-beta.6] - 2026-01-04
+
+### Fixed
+
+- 增强 relativeTo 字段的健壮性（在设置错误的情况下不报错影响渲染）
+
+### Changed
+
+- checkbox 类型之 toggle 格式也支持 options.infoText 属性
+
+## [1.2.2-beta.5] - 2026-12-22
+
+### Changed
+
+- 针对 anyOf 类型（增加 showHeader 选项，可以强制显示 anyOf 下子元素的 title 区，避免影响 infoText 的显示）
+
 ## [1.2.2-beta.4] - 2025-12-19
 
 ### Fixed
