@@ -2112,7 +2112,7 @@ JSONEditor.defaults.callbacks.template = {
 
 #### 排序
 
-候选项支持按排序，只要设置 `enumSource.sort` 属性设置为 _asc_ 或 _desc_ 即可。
+候选项支持按排序，只要设置 `enumSource[i].sort` 属性设置为 _asc_ 或 _desc_ 即可。
 
 ## anyOf 和依赖项的组合
 
