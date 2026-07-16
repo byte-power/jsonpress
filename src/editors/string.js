@@ -52,7 +52,10 @@ export class StringEditor extends AbstractEditor {
         if (this.adjust_height) this.adjust_height(this.input);
 
         /* Bubble this setValue to parents if the value changed */
-        this.onChange(changed);
+        // template 计算得到的值不再冒泡触发 onChange，避免和依赖联动形成死循环或多余渲染
+        if (!fromTemplate) {
+            this.onChange(changed);
+        }
 
         /* Return object with changed state and sanitized value for use in editors that extend this */
         return {changed, value: sanitized};
