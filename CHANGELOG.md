@@ -1,5 +1,16 @@
 # 版本说明
 
+## [1.2.2-beta.7] - 2026-07-16
+
+### Fixed
+
+- 同步上游 json-editor 的若干重要 bug 修复：
+    - array 类型：修复 `empty(hard)` 未清理超出当前长度的 row_cache 造成的内存泄漏（反复增删行时旧的行编辑器实例不会被释放）
+    - object 类型：修复「点击弹层外部关闭属性面板」的事件监听器 bind 引用不一致，导致 removeEventListener 实际未生效、监听器持续残留的问题
+    - string 类型：修复 template 联动计算值时仍会冒泡触发 onChange，可能和依赖联动形成死循环或产生多余渲染的问题
+    - radio 类型：修复不通过 name 原生分组保证互斥时，可能出现多个选项同时呈现选中态的展示 bug
+    - array/table 类型：修复 items 为 enum 且 format 设置为 table 时，被误判为 multiselect 而非 table 的问题
+
 ## [1.2.2-beta.6] - 2026-01-04
 
 ### Fixed
