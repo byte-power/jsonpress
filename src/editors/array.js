@@ -335,6 +335,14 @@ export class ArrayEditor extends AbstractEditor {
             }
             this.rows[i] = null;
         });
+        // 修复内存泄漏：row_cache 中超出当前 rows 长度的历史行（曾经存在但已被删除的行）
+        // 之前没有被销毁和释放，反复增删行会导致已销毁的行编辑器实例持续累积
+        if (hard) {
+            for (let j = this.rows.length; j < this.row_cache.length; j++) {
+                if (this.row_cache[j]) this.destroyRow(this.row_cache[j], true);
+                this.row_cache[j] = null;
+            }
+        }
         this.rows = [];
         if (hard) this.row_cache = [];
     }
