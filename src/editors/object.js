@@ -674,7 +674,9 @@ export class ObjectEditor extends AbstractEditor {
             this.addproperty_holder.appendChild(spacer);
 
             /* Close properties modal if clicked outside modal */
-            document.addEventListener('click', this.onOutsideModalClick.bind(this));
+            // 缓存 bind 后的引用，销毁时才能用同一个引用正确移除监听，避免监听器残留造成内存泄漏
+            this.onOutsideModalClickListener = this.onOutsideModalClick.bind(this);
+            document.addEventListener('click', this.onOutsideModalClickListener);
 
             /* Description */
             if (this.schema.description) {
@@ -1154,7 +1156,7 @@ export class ObjectEditor extends AbstractEditor {
         if (this.editor_holder && this.editor_holder.parentNode)
             this.editor_holder.parentNode.removeChild(this.editor_holder);
         this.editor_holder = null;
-        document.removeEventListener('click', this.onOutsideModalClick);
+        document.removeEventListener('click', this.onOutsideModalClickListener);
 
         super.destroy();
     }
