@@ -81,7 +81,8 @@ const arraysOfStrings = schema => {
             /* if 'selectize' enabled it is expected to be selectized control */
             if (schema.format === 'selectize') return 'arraySelectize';
             if (schema.format === 'select2') return 'arraySelect2';
-            if (schema.items.enum) return 'multiselect'; /* otherwise it is select */
+            /* format 为 table 时应保留 table 解析结果，不应被误判为 multiselect */
+            if (schema.items.enum && schema.format !== 'table') return 'multiselect'; /* otherwise it is select */
         }
     }
 };
