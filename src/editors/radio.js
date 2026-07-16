@@ -21,6 +21,11 @@ export class RadioEditor extends SelectEditor {
         const radioInputEventhandler = e => {
             this.setValue(e.currentTarget.value);
             this.onChange(true);
+
+            // 根据最终值强制同步一次所有 radio 的 checked 状态，避免多选中态的展示 bug
+            this.radioGroup.forEach(radio => {
+                radio.checked = radio.value === this.getValue();
+            });
         };
         if (!this.isRequired()) {
             this.enum_display.shift();
@@ -106,13 +111,18 @@ export class RadioEditor extends SelectEditor {
     }
 
     setValue(val) {
+        let matched = false;
         for (let i = 0; i < this.radioGroup.length; i++) {
             if (this.radioGroup[i].value === val) {
                 this.radioGroup[i].checked = true;
-                this.value = val;
-                this.onChange();
-                break;
+                matched = true;
+            } else {
+                this.radioGroup[i].checked = false;
             }
+        }
+        if (matched) {
+            this.value = val;
+            this.onChange();
         }
     }
 }
