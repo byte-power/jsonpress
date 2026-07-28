@@ -354,7 +354,10 @@ let schema = {
 - hidden (基于 string 扩展)
 - uuid (基于 string 扩展)
 - signature (基于 string 扩展)
+- multiline (基于 string 扩展，返回数组值)
+- fileContent (基于 string + upload 扩展)
 - range (基于 number 扩展)
+- stepper (基于 number/integer 扩展)
 - rating (基于 integer 扩展)
 - checkbox (基于 boolean 扩展)
 - grid (基于 object 扩展)
@@ -476,6 +479,25 @@ let schema = {
     </tbody>
 </table>
 
+### 组件增强速览（Press）
+
+以下能力是 Press 在上游 json-editor 基础上的主要组件增强，后文会在对应类型章节继续展开。
+
+| 类型/组件 | 增强能力 | 说明 |
+| --- | --- | --- |
+| string | `newOnly`、`patternValidate`、保存值 trim | 支持只新建不编辑、条件化正则校验、保存时移除前后空格 |
+| description | `\n`、`options.warning` | 说明文本支持换行和警示样式 |
+| infoText | 文本、换行、url | 多数组件标题旁可显示说明按钮，url 形式可打开外部说明 |
+| upload | `format: 'fileContent'` | 可读取上传文件文本内容作为字段值，并支持下载导出场景 |
+| number/integer | `range`、`stepper`、`rating`、`relativeTo` | 支持滑块、步进器、评分和与其他字段的大小关系校验 |
+| array/table | `items.readOnly`、`uniqueItems` 增强、`compareThanPrev`、`exclusive` | 支持内置项只读、嵌套去重、相邻项大小约束、互斥项校验 |
+| array/tabs | `tabCollapsed`、`tabWide`、`reversed`、`nocache` | 支持页签折叠/宽屏、倒序渲染、禁用行缓存 |
+| table | `options.className`、`array_controls_top` | 支持业务样式类和顶部控制按钮 |
+| select/enumSource | `sourceFormat`、回调、排序、`auto_refresh`、`clear_value` | 支持动态候选项加工、刷新、失效值清理 |
+| select2 | `relativeToParent`、自定义候选项修复 | 适配弹窗层级，并支持手动输入候选项 |
+| object | `infoText`、`transform_json`、`show_save_btn` | 支持对象说明、Edit JSON 保存前转换、保存按钮控制 |
+| anyOf/oneOf | 依赖联动、`showHeader`、`hideOneOfValidate` | 支持依赖项驱动切换、保留子项标题、优化校验提示 |
+
 ### string
 
 最基础的数据类型，通过指定 `format` 还能支持更多的交互和数据子类型。
@@ -511,7 +533,7 @@ let schema = {
 ```javascript
 description: 'the first line \n the second line',
 options: {
-    warning：true
+    warning: true
 }
 ```
 
@@ -537,6 +559,8 @@ let schema = {
     }
 };
 ```
+
+> `newOnly` 常用于“配置项创建后主键不可修改”的场景。字段已有值时会进入只读状态；字段无值时仍可编辑。普通 string 保存时会默认移除前后空格。
 
 #### textarea
 
@@ -688,6 +712,7 @@ let schema = {
 启用方法：
 
 - 首先设置 `format` 为 _url_，同时通过 `options.upload` 中设置相关属性，即可启用一个带文件预览和上传进度的上传控件。
+- 如果设置 `format` 为 _fileContent_，上传控件会读取文件文本内容作为当前字段值。该模式适合导入 JSON、配置文本、名单等纯文本文件。
 - 在相关属性内，使用 `upload_handler` 关键字可以指定一个上传的处理函数。该回调函数有三个参数 _path, file, callback_。
     - path：上传控件对应的路径字段。它支持绝对路径
     - file：上传控件选中的文件
@@ -738,6 +763,22 @@ let schema = {
             rel: 'view'
         }
     ]
+};
+```
+
+`fileContent` 示例：
+
+```javascript
+let schema = {
+    type: 'string',
+    format: 'fileContent',
+    title: 'Import Config',
+    options: {
+        upload: {
+            mime_type: 'application/json',
+            max_upload_size: 1024 * 1024
+        }
+    }
 };
 ```
 
@@ -992,7 +1033,7 @@ number、integer 类型都是用于输入数字值，它们的唯一区别就是
 
 另外可以通过 `maximum` 和 `minimum` 关键字限定最大最小值。
 
-其中，integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_rating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMinimum/exclusiveMaximum 为布尔值，表示可取值范围不包括最小或最大值）。
+其中，number/integer 类型可设置 `format` 为 _range_ ，切换为滑块形式；_stepper_ ，切换为步进器形式；_rating_ 或 _starrating_ ，切换为打星评分形式（默认 `minimum: 1`，另外可以设置属性 exclusiveMinimum/exclusiveMaximum 为布尔值，表示可取值范围不包括最小或最大值）。
 
 ```javascript
 let schema = {
@@ -1000,9 +1041,12 @@ let schema = {
     default: 1,
     multipleOf: 25, // 倍数约束
     minimum: 1,
-    maximum: 1000
+    maximum: 1000,
+    step: 25 // range/number 原生步进值
 };
 ```
+
+`format: 'range'` 会把 `minimum`、`maximum`、`step` 写入原生输入控件。假如需要按钮式步进交互，可以使用 `format: 'stepper'`。
 
 和 datetime 类似，Press 也对 number 实现了对象依赖限制功能：可以指定某项值必须大于或小于另外一项。
 
@@ -1048,6 +1092,15 @@ array 作为 JSON 数据的重要组成类型，相应的，数组编辑区也�
 - tabs: 用左页签来切换数据元素，永远只显示一个元素，适合元素为对象且属性多的情况。
 - tabs-top: 同上，只是改为顶页签。
 
+Press 针对 array/table/tabs 做了多项增强：
+
+- `options.array_controls_top`：把新增、删除等控制按钮显示在标题区域。
+- `options.tabCollapsed`：tabs 导航支持折叠。
+- `options.tabWide`：tabs 导航支持宽屏展示。
+- `options.reversed`：数组倒序渲染和操作。注意当前源码读取的是 `reversed`。
+- `options.nocache`：禁用 array 行缓存，避免删除后新增时复用旧实例状态。
+- `options.className`：table 可添加自定义样式类。
+
 ```javascript
 let schema = {
     type: 'array',
@@ -1058,6 +1111,10 @@ let schema = {
 let schema2 = {
     type: 'array',
     format: 'table',
+    options: {
+        className: 'custom-table',
+        array_controls_top: true
+    },
     items: {
         type: 'object',
         properties: {
@@ -1075,6 +1132,30 @@ let schema2 = {
     }
 };
 ```
+
+tabs 增强示例：
+
+```javascript
+let schema = {
+    type: 'array',
+    format: 'tabs',
+    options: {
+        tabCollapsed: true,
+        tabWide: true,
+        reversed: true
+    },
+    items: {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string'
+            }
+        }
+    }
+};
+```
+
+> 当前版本已修复 `format: 'table'` 且 `items.enum` 时被误判为 multiselect 的问题；此类 schema 会继续按 table 渲染。
 
 #### minItems 和 maxItems 属性
 
@@ -1225,7 +1306,7 @@ let schema = {
             },
             id: {
                 type: 'string'
-            }，
+            },
             enable: {
                 type: 'boolean',
                 format: 'toggle',
@@ -1238,6 +1319,8 @@ let schema = {
     }
 };
 ```
+
+> 数组复制、移动操作会读取完整值，避免带有 `options.exclude` 的字段在复制/移动时被提前剔除造成值不完整。
 
 #### compareThanPrev 属性
 
@@ -1275,6 +1358,22 @@ let schema = {
 ```
 
 上述例子中表明了数组元素 `range_to` 属性必须比前一个元素的同名属性大。
+
+#### exclusive 属性
+
+Press 针对 array 类型提供 `exclusive` 校验，用于约束数组元素中的若干互斥项只能选择其一。
+
+```javascript
+let schema = {
+    type: 'array',
+    exclusive: ['A-Yes', 'A-Unknown'],
+    items: {
+        type: 'object'
+    }
+};
+```
+
+当数组元素中同时出现 `exclusive` 所列的多个属性时，会触发校验错误。
 
 #### 结合 enum 属性
 
@@ -1315,7 +1414,7 @@ let schema = {
     uniqueItems: true,
     items: {
         type: 'string',
-        isCustomEnum：true,
+        isCustomEnum: true,
         enum: ['A-Yes', 'A-Unknown', 'B-Yes', 'B-Unknown', 'C-Yes', 'C-Unknown']
     }
 };
@@ -1362,6 +1461,8 @@ let schema = {
 
 另外需要注意的是，当该字段为必填项时，其默认值（或者值为空时）返回为空数组 [] 否则返回 undefined
 
+输入内容会按换行拆分，并自动去除每行前后的空格和首尾逗号。`options.multiType` 会影响最终值类型和校验逻辑。
+
 ### object
 
 object 编辑区也是编辑器的重要组成部分之一。该编辑区除了默认布局也提供了其他布局用于精简界面。它通过 `format` 关键字来设定。
@@ -1374,6 +1475,9 @@ object 编辑区也是编辑器的重要组成部分之一。该编辑区除了�
 ```javascript
 let schema = {
     type: 'object',
+    options: {
+        infoText: 'Object level help text'
+    },
     properties: {
         name: {type: 'string'}
     }
@@ -1455,6 +1559,24 @@ let schema = {
         }
     }
 };
+```
+
+Press 针对 object 还增强了 Edit JSON 相关行为：
+
+- `options.infoText`：object 标题旁显示信息提示。
+- `disable_edit_json`：禁用 Edit JSON 按钮。
+- `show_save_btn`：控制 Edit JSON 对话框内保存按钮是否展示。
+- `transform_json`：在 Edit JSON 保存前转换 JSON 数据。
+
+```javascript
+let editor = new JSONEditor(element, {
+    schema,
+    show_save_btn: false,
+    transform_json: json => {
+        json.updatedAt = Date.now();
+        return json;
+    }
+});
 ```
 
 ### info
@@ -1735,7 +1857,7 @@ let schema = {
 };
 ```
 
-二、支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。
+二、支持使用 `not` 字段来设置依赖值，表明依赖项为非设定值时生效。`not` 也支持数组，表明依赖项和所有设定值都不相等时生效。
 
 ```javascript
 let schema = {
@@ -1751,6 +1873,26 @@ let schema = {
             dependencies: {
                 fieldOne: {
                     not: 'bar'
+                }
+            }
+        }
+    }
+};
+```
+
+```javascript
+let schema = {
+    fieldOne: {
+        type: 'string',
+        enum: ['foo', 'bar', 'cool']
+    },
+    depender: {
+        type: 'string',
+        description: 'show when fieldOne is neither bar nor cool',
+        options: {
+            dependencies: {
+                fieldOne: {
+                    not: ['bar', 'cool']
                 }
             }
         }
@@ -2044,6 +2186,8 @@ let schema = {
 
 另外，针对依赖 `watch` 属性的 `enumSource` 关键字，Press 新增 `options.auto_refresh` 属性，用于设定该字段为动态刷新模式，假如 watch 依赖项已经删除选中值，则校验不通过，无法保存，避免生成无效值。
 
+如果希望候选项变化后，当前值不在新候选列表中时自动清空，可以同时设置 `options.clear_value`。当前版本已修复该清空逻辑，避免错误清空仍然有效的初始值。
+
 ```javascript
 let schema = {
     select_input: {
@@ -2059,7 +2203,8 @@ let schema = {
             }
         ],
         options: {
-            auto_refresh: true
+            auto_refresh: true,
+            clear_value: true
         }
     }
 };
@@ -2114,6 +2259,23 @@ JSONEditor.defaults.callbacks.template = {
 
 候选项支持按排序，只要设置 `enumSource[i].sort` 属性设置为 _asc_ 或 _desc_ 即可。
 
+```javascript
+let schema = {
+    type: 'string',
+    watch: {
+        colors: 'possible_colors'
+    },
+    enumSource: [
+        {
+            source: 'colors',
+            title: '{{item.text}}',
+            value: '{{item.value}}',
+            sort: 'asc'
+        }
+    ]
+};
+```
+
 ## anyOf 和依赖项的组合
 
 通过 anyOf 和依赖项的结合使用，可以满足某些特殊场景的联动需求，不过这种使用方式官方并未完全支持，所以 Press 在此基础上针对具体需求进行修正和增强，提供了更具想象力的使用方式。
@@ -2126,6 +2288,7 @@ JSONEditor.defaults.callbacks.template = {
     - 初始化时修改内部参数，避免联动的输入控件不能正确渲染为对应的项和值
     - 统一初始化 anyOf 的项，避免切换时无初始项无法渲染
     - 仅按 anyOf 当前激活项的规则进行校验，而非按 anyOf 所有规则校验
+- anyOf 子元素默认会隐藏自身标题区。假如子元素标题区需要显示 `infoText` 或保留标题，可以在子元素 `options` 中设置 `showHeader: true`。
 
 通过上述的改造，Press 组件支持以下应用场景：
 
